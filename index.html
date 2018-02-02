@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<style type="text/css">
+		.zone {
+			background: #333;
+			border: 1px dashed blue;
+		}
+	</style>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+		  integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+	<section class="jumbotron text-center">
+
+		<h1 class="jumbotron-heading">Geometric canvas</h1>
+		<p></p>
+		<div class="row">
+			<div class="col-lg-4">
+				<h2>Fully sized</h2>
+				<canvas id="canva" class="zone" width="120" height="936"></canvas>
+			</div>
+			<div class="col-lg-4">
+				<h2>Equilateral</h2>
+				<canvas id="canva2" class="zone" width="120" height="936"></canvas>
+			</div>
+			<div class="col-lg-4">
+				<h2>Other</h2>
+				<canvas id="canva3" class="zone" width="202" height="620"></canvas>
+			</div>
+		</div>
+	</section>
+</div>
+
+<script type="text/javascript">
+
+	/**
+	 * Dessine un triangle.
+	 * @param elcanvas
+	 * @param ctx
+	 * @param i
+	 * @param max
+	 * @param equi
+	 */
+	function drawTriangle(elcanvas, ctx, i, max, equi) {
+
+		var _w = elcanvas.width;
+		var _h = elcanvas.height;
+
+		var _a = _w / 2;
+		var _b;
+		// Cas spécifique, on veut un triangle equilatéral, on le calcul en fonction de la largeur du canvas.
+		if (equi === true) {
+			_b = Math.sqrt((Math.pow(_w, 2) + Math.pow((_a / 2), 2)));
+
+			if (i == 1) {
+				elcanvas.height = _b * max * 2;
+			}
+		} else {
+			_b = _h / (max * 2);
+		}
+
+		if (canvas.getContext) {
+
+			ctx.lineWidth = 1;
+
+			var coef = 2 * (_b * i - _b);
+			//    var coef2 = 2 * _b * i;
+			var coef2 = coef + 2 * _b;
+			//    var coef3 = _b * (i + (i - 1) / i * i);
+			//    var coef3 = _b * ((2 * i - 1) / i * i);
+			var coef3 = (coef2 - _b) / i * i;
+
+			ctx.beginPath();
+
+			ctx.moveTo(_a, coef3);
+			ctx.lineTo(0, coef);
+			ctx.lineTo(_w, coef);
+
+			var red = 255;
+			var green = ((i - 1) * (255 / max));
+
+			ctx.fillStyle = 'rgb(' + red + ', ' + green + ', ' + green + ')';
+			ctx.stroke();
+			ctx.fill();
+			ctx.closePath();
+
+			ctx.beginPath();
+
+			ctx.moveTo(_a, coef3);
+			ctx.lineTo(_w, coef2);
+			ctx.lineTo(0, coef2);
+
+			ctx.fillStyle = 'rgb(' + green + ', ' + red + ', ' + green + ')';
+			ctx.stroke();
+			ctx.fill();
+			ctx.closePath();
+
+		}
+	}
+
+	var canvas = document.getElementById("canva");
+	var canvas2 = document.getElementById("canva2");
+	var canvas3 = document.getElementById("canva3");
+
+	var ctx = canvas.getContext("2d");
+	var ctx2 = canvas2.getContext("2d");
+	var ctx3 = canvas3.getContext("2d");
+
+	var max = 3;
+
+	for (var i = 1; i <= max; i++) {
+		drawTriangle(canvas, ctx, i, max, false);
+		drawTriangle(canvas2, ctx2, i, max, true);
+		drawTriangle(canvas3, ctx3, i, max, false);
+	}
+
+</script>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+		integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+		crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+		integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+		crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+		integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>
