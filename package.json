@@ -1,0 +1,39 @@
+{
+  "name": "geometricanvas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "dependencies": {
+    "bootstrap": "^4.0.0",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.5",
+    "popper.js": "^1.12.9",
+    "tether": "^1.4.3",
+    "webpack": "^3.10.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^7.2.5",
+    "css-loader": "^0.28.9",
+    "node-sass": "^4.7.2",
+    "postcss-loader": "^2.1.0",
+    "precss": "^3.1.0",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.20.1",
+    "webpack": "^3.10.0"
+  },
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/smartinus44/geometricanvas.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/smartinus44/geometricanvas/issues"
+  },
+  "homepage": "https://gitlab.com/smartinus44/geometricanvas#README"
+}
