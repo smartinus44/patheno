@@ -48,41 +48,44 @@ BookMark.init = function () {
 		let numberOfTriangles = 3;
 		let equi = false;
 
-		let redrawNumberOfTriangles = function (el) {
+		BookMark.redrawNumberOfTriangles = function (el) {
 			BookMark.clearCanvas(elctx);
 			numberOfTriangles = el;
 			BookMark.drawTriangles(el_canvas, elctx, el, equi);
 		};
 
-		let redrawHeight = function (el) {
+		BookMark.redrawHeight = function (el) {
 			BookMark.clearCanvas(elctx);
 			el_canvas.height = el;
 			BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles, equi);
 		};
 
-		let redrawWidth = function (el) {
+		BookMark.redrawWidth = function (el) {
 			BookMark.clearCanvas(elctx);
 			el_canvas.width = el;
 			BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles, equi);
 		};
 
-		let redrawColor = function (el) {
+		BookMark.redrawColor = function (el) {
 			BookMark.clearCanvas(elctx);
-			el_canvas.style.backgroundImage = 'url(' + el + '.png)';
+			el_canvas.style.backgroundImage = 'url(images/' + el + '.jpg)';
+			console.log(el_canvas.style.backgroundImage);
 			BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles, equi);
 		};
-		let redrawTriangle1Color = function (el) {
+
+		BookMark.redrawTriangle1Color = function (el) {
 			BookMark.clearCanvas(elctx);
 			el_canvas.colorTriangle1 = el;
 			BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles, equi);
 		};
-		let redrawTriangle2Color = function (el) {
+
+		BookMark.redrawTriangle2Color = function (el) {
 			BookMark.clearCanvas(elctx);
 			el_canvas.colorTriangle2 = el;
 			BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles, equi);
 		};
 
-		let redrawEquilateral = function (el) {
+		BookMark.redrawEquilateral = function (el) {
 			el_canvas.height = 600;
 			BookMark.clearCanvas(elctx);
 			BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles, el);
@@ -97,13 +100,13 @@ BookMark.init = function () {
 
 		// Travail avec des textures.
 		let colors = ["ErableUS", "Poirier", "Sycomore"];
-		folder.add(params, 'canvas' + i + 'numberOfTriangles', 3, 15, 1).onFinishChange(redrawNumberOfTriangles);
-		folder.add(params, 'canvas' + i + 'height', 100, 1000, 100).onFinishChange(redrawHeight);
-		folder.add(params, 'canvas' + i + 'width', 100, 300, 100).onFinishChange(redrawWidth);
-		folder.add(params, 'canvas' + i + 'color', colors).onFinishChange(redrawColor);
-		folder.add(params, 'canvas' + i + 'triangle1color', colors).onFinishChange(redrawTriangle1Color);
-		folder.add(params, 'canvas' + i + 'triangle2color', colors).onFinishChange(redrawTriangle2Color);
-		folder.add(params, 'canvas' + i + 'equilateral', true, false).onFinishChange(redrawEquilateral);
+		folder.add(params, 'canvas' + i + 'numberOfTriangles', 3, 15, 1).onFinishChange(BookMark.redrawNumberOfTriangles);
+		folder.add(params, 'canvas' + i + 'height', 100, 1000, 100).onFinishChange(BookMark.redrawHeight);
+		folder.add(params, 'canvas' + i + 'width', 100, 300, 100).onFinishChange(BookMark.redrawWidth);
+		folder.add(params, 'canvas' + i + 'color', colors).onFinishChange(BookMark.redrawColor);
+		folder.add(params, 'canvas' + i + 'triangle1color', colors).onFinishChange(BookMark.redrawTriangle1Color);
+		folder.add(params, 'canvas' + i + 'triangle2color', colors).onFinishChange(BookMark.redrawTriangle2Color);
+		folder.add(params, 'canvas' + i + 'equilateral', true, false).onFinishChange(BookMark.redrawEquilateral);
 
 		BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles, equi);
 
@@ -125,6 +128,7 @@ BookMark.createCanvas = function (elementId, zoneId, params) {
 	canvas.width = params.canvas1width;
 	canvas.height = params.canvas1height;
 	canvas.style.backgroundImage = 'url(images/' + params.canvas1color + '.jpg)';
+
 	canvas.colorTriangle1 = params.canvas1triangle1color;
 	canvas.colorTriangle2 = params.canvas1triangle2color;
 
@@ -205,9 +209,10 @@ BookMark.drawTriangles = function (el_canvas, elctx, numberOfTriangles, equi) {
 					material.onload = function () {
 						elctx.fillStyle = elctx.createPattern(this, "repeat");
 					};
+					elctx.strokeStyle = "#FF0000";
+					elctx.stroke();
 
 					elctx.fill();
-					elctx.stroke();
 					elctx.closePath();
 				}
 			}
