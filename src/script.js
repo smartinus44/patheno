@@ -11,16 +11,20 @@ let Params = function () {
 	this.canvas1width = 300;
 	this.canvas1color = '#000';
 	this.canvas1numberOfTriangles = 3;
+	this.canvas1equilateral = true;
 
 	this.canvas2height = 600;
 	this.canvas2width = 300;
 	this.canvas2color = '#000';
 	this.canvas2numberOfTriangles = 3;
+	this.canvas2equilateral = true;
+
 
 	this.canvas3height = 600;
 	this.canvas3width = 300;
 	this.canvas3color = '#000';
 	this.canvas3numberOfTriangles = 3;
+	this.canvas3equilateral = true;
 };
 
 BookMark.init = function () {
@@ -28,46 +32,53 @@ BookMark.init = function () {
 	let params = new Params();
 	let gui = new dat.GUI();
 
-	let numberOflayer = 3;
+	let number_of_layer = 3;
 
-	for (let i = 1; i <= numberOflayer; i++) {
+	for (let i = 1; i <= number_of_layer; i++) {
 
 		let el_canvas = this.createCanvas('canva-' + i, 'zone-' + i, params);
 		let elctx = el_canvas.getContext('2d');
 
 		let folder = gui.addFolder('Example ' + i);
 		let numberOfTriangles = 3;
+		let equi = false;
 
 		let redrawNumberOfTriangles = function (el) {
 			BookMark.clearCanvas(elctx);
 			numberOfTriangles = el;
-			BookMark.drawTriangles(el_canvas, elctx, el);
+			BookMark.drawTriangles(el_canvas, elctx, el, equi);
 		};
 
 		let redrawHeight = function (el) {
 			BookMark.clearCanvas(elctx);
 			el_canvas.height = el;
-			BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles);
+			BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles, equi);
 		};
 
 		let redrawWidth = function (el) {
 			BookMark.clearCanvas(elctx);
 			el_canvas.width = el;
-			BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles);
+			BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles, equi);
 		};
 
 		let redrawColor = function (el) {
 			BookMark.clearCanvas(elctx);
 			el_canvas.style.backgroundColor = el;
-			BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles);
+			BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles, equi);
+		};
+
+		let redrawEquilateral = function (el) {
+			BookMark.clearCanvas(elctx);
+			BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles, el);
 		};
 
 		folder.add(params, 'canvas' + i + 'numberOfTriangles', 3, 15, 1).onFinishChange(redrawNumberOfTriangles);
 		folder.add(params, 'canvas' + i + 'height', 100, 1000, 100).onFinishChange(redrawHeight);
 		folder.add(params, 'canvas' + i + 'width', 100, 300, 100).onFinishChange(redrawWidth);
 		folder.addColor(params, 'canvas' + i + 'color').onFinishChange(redrawColor);
+		folder.add(params, 'canvas' + i + 'equilateral', true,false).onFinishChange(redrawEquilateral);
 
-		BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles);
+		BookMark.drawTriangles(el_canvas, elctx, numberOfTriangles, equi);
 
 	}
 };
@@ -113,10 +124,9 @@ BookMark.clearCanvas = function (ctx) {
  * @param el_canvas
  * @param elctx
  * @param numberOfTriangles
+ * @param equi
  */
-BookMark.drawTriangles = function (el_canvas, elctx, numberOfTriangles) {
-
-	let equi = false;
+BookMark.drawTriangles = function (el_canvas, elctx, numberOfTriangles, equi) {
 
 	for (let j = 1; j <= numberOfTriangles; j++) {
 
@@ -136,6 +146,7 @@ BookMark.drawTriangles = function (el_canvas, elctx, numberOfTriangles) {
 				}
 			} else {
 				_triangle_height = _height / (numberOfTriangles * 2);
+				//el_canvas.height = 600;
 			}
 
 			if (elctx) {
