@@ -158,8 +158,7 @@ BookMark.initPatterns = function (el_ctx) {
 
 	let imagesLoading = BookMark.patterns.length;
 
-	BookMark.patterns.forEach(function (pattern, index) {
-		let images;
+	BookMark.patterns.forEach(function (pattern) {
 		let image = new Image();
 		image.onload = function () {
 			BookMark.images[pattern] = el_ctx.createPattern(image, 'repeat');
@@ -184,54 +183,51 @@ BookMark.drawTriangles = function (el_canvas, el_ctx, numberOfPairOfTriangles, e
 	// Dessine chaque paire de triangle.
 	for (let j = 1; j <= numberOfPairOfTriangles; j++) {
 
-		if (el_canvas) {
+		let _width = el_canvas.width;
+		let _height = el_canvas.height;
+		let _half_width = _width / 2;
+		let _triangle_height;
 
-			let _width = el_canvas.width;
-			let _height = el_canvas.height;
-			let _half_width = _width / 2;
-			let _triangle_height;
+		// Cas spécifique, on veut un triangle equilatéral, on le calcul en fonction de la largeur du canvas.
+		if (equilateral === true) {
+			_triangle_height = Math.sqrt((Math.pow(_width, 2) + Math.pow((_half_width / 2), 2)));
+			if (j === 1) {
+				el_canvas.height = _triangle_height * numberOfPairOfTriangles * 2;
+			}
+		} else {
+			_triangle_height = _height / (numberOfPairOfTriangles * 2);
+		}
 
-			// Cas spécifique, on veut un triangle equilatéral, on le calcul en fonction de la largeur du canvas.
-			if (equilateral === true) {
-				_triangle_height = Math.sqrt((Math.pow(_width, 2) + Math.pow((_half_width / 2), 2)));
-				if (j === 1) {
-					el_canvas.height = _triangle_height * numberOfPairOfTriangles * 2;
-				}
+		// Epaisseur des lignes de coupes.
+		el_ctx.lineWidth = 1;
+
+		let first_coef = 2 * (_triangle_height * j - _triangle_height);
+		let second_coef = first_coef + (2 * _triangle_height);
+		let third_coef = ((second_coef - _triangle_height) / j) * j;
+
+		// Dessine une paire de triangle.
+		for (let k = 1; k <= 2; k++) {
+			el_ctx.beginPath();
+
+			el_ctx.moveTo(_half_width, third_coef);
+
+			// Dessine un triangle avec la base en haut ou en bas.
+			if (k % 2 === 1) {
+				el_ctx.fillStyle = BookMark.images[el_canvas.colorTriangleEven];
+				el_ctx.lineTo(_width, first_coef);
+				el_ctx.lineTo(0, first_coef);
 			} else {
-				_triangle_height = _height / (numberOfPairOfTriangles * 2);
+				el_ctx.fillStyle = BookMark.images[el_canvas.colorTriangleOdd];
+				el_ctx.lineTo(_width, second_coef);
+				el_ctx.lineTo(0, second_coef);
 			}
 
-
-			el_ctx.lineWidth = 1;
-
-			let first_coef = 2 * (_triangle_height * j - _triangle_height);
-			let second_coef = first_coef + (2 * _triangle_height);
-			let third_coef = ((second_coef - _triangle_height) / j) * j;
-
-			// Dessine une paire de triangle.
-			for (let k = 1; k <= 2; k++) {
-				el_ctx.beginPath();
-
-				el_ctx.moveTo(_half_width, third_coef);
-
-				// Dessine un triangle avec la base en haut ou en bas.
-				if (k % 2 === 1) {
-					el_ctx.fillStyle = BookMark.images[el_canvas.colorTriangleEven];
-					el_ctx.lineTo(_width, first_coef);
-					el_ctx.lineTo(0, first_coef);
-				} else {
-					el_ctx.fillStyle = BookMark.images[el_canvas.colorTriangleOdd];
-					el_ctx.lineTo(_width, second_coef);
-					el_ctx.lineTo(0, second_coef);
-				}
-
-				if (el_canvas.showStrokes === true) {
-					el_ctx.strokeStyle = "#FF0000";
-					el_ctx.stroke();
-				}
-				el_ctx.closePath();
-				el_ctx.fill();
+			if (el_canvas.showStrokes === true) {
+				el_ctx.strokeStyle = "#FF0000";
+				el_ctx.stroke();
 			}
+			el_ctx.closePath();
+			el_ctx.fill();
 		}
 	}
 };
