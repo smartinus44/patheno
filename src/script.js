@@ -6,7 +6,7 @@ import dat from '../node_modules/dat.gui/build/dat.gui.js'
 // Initialisation d'un marque page.
 let BookMark = {
 	// Travail avec des textures.
-	patterns: ["ErableUS", "Poirier", "Sycomore"],
+	patterns: ["ErableUS", "Poirier", "Sycomore", "EtreBlanc", "Citronnier", "cheneLargeVanille", "Cypres", "FreneJapon"],
 	images: []
 };
 
@@ -19,6 +19,17 @@ let Params = function () {
 	this.triangleOddPattern = "Sycomore";
 	this.equilateral = false;
 	this.showStrokes = false;
+};
+
+/**
+ * Initialise le fond.
+ * @param el_canvas
+ * @param el_ctx
+ * @param el
+ */
+BookMark.setBackgroundPattern = function (el_canvas, el_ctx, el) {
+	el_ctx.fillStyle = BookMark.images[el];
+	el_ctx.fillRect(0,0,el_canvas.width,el_canvas.height);
 };
 
 BookMark.init = function () {
@@ -35,6 +46,7 @@ BookMark.init = function () {
 
 		let el_canvas = this.createCanvas('canva-' + i, 'zone-' + i, params);
 		let el_ctx = el_canvas.getContext('2d');
+		BookMark.initPatterns(el_ctx);
 
 		let folder = gui.addFolder('Example ' + i);
 		let numberOfPairOfTriangles = 3;
@@ -53,11 +65,6 @@ BookMark.init = function () {
 
 		BookMark.redrawWidth = function (el) {
 			el_canvas.width = el;
-			BookMark.drawTriangles(el_canvas, el_ctx, numberOfPairOfTriangles, equilateral);
-		};
-
-		BookMark.redrawBackgroundPattern = function (el) {
-			el_canvas.style.backgroundImage = 'url(images/' + el + '.jpg)';
 			BookMark.drawTriangles(el_canvas, el_ctx, numberOfPairOfTriangles, equilateral);
 		};
 
@@ -83,6 +90,12 @@ BookMark.init = function () {
 			BookMark.drawTriangles(el_canvas, el_ctx, numberOfPairOfTriangles, el);
 		};
 
+		BookMark.redrawBackgroundPattern = function (el) {
+			el_ctx.fillStyle = BookMark.images[el];
+			el_ctx.fillRect(0,0,el_canvas.width,el_canvas.height);
+			BookMark.drawTriangles(el_canvas, el_ctx, numberOfPairOfTriangles, equilateral);
+		};
+
 		folder.add(params, 'numberOfPairOfTriangles', 1, 15, 1).onFinishChange(BookMark.redrawNumberOfTriangles);
 		folder.add(params, 'height', 100, 1000, 100).onFinishChange(BookMark.redrawHeight);
 		folder.add(params, 'width', 100, 300, 100).onFinishChange(BookMark.redrawWidth);
@@ -99,6 +112,7 @@ BookMark.init = function () {
 				let el_ctx = el_canvas.getContext('2d');
 
 				// Dessine les triangles.
+				BookMark.setBackgroundPattern(el_canvas, el_ctx, "ErableUS");
 				BookMark.drawTriangles(el_canvas, el_ctx, numberOfPairOfTriangles, equilateral);
 			}
 		};
@@ -106,7 +120,18 @@ BookMark.init = function () {
 		// Permet d'activer la sauvegarde des paramètres dans le localstorage.
 		gui.remember(params);
 
-		BookMark.initPatterns(el_ctx);
+		// Créé un lien de téléchargement de l'image liée au canvas.
+		let link = document.createElement('a');
+		link.innerHTML = 'download image';
+		link.className = "btn btn-dark";
+		link.href = "#";
+		link.role = "button";
+		link.addEventListener('click', function (ev) {
+			link.href = el_canvas.toDataURL();
+			link.download = "mypainting.png";
+		}, false);
+		let zone = document.getElementById("zone-" + i);
+		zone.appendChild(link);
 	}
 };
 
@@ -120,11 +145,11 @@ BookMark.init = function () {
 BookMark.createCanvas = function (elementId, zoneId, params) {
 
 	let canvas = document.createElement('canvas');
+	let ctx = canvas.getContext('2d');
 
 	canvas.id = elementId;
 	canvas.width = params.width;
 	canvas.height = params.height;
-	canvas.style.backgroundImage = 'url(images/' + params.color + '.jpg)';
 	canvas.showStrokes = params.showStrokes;
 
 	canvas.colorTriangleEven = params.triangleEvenPattern;
@@ -133,7 +158,7 @@ BookMark.createCanvas = function (elementId, zoneId, params) {
 	let zone = document.getElementById(zoneId);
 	zone.appendChild(canvas);
 
-	this.clearCanvas(canvas.getContext('2d'));
+	this.clearCanvas(ctx);
 
 	return canvas;
 };
