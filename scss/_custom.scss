@@ -2,5 +2,11 @@
 @import "~bootstrap/scss/bootstrap";
 
 body {
-  background-color: #e9ecef;
+  background-color: #000000;
+  margin: 10px 0;
+
+  .canvas-container {
+    background-color: #999999;
+  }
+
 }
