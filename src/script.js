@@ -10,7 +10,8 @@ let BookMark = {
 	images: []
 };
 
-let Params = function (_height, _width, _background, _numberOfpairs, _evenPattern, _oddPattern, _equilateral, _showStrokes) {
+// Paramètres
+let Params = function (_height, _width, _background, _numberOfpairs, _evenPattern, _oddPattern, _equilateral, _showStrokes, _columns_per_width) {
 	this.height = _height;
 	this.width = _width;
 	this.color = _background;
@@ -19,7 +20,10 @@ let Params = function (_height, _width, _background, _numberOfpairs, _evenPatter
 	this.triangleOddPattern = _oddPattern;
 	this.equilateral = _equilateral;
 	this.showStrokes = _showStrokes;
+	this.columns_per_width = _columns_per_width;
 };
+
+const TO_RADIANS = Math.PI / 180;
 
 /**
  * Initialise le fond.
@@ -48,7 +52,7 @@ BookMark.init = function () {
 		link.className = "btn btn-dark";
 		link.href = "#";
 		link.role = "button";
-		link.addEventListener('click', function (ev) {
+		link.addEventListener('click', function () {
 			link.href = el_canvas.toDataURL();
 			link.download = "bookmark.jpg";
 		}, false);
@@ -57,7 +61,8 @@ BookMark.init = function () {
 		zone.appendChild(document.createElement('br'));
 		zone.appendChild(document.createElement('br'));
 
-		let params = new Params((200 * i), (100 * i), "ErableUS", i, "Poirier", "Sycomore", false, false);
+		//Initialisation des paramètres par défaut.
+		let params = new Params((200 * i), (100 * i), "ErableUS", i, "Poirier", "Sycomore", false, false, 3);
 
 		let el_canvas = this.createCanvas('canva-' + i, 'zone-' + i, params);
 		let el_ctx = el_canvas.getContext('2d');
@@ -78,30 +83,60 @@ BookMark.init = function () {
 			BookMark.drawTriangles(el_canvas, el_ctx, el, equilateral, params);
 		};
 
+		/**
+		 * Nombre de colonnes.
+		 * @param el
+		 */
+		BookMark.redrawColumnsPerWidth = function (el) {
+			BookMark.clearCanvas(el_ctx);
+			BookMark.setBackgroundPattern(el_canvas, el_ctx, params.color);
+			BookMark.drawTriangles(el_canvas, el_ctx, numberOfPairOfTriangles, equilateral, params);
+		};
+
+		/**
+		 * Change la hauteur du canvas.
+		 * @param el
+		 */
 		BookMark.redrawHeight = function (el) {
 			el_canvas.height = el;
 			BookMark.setBackgroundPattern(el_canvas, el_ctx, params.color);
 			BookMark.drawTriangles(el_canvas, el_ctx, numberOfPairOfTriangles, equilateral, params);
 		};
 
+		/**
+		 * Change la largeur du canvas.
+		 * @param el
+		 */
 		BookMark.redrawWidth = function (el) {
 			el_canvas.width = el;
 			BookMark.setBackgroundPattern(el_canvas, el_ctx, params.color);
 			BookMark.drawTriangles(el_canvas, el_ctx, numberOfPairOfTriangles, equilateral, params);
 		};
 
+		/**
+		 * Change le pattern du triangle pair.
+		 * @param el
+		 */
 		BookMark.redrawTriangleEvenPattern = function (el) {
 			el_canvas.colorTriangleEven = el;
 			BookMark.setBackgroundPattern(el_canvas, el_ctx, params.color);
 			BookMark.drawTriangles(el_canvas, el_ctx, numberOfPairOfTriangles, equilateral, params);
 		};
 
+		/**
+		 * Change le pattern du triangle impair.
+		 * @param el
+		 */
 		BookMark.redrawTriangleOddPattern = function (el) {
 			el_canvas.colorTriangleOdd = el;
 			BookMark.setBackgroundPattern(el_canvas, el_ctx, params.color);
 			BookMark.drawTriangles(el_canvas, el_ctx, numberOfPairOfTriangles, equilateral, params);
 		};
 
+		/**
+		 * Dessine les lignes de coupe.
+		 * @param el
+		 */
 		BookMark.redrawStrokes = function (el) {
 			el_canvas.showStrokes = el;
 			BookMark.clearCanvas(el_ctx);
@@ -109,14 +144,21 @@ BookMark.init = function () {
 			BookMark.drawTriangles(el_canvas, el_ctx, numberOfPairOfTriangles, equilateral, params);
 		};
 
+		/**
+		 * Force le canvas en hauteur de manière à ce ue les triangles soient tous équilatéraux.
+		 * @param el
+		 */
 		BookMark.redrawEquilateral = function (el) {
 			BookMark.clearCanvas(el_ctx);
 			el_canvas.height = 600;
 			BookMark.setBackgroundPattern(el_canvas, el_ctx, params.color);
 			BookMark.drawTriangles(el_canvas, el_ctx, numberOfPairOfTriangles, el, params);
-
 		};
 
+		/**
+		 * Dessine le pattern de fond.
+		 * @param el
+		 */
 		BookMark.redrawBackgroundPattern = function (el) {
 			el_ctx.fillStyle = BookMark.images[el];
 			el_ctx.fillRect(0, 0, el_canvas.width, el_canvas.height);
@@ -124,6 +166,7 @@ BookMark.init = function () {
 		};
 
 		folder.add(params, 'numberOfPairOfTriangles', 1, 15, 1).onFinishChange(BookMark.redrawNumberOfTriangles);
+		folder.add(params, 'columns_per_width', 1, 15, 1).onFinishChange(BookMark.redrawColumnsPerWidth);
 		folder.add(params, 'height', 100, 1000, 100).onFinishChange(BookMark.redrawHeight);
 		folder.add(params, 'width', 100, 300, 100).onFinishChange(BookMark.redrawWidth);
 		folder.add(params, 'color', this.patterns).onFinishChange(BookMark.redrawBackgroundPattern);
@@ -137,7 +180,7 @@ BookMark.init = function () {
 			for (let i = 1; i <= number_of_layer; i++) {
 				let el_canvas = document.getElementById('canva-' + i);
 				let el_ctx = el_canvas.getContext('2d');
-
+				BookMark.clearCanvas(el_ctx);
 				// Dessine les triangles.
 				BookMark.setBackgroundPattern(el_canvas, el_ctx, "ErableUS");
 				BookMark.drawTriangles(el_canvas, el_ctx, numberOfPairOfTriangles, equilateral, params);
@@ -216,59 +259,65 @@ BookMark.initPatterns = function (el_ctx) {
  * @param el_ctx
  * @param numberOfPairOfTriangles
  * @param equilateral
+ * @param params
  */
 BookMark.drawTriangles = function (el_canvas, el_ctx, numberOfPairOfTriangles, equilateral, params) {
 
+	let _columns_per_width = params.columns_per_width;
+	let _width = el_canvas.width;
+	let _height = el_canvas.height;
+	let _triangle_height;
+	let _column_width = _width / _columns_per_width;
+	let _half_width = _column_width / 2;
+
 	// Dessine chaque paire de triangle.
 	for (let j = 1; j <= numberOfPairOfTriangles; j++) {
-
-		let _width = el_canvas.width;
-		let _height = el_canvas.height;
-		let _half_width = _width / 2;
-		let _triangle_height;
-
-		// Cas spécifique, on veut un triangle equilatéral, on le calcul en fonction de la largeur du canvas.
-		if (equilateral === true) {
-			_triangle_height = Math.sqrt((Math.pow(_width, 2) + Math.pow((_half_width / 2), 2)));
-			if (j === 1) {
-				// Lorsque l'on redimensionne un canvas, on est obligé de redessiner le fond sinon il disparait.
-				el_canvas.height = _triangle_height * numberOfPairOfTriangles * 2;
-				BookMark.setBackgroundPattern(el_canvas, el_ctx, params.color);
-			}
-		} else {
-			_triangle_height = _height / (numberOfPairOfTriangles * 2);
-		}
-
-		// Epaisseur des lignes de coupes.
-		el_ctx.lineWidth = 1;
-
-		let first_coef = 2 * (_triangle_height * j - _triangle_height);
-		let second_coef = first_coef + (2 * _triangle_height);
-		let third_coef = ((second_coef - _triangle_height) / j) * j;
-
-		// Dessine une paire de triangle.
-		for (let k = 1; k <= 2; k++) {
-			el_ctx.beginPath();
-
-			el_ctx.moveTo(_half_width, third_coef);
-
-			// Dessine un triangle avec la base en haut ou en bas.
-			if (k % 2 === 1) {
-				el_ctx.fillStyle = BookMark.images[el_canvas.colorTriangleEven];
-				el_ctx.lineTo(_width, first_coef);
-				el_ctx.lineTo(0, first_coef);
+		for (let l = 0; l < _columns_per_width; l++) {
+			// Cas spécifique, on veut un triangle equilatéral, on le calcul en fonction de la largeur du canvas.
+			if (equilateral === true) {
+				_triangle_height = Math.sqrt((Math.pow(_column_width, 2) + Math.pow((_half_width / 2), 2)));
+				if (j === 1) {
+					// Lorsque l'on redimensionne un canvas, on est obligé de redessiner le fond sinon il disparait.
+					el_canvas.height = _triangle_height * numberOfPairOfTriangles * 2;
+					BookMark.setBackgroundPattern(el_canvas, el_ctx, params.color);
+				}
 			} else {
-				el_ctx.fillStyle = BookMark.images[el_canvas.colorTriangleOdd];
-				el_ctx.lineTo(_width, second_coef);
-				el_ctx.lineTo(0, second_coef);
+				_triangle_height = _height / (numberOfPairOfTriangles * 2);
 			}
 
-			if (el_canvas.showStrokes === true) {
-				el_ctx.strokeStyle = "#FF0000";
-				el_ctx.stroke();
+			// Epaisseur des lignes de coupes.
+			el_ctx.lineWidth = 1;
+
+			// L'offset est le décalage entre chaue colonnes.
+			let _offset = l * _column_width;
+			let _first_coef = 2 * (_triangle_height * j - _triangle_height);
+			let _second_coef = _first_coef + (2 * _triangle_height);
+			let _third_coef = ((_second_coef - _triangle_height) / j) * j;
+
+			// Dessine une paire de triangle.
+			for (let k = 1; k <= 2; k++) {
+				el_ctx.beginPath();
+				el_ctx.moveTo(_half_width + _offset, _third_coef);
+
+				// Dessine un triangle avec la base en haut ou en bas.
+				if (k % 2 === 1) {
+					el_ctx.fillStyle = BookMark.images[el_canvas.colorTriangleEven];
+					el_ctx.lineTo(_column_width + _offset, _first_coef);
+					el_ctx.lineTo(_offset, _first_coef);
+				} else {
+					el_ctx.fillStyle = BookMark.images[el_canvas.colorTriangleOdd];
+					el_ctx.lineTo(_column_width + _offset, _second_coef);
+					el_ctx.lineTo(_offset, _second_coef);
+				}
+
+				if (el_canvas.showStrokes === true) {
+					el_ctx.strokeStyle = "#FF0000";
+					el_ctx.stroke();
+				}
+
+				el_ctx.closePath();
+				el_ctx.fill();
 			}
-			el_ctx.closePath();
-			el_ctx.fill();
 		}
 	}
 };
