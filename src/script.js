@@ -167,8 +167,8 @@ BookMark.init = function () {
 
 		folder.add(params, 'numberOfPairOfTriangles', 1, 15, 1).onFinishChange(BookMark.redrawNumberOfTriangles);
 		folder.add(params, 'columns_per_width', 1, 15, 1).onFinishChange(BookMark.redrawColumnsPerWidth);
-		folder.add(params, 'height', 100, 1000, 100).onFinishChange(BookMark.redrawHeight);
-		folder.add(params, 'width', 100, 300, 100).onFinishChange(BookMark.redrawWidth);
+		folder.add(params, 'height', 100, 1000, 10).onFinishChange(BookMark.redrawHeight);
+		folder.add(params, 'width', 100, 300, 10).onFinishChange(BookMark.redrawWidth);
 		folder.add(params, 'color', this.patterns).onFinishChange(BookMark.redrawBackgroundPattern);
 		folder.add(params, 'triangleEvenPattern', this.patterns).onFinishChange(BookMark.redrawTriangleEvenPattern);
 		folder.add(params, 'triangleOddPattern', this.patterns).onFinishChange(BookMark.redrawTriangleOddPattern);
