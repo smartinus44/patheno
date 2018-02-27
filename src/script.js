@@ -1,11 +1,13 @@
-import _ from 'lodash';
+//import _ from 'lodash';
 import 'bootstrap';
 import '../scss/_custom.scss';
 import dat from '../node_modules/dat.gui/build/dat.gui.js'
 
 const NUMBER_OF_LAYERS = 3;
+const STROKE_COLOR = "#FF0000";
+const LINE_WIDTH = 1;
 
-// Paramètres
+// Settings
 let Params = function (_height, _width, _background, _numberOfpairs, _evenPattern, _oddPattern, _equilateral, _showStrokes, _columns_per_width) {
 	this.height = _height;
 	this.width = _width;
@@ -18,15 +20,15 @@ let Params = function (_height, _width, _background, _numberOfpairs, _evenPatter
 	this.columnsPerWidth = _columns_per_width;
 };
 
-// Initialisation d'un marque page.
+// Initialization of a bookmark.
 class BookMark {
 
 	/**
-	 * Constructeur.
+	 * Constructor.
 	 * @param uniqueId
 	 */
 	constructor(uniqueId) {
-		// Travail avec des textures.
+		// Work with textures.
 		this.patterns = ["ErableUS", "Poirier", "Sycomore", "EtreBlanc", "Citronnier", "cheneLargeVanille", "Cypres", "FreneJapon"];
 		this.images = [];
 		this.params = new Params(485, 300, this.getRandomPattern(), uniqueId, this.getRandomPattern(), this.getRandomPattern(), false, false, 3);
@@ -35,7 +37,7 @@ class BookMark {
 	}
 
 	/**
-	 * Retourne aléatoirement un motif.
+	 * Randomly returns a pattern.
 	 * @returns {*}
 	 */
 	getRandomPattern() {
@@ -43,7 +45,7 @@ class BookMark {
 	}
 
 	/**
-	 * Initialise le fond.
+	 * Initialize the background.
 	 * @param el_canvas
 	 * @param el_ctx
 	 * @param el
@@ -54,7 +56,7 @@ class BookMark {
 	}
 
 	/**
-	 * Dessine un canvas.
+	 * Draw a canvas.
 	 * @param elementId
 	 * @param zoneId
 	 * @param params
@@ -64,25 +66,20 @@ class BookMark {
 
 		let canvas = document.createElement('canvas');
 		let ctx = canvas.getContext('2d');
-
+		let zone = document.getElementById(zoneId);
 		canvas.id = elementId;
 		canvas.width = params.width;
 		canvas.height = params.height;
 		canvas.showStrokes = params.showStrokes;
-
 		canvas.colorTriangleEven = params.triangleEvenPattern;
 		canvas.colorTriangleOdd = params.triangleOddPattern;
-
-		let zone = document.getElementById(zoneId);
 		zone.appendChild(canvas);
-
 		this.clearCanvasLayers(ctx);
-
 		return canvas;
 	}
 
 	/**
-	 * Efface un canvas.
+	 * Erase a canvas.
 	 * @param ctx
 	 */
 	clearCanvasLayers(ctx) {
@@ -93,21 +90,19 @@ class BookMark {
 	}
 
 	/**
-	 * Initialise les motifs: on décrémente une variable lorsqu'elle est nulle on continue le chargement du canvas.
+	 * Initialize the patterns, we decrement a variable. When it is zero we continue the loading script of the canvas.
 	 * @param el_ctx
 	 */
 	initPatterns(el_ctx) {
-
-		let imagesLoading = this.patterns.length;
-		let imagePattern = this.images;
+		let _imagesLoading = this.patterns.length;
+		let _imagePattern = this.images;
 		let _this = this;
-
 		this.patterns.forEach(function (pattern) {
 			let image = new Image();
 			image.onload = function () {
-				imagePattern[pattern] = el_ctx.createPattern(image, 'repeat');
-				--imagesLoading;
-				if (imagesLoading === 0) {
+				_imagePattern[pattern] = el_ctx.createPattern(image, 'repeat');
+				--_imagesLoading;
+				if (_imagesLoading === 0) {
 					_this.workDone();
 				}
 			};
@@ -116,7 +111,7 @@ class BookMark {
 	}
 
 	/**
-	 * Dessine les couples de triangles.
+	 * Draw the pairs of triangles.
 	 * @param el_canvas
 	 * @param el_ctx
 	 * @param params
@@ -126,14 +121,15 @@ class BookMark {
 		let _column_width = el_canvas.width /  params.columnsPerWidth;
 		let _half_width = _column_width / 2;
 
-		// Dessine chaque paire de triangle.
+		// Draw each triangle pair.
 		for (let j = 1; j <= this.numberOfPairOfTriangles; j++) {
 			for (let l = 0; l <  params.columnsPerWidth; l++) {
-				// Cas spécifique, on veut un triangle equilatéral, on le calcul en fonction de la largeur du canvas.
+
+				// Specific case, we want an equilateral triangle, we calculate it according to the width of the canvas.
 				if (this.equilateral === true) {
 					_triangle_height = Math.sqrt((Math.pow(_column_width, 2) + Math.pow((_half_width / 2), 2)));
 					if (j === 1) {
-						// Lorsque l'on redimensionne un canvas, on est obligé de redessiner le fond sinon il disparait.
+						// When we resize a canvas, we have to draw the background otherwise it disappears.
 						el_canvas.height = _triangle_height * this.numberOfPairOfTriangles * 2;
 						this.setBackgroundPattern(el_canvas, el_ctx, this.params.color);
 					}
@@ -141,21 +137,21 @@ class BookMark {
 					_triangle_height = el_canvas.height / (this.numberOfPairOfTriangles * 2);
 				}
 
-				// Epaisseur des lignes de coupes.
-				el_ctx.lineWidth = 1;
+				// Thickness of cut lines.
+				el_ctx.lineWidth = LINE_WIDTH;
 
-				// L'offset est le décalage entre chaue colonnes.
+				// The offset between each column.
 				let _offset = l * _column_width;
 				let _first_coef = 2 * (_triangle_height * j - _triangle_height);
 				let _second_coef = _first_coef + (2 * _triangle_height);
 				let _third_coef = ((_second_coef - _triangle_height) / j) * j;
 
-				// Dessine une paire de triangle.
+				// Draw a pair of triangle.
 				for (let k = 1; k <= 2; k++) {
 					el_ctx.beginPath();
 					el_ctx.moveTo(_half_width + _offset, _third_coef);
 
-					// Dessine un triangle avec la base en haut ou en bas.
+					// Draw a triangle with the base at the top or at the bottom.
 					if (k % 2 === 1) {
 						el_ctx.fillStyle = this.images[el_canvas.colorTriangleEven];
 						el_ctx.lineTo(_column_width + _offset, _first_coef);
@@ -166,8 +162,9 @@ class BookMark {
 						el_ctx.lineTo(_offset, _second_coef);
 					}
 
+					// If stroke flag is on.
 					if (el_canvas.showStrokes === true) {
-						el_ctx.strokeStyle = "#FF0000";
+						el_ctx.strokeStyle = STROKE_COLOR;
 						el_ctx.stroke();
 					}
 
@@ -179,21 +176,21 @@ class BookMark {
 	}
 
 	/**
-	 * Fonction appellée lorsque toutes les images sont chargées.
+	 * Function called when all images are loaded.
 	 */
 	workDone() {
 		for (let i = 1; i <= NUMBER_OF_LAYERS; i++) {
 			let el_canvas = document.getElementById('canva-' + i);
 			let el_ctx = el_canvas.getContext('2d');
 			this.clearCanvasLayers(el_ctx);
-			// Dessine les triangles.
+			// Draw the triangles.
 			this.setBackgroundPattern(el_canvas, el_ctx, "ErableUS");
 			this.drawTriangles(el_canvas, el_ctx, this.params);
 		}
 	}
 }
 
-// Au chargement de la page on appelle la fonction d'initialisation.
+// When the page is loaded, the initialization function is called.
 window.onload = function () {
 	let init = function () {
 		let gui = new dat.GUI({load: JSON});
@@ -224,7 +221,7 @@ window.onload = function () {
 			let folder = gui.addFolder('Example ' + i);
 
 			/**
-			 * Dessine le canvas avec le nombre de paire de triangle voulues.
+			 * Draw the canvas with the desired number of triangle pairs.
 			 * @param el
 			 */
 			function redrawNumberOfTriangles(el) {
@@ -235,7 +232,7 @@ window.onload = function () {
 			}
 
 			/**
-			 * Nombre de colonnes.
+			 * Number of columns.
 			 * @param el
 			 */
 			function redrawColumnsPerWidth(el) {
@@ -246,7 +243,7 @@ window.onload = function () {
 			}
 
 			/**
-			 * Change la hauteur du canvas.
+			 * Change the height of the canvas.
 			 * @param el
 			 */
 			function redrawHeight(el) {
@@ -256,7 +253,7 @@ window.onload = function () {
 			}
 
 			/**
-			 * Change la largeur du canvas.
+			 * Change the width of the canvas.
 			 * @param el
 			 */
 			function redrawWidth(el) {
@@ -266,7 +263,7 @@ window.onload = function () {
 			}
 
 			/**
-			 * Change le pattern du triangle pair.
+			 * Change the pattern of the even triangle.
 			 * @param el
 			 */
 			function redrawTriangleEvenPattern(el) {
@@ -276,7 +273,7 @@ window.onload = function () {
 			}
 
 			/**
-			 * Change le pattern du triangle impair.
+			 * Change the pattern of the odd triangle.
 			 * @param el
 			 */
 			function redrawTriangleOddPattern(el) {
@@ -286,7 +283,7 @@ window.onload = function () {
 			}
 
 			/**
-			 * Dessine les lignes de coupe.
+			 * Draw the cut lines.
 			 * @param el
 			 */
 			function redrawStrokes(el) {
@@ -297,7 +294,7 @@ window.onload = function () {
 			}
 
 			/**
-			 * Force le canvas en hauteur de manière à ce ue les triangles soient tous équilatéraux.
+			 * Force the canvas high so that the triangles are all equilateral.
 			 * @param el
 			 */
 			function redrawEquilateral(el) {
@@ -309,7 +306,7 @@ window.onload = function () {
 			}
 
 			/**
-			 * Dessine le pattern de fond.
+			 * Draw the background pattern.
 			 * @param el
 			 */
 			function redrawBackgroundPattern(el) {
@@ -328,7 +325,7 @@ window.onload = function () {
 			folder.add(bookMark.params, 'equilateral', true, false).onFinishChange(redrawEquilateral);
 			folder.add(bookMark.params, 'showStrokes').onFinishChange(redrawStrokes);
 
-			// Permet d'activer la sauvegarde des paramètres dans le localstorage.
+			// Enables you to save the settings in the localstorage.
 			gui.remember(bookMark.params);
 		}
 	};
