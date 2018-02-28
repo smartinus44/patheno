@@ -2,10 +2,16 @@ const path = require('path');
 const webpack = require('webpack'); //to access built-in plugins
 
 module.exports = {
-	entry: './src/script.js',
+	entry: {
+		main: './src/main.js',
+		parthenon: './src/parthenon.js',
+	},
 	output: {
-		filename: 'bundle.js',
+		filename: '[name].js',
 		path: path.resolve(__dirname, 'dist')
+	},
+	resolve: {
+		extensions: ['.js']
 	},
 	watch: true,
 	module: {
