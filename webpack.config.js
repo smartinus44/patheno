@@ -4,7 +4,8 @@ const webpack = require('webpack'); //to access built-in plugins
 module.exports = {
 	entry: {
 		main: './src/main.js',
-		parthenon: './src/parthenon.js',
+		parthenon: './src/bookmark.class.js',
+		params: './src/params.class.js',
 	},
 	output: {
 		filename: '[name].js',
