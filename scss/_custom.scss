@@ -5,6 +5,14 @@ $secondary-color: #999999;
 $third-color: #666666;
 
 body {
+  line-height: 1rem;
+  .help {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    > img {
+      margin-right: 10px;
+    }
+  }
   .jumbotron {
     padding-top: 6px;
     > .jumbotron-heading {

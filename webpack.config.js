@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack'); //to access built-in plugins
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
 	entry: {
@@ -28,6 +29,8 @@ module.exports = {
 				}
 			},
 			{
+				//test: /\.s?css$/,
+				//test: /\.css$/,
 				test: /\.(scss)$/,
 				use: [
 					{
@@ -58,5 +61,6 @@ module.exports = {
 				compress: true
 			}
 		}),
+		new BundleAnalyzerPlugin()
 	]
 };

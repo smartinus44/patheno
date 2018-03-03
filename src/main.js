@@ -1,5 +1,5 @@
 //import _ from 'lodash';
-import 'bootstrap';
+//import 'bootstrap';
 import '../scss/_custom.scss';
 import dat from '../node_modules/dat.gui/build/dat.gui.js'
 import BookMark from '../src/bookmark.class'
@@ -117,6 +117,7 @@ window.onload = function () {
 				_bookMark.drawTriangles(_bookMark.params);
 			}
 
+			// Attach param instance to the bookmark.
 			_folder.add(_bookMark.params, 'numberOfPairOfTriangles', 1, 15, 1).onFinishChange(redrawNumberOfTriangles);
 			_folder.add(_bookMark.params, 'columnsPerWidth', 1, 15, 1).onFinishChange(redrawColumnsPerWidth);
 			_folder.add(_bookMark.params, 'height', 100, 1000, 0.5).onFinishChange(redrawHeight);
