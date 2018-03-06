@@ -42,7 +42,7 @@ _In a javascript file:_
 ```javascript
     window.onload = function () {
         // Let's construct a non editable canvas without link.
-        let canvasOfDemo = new BookMark('demo'|  new Params(
+        let canvasOfDemo = new BookMark('demo',  new Params(
             300,
             300,
             "FreneJapon",
