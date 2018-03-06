@@ -20,7 +20,7 @@
 
 | Value | Show |
 | --- | --- |
-| ErableUS | ![alt text](dist/images/ErableUS.jpg) |
+| ErableUS | ![alt text](dist/images/ErableUS.jpg){:height="36px" width="36px"}. |
 | Poirier | ![alt text](dist/images/Poirier.jpg) |
 | Sycomore | ![alt text](dist/images/Sycomore.jpg) |
 | EtreBlanc | ![alt text](dist/images/EtreBlanc.jpg) |
