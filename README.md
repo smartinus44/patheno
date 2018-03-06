@@ -1,5 +1,17 @@
 # Geometric bookmark patterns
 
+Setup your own bookmarks! Build inlay frieze with different wood species. You are free to adjust:
+
+- The number of pairs of triangles.
+- The number of columns of triangles.
+- The dimensions of the bookmark.
+- The wood specie used for the background.
+- Even and odd background wood species for triangles.
+- An equilateral mode to build same sided triangles.
+- Mind the cutting lines with show strokes option.
+- Set if downloadable or not.
+                
+
 ## Params
 
 | Param title | Possible value |
