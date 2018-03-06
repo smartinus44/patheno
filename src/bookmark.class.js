@@ -18,20 +18,25 @@ export default class BookMark {
 		this.equilateral = false;
 		this.numberOfPairOfTriangles = 3;
 
-		if(!this.params.color) {
+		if (!this.params.color) {
 			this.params.color = this.getRandomPattern();
 		}
 
-		if(!this.params.triangleEvenPattern) {
+		if (!this.params.triangleEvenPattern) {
 			this.params.triangleEvenPattern = this.getRandomPattern();
 		}
 
-		if(!this.params.triangleOddPattern) {
+		if (!this.params.triangleOddPattern) {
 			this.params.triangleOddPattern = this.getRandomPattern();
 		}
 
 		this.el_canvas = this.createCanvas('canva-' + _uniqueId, 'zone-' + _uniqueId, this.params);
-		this.createDownloadLink(_uniqueId);
+
+		// Show download link if can download picture is set to true.
+		if (this.params.canDownload === true) {
+			this.createDownloadLink(_uniqueId);
+		}
+
 		this.el_ctx = this.el_canvas.getContext('2d');
 		this.initPatterns();
 	}
@@ -197,7 +202,7 @@ export default class BookMark {
 	workDone() {
 		this.clearCanvasLayers();
 		// Draw the triangles.
-		this.setBackgroundPattern("ErableUS");
+		this.setBackgroundPattern(this.params.color);
 		this.drawTriangles(this.params);
 	}
 }

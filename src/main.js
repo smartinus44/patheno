@@ -14,7 +14,7 @@ window.onload = function () {
 		_gui.useLocalStorage = true;
 		_gui.width = 380;
 		for (let i = 1; i <= NUMBER_OF_LAYERS; i++) {
-			let _params = new Params(485, 300, null, i, null, null, false, false, 3);
+			let _params = new Params(485, 300, "FreneJapon", i, null, null, false, false, 3, true);
 			let _bookMark = new BookMark(i, _params);
 			let _folder = _gui.addFolder('Example ' + i);
 
@@ -97,7 +97,7 @@ window.onload = function () {
 			 */
 			function redrawEquilateral(el) {
 				_bookMark.clearCanvasLayers();
-				if(el === true) {
+				if (el === true) {
 					_bookMark.el_canvas.height = 600;
 				} else {
 					_bookMark.el_canvas.height = _bookMark.params.height;
@@ -131,6 +131,20 @@ window.onload = function () {
 			// Enables you to save the settings in the localstorage.
 			_gui.remember(_bookMark.params);
 		}
+
+		// Let's construct a non editable canvas without link.
+		let canvasOfDemo = new BookMark('demo', new Params(
+			300,
+			300,
+			"FreneJapon",
+			3,
+			"Citronnier",
+			"Cypres",
+			false,
+			false,
+			1,
+			false
+		));
 	};
 
 	init();
