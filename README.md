@@ -18,16 +18,16 @@
 
 ## List of pattern species
 
-| Value |
-| --- |
-| ErableUS |
-| Poirier |
-| Sycomore |
-| EtreBlanc | 
-| Citronnier | 
-| cheneLargeVanille | 
-| Cypres |
-| FreneJapon |
+| Value | Show |
+| --- | --- |
+| ErableUS | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/ErableUS.jpg) |
+| Poirier | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/Poirier.jpg) |
+| Sycomore | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/Sycomore.jpg) |
+| EtreBlanc | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/EtreBlanc.jpg) |
+| Citronnier | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/Citronnier.jpg) |
+| cheneLargeVanille | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/cheneLargeVanille.jpg) |
+| Cypres | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/Cypres.jpg) |
+| FreneJapon | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/FreneJapon.jpg) |
 
 ## Example of utilisation
 
