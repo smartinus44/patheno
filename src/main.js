@@ -143,7 +143,7 @@ window.onload = function () {
 			false,
 			false,
 			1,
-			false
+			true
 		));
 	};
 
