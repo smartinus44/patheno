@@ -20,14 +20,14 @@
 
 | Value | Show |
 | --- | --- |
-| ErableUS | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/ErableUS.jpg) |
-| Poirier | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/Poirier.jpg) |
-| Sycomore | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/Sycomore.jpg) |
-| EtreBlanc | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/EtreBlanc.jpg) |
-| Citronnier | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/Citronnier.jpg) |
-| cheneLargeVanille | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/cheneLargeVanille.jpg) |
-| Cypres | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/Cypres.jpg) |
-| FreneJapon | ![alt text](https://gitlab.com/smartinus44/geometricanvas/blob/master/dist/images/FreneJapon.jpg) |
+| ErableUS | ![alt text](dist/images/ErableUS.jpg) |
+| Poirier | ![alt text](dist/images/Poirier.jpg) |
+| Sycomore | ![alt text](dist/images/Sycomore.jpg) |
+| EtreBlanc | ![alt text](dist/images/EtreBlanc.jpg) |
+| Citronnier | ![alt text](dist/images/Citronnier.jpg) |
+| cheneLargeVanille | ![alt text](dist/images/cheneLargeVanille.jpg) |
+| Cypres | ![alt text](dist/images/Cypres.jpg) |
+| FreneJapon | ![alt text](dist/images/FreneJapon.jpg) |
 
 ## Example of utilisation
 
