@@ -20,7 +20,7 @@
 
 | Value | Show |
 | --- | --- |
-| ErableUS | ![alt text](dist/images/ErableUS.jpg){:height="36px" width="36px"}. |
+| ErableUS | ![alt text](dist/images/ErableUS.jpg) |
 | Poirier | ![alt text](dist/images/Poirier.jpg) |
 | Sycomore | ![alt text](dist/images/Sycomore.jpg) |
 | EtreBlanc | ![alt text](dist/images/EtreBlanc.jpg) |
@@ -56,3 +56,7 @@ _In a javascript file:_
         ));
     };
 ```
+
+_It gives the following result:_
+
+![alt text](src/common/images/demo.jpg)
