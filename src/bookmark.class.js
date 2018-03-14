@@ -68,6 +68,7 @@ export default class BookMark {
 	createCanvas(elementId, zoneId, params) {
 
 		let _canvas = document.createElement('canvas');
+		_canvas.innerHTML = "Votre navigateur ne supporte pas canvas.<br>Essayez avec Firefox, Safari, Chrome ou Opera.";
 		let zone = document.getElementById(zoneId);
 		_canvas.id = elementId;
 		_canvas.width = params.width;
@@ -128,9 +129,9 @@ export default class BookMark {
 			_link.href = _this.el_canvas.toDataURL();
 			_link.download = "bookmark.jpg";
 		}, false);
-		_zone.prepend(document.createElement('br'));
-		_zone.prepend(document.createElement('br'));
-		_zone.prepend(_link);
+		_zone.insertBefore(document.createElement('br'), _zone.firstChild);
+		_zone.insertBefore(document.createElement('br'), _zone.firstChild);
+		_zone.insertBefore(_link, _zone.firstChild);
 	}
 
 	/**
@@ -183,13 +184,13 @@ export default class BookMark {
 						this.el_ctx.lineTo(_offset, _second_coef);
 					}
 
+					this.el_ctx.closePath();
 					// If stroke flag is on.
 					if (this.el_canvas.showStrokes === true) {
 						this.el_ctx.strokeStyle = STROKE_COLOR;
 						this.el_ctx.stroke();
 					}
 
-					this.el_ctx.closePath();
 					this.el_ctx.fill();
 				}
 			}
