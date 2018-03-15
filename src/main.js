@@ -13,9 +13,10 @@ window.onload = function () {
 		let _gui = new dat.GUI({load: JSON});
 		_gui.useLocalStorage = true;
 		_gui.width = 380;
+		let _patterns = ["Erable", "Poirier", "Sycomore", "Etre", "Citronnier", "Chene", "Cypres", "Frene", "Merisier"];
 		for (let i = 1; i <= NUMBER_OF_LAYERS; i++) {
-			let _params = new Params(485, 300, "FreneJapon", i, null, null, false, false, 3, true);
-			let _bookMark = new BookMark(i, _params);
+			let _params = new Params(485, 300, "Frene", i, null, null, false, 3, true);
+			let _bookMark = new BookMark(i, _params, _patterns);
 			let _folder = _gui.addFolder('Example ' + i);
 
 			/**
@@ -92,22 +93,6 @@ window.onload = function () {
 			}
 
 			/**
-			 * Force the canvas high so that the triangles are all equilateral.
-			 * @param el
-			 */
-			function redrawEquilateral(el) {
-				_bookMark.clearCanvasLayers();
-				if (el === true) {
-					_bookMark.el_canvas.height = 600;
-				} else {
-					_bookMark.el_canvas.height = _bookMark.params.height;
-				}
-				_bookMark.equilateral = el;
-				_bookMark.setBackgroundPattern(_bookMark.params.color);
-				_bookMark.drawTriangles(_bookMark.params);
-			}
-
-			/**
 			 * Draw the background pattern.
 			 * @param el
 			 */
@@ -125,7 +110,6 @@ window.onload = function () {
 			_folder.add(_bookMark.params, 'color', _bookMark.patterns).onFinishChange(redrawBackgroundPattern);
 			_folder.add(_bookMark.params, 'triangleEvenPattern', _bookMark.patterns).onFinishChange(redrawTriangleEvenPattern);
 			_folder.add(_bookMark.params, 'triangleOddPattern', _bookMark.patterns).onFinishChange(redrawTriangleOddPattern);
-			_folder.add(_bookMark.params, 'equilateral', true, false).onFinishChange(redrawEquilateral);
 			_folder.add(_bookMark.params, 'showStrokes').onFinishChange(redrawStrokes);
 
 			// Enables you to save the settings in the localstorage.
@@ -136,15 +120,14 @@ window.onload = function () {
 		let canvasOfDemo = new BookMark('demo', new Params(
 			300,
 			300,
-			"FreneJapon",
+			"Frene",
 			3,
 			"Citronnier",
 			"Cypres",
 			false,
-			false,
 			1,
 			true
-		));
+		), _patterns);
 	};
 
 	init();

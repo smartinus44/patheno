@@ -9,13 +9,13 @@ export default class BookMark {
 	 * Constructor.
 	 * @param _uniqueId
 	 * @param _params
+	 * @param _patterns
 	 */
-	constructor(_uniqueId, _params) {
+	constructor(_uniqueId, _params, _patterns) {
 		// Work with textures.
-		this.patterns = ["ErableUS", "Poirier", "Sycomore", "EtreBlanc", "Citronnier", "cheneLargeVanille", "Cypres", "FreneJapon"];
+		this.patterns = _patterns;
 		this.images = [];
 		this.params = _params;
-		this.equilateral = false;
 		this.numberOfPairOfTriangles = 3;
 
 		if (!this.params.color) {
@@ -147,17 +147,7 @@ export default class BookMark {
 		for (let j = 1; j <= this.numberOfPairOfTriangles; j++) {
 			for (let l = 0; l < params.columnsPerWidth; l++) {
 
-				// Specific case, we want an equilateral triangle, we calculate it according to the width of the canvas.
-				if (this.equilateral === true) {
-					_triangle_height = Math.sqrt((Math.pow(_column_width, 2) + Math.pow((_half_width / 2), 2)));
-					if (j === 1) {
-						// When we resize a canvas, we have to draw the background otherwise it disappears.
-						this.el_canvas.height = _triangle_height * this.numberOfPairOfTriangles * 2;
-						this.setBackgroundPattern(this.params.color);
-					}
-				} else {
-					_triangle_height = this.el_canvas.height / (this.numberOfPairOfTriangles * 2);
-				}
+				_triangle_height = this.el_canvas.height / (this.numberOfPairOfTriangles * 2);
 
 				// Thickness of cut lines.
 				this.el_ctx.lineWidth = LINE_WIDTH;
