@@ -8,32 +8,52 @@ export default class BookMark {
 	/**
 	 * Constructor.
 	 * @param _uniqueId
-	 * @param _params
+	 * @param _height
+	 * @param _width
+	 * @param _background
+	 * @param _numberOfpairs
+	 * @param _evenPattern
+	 * @param _oddPattern
+	 * @param _showStrokes
+	 * @param _columns_per_width
+	 * @param _can_download
 	 * @param _patterns
 	 */
-	constructor(_uniqueId, _params, _patterns) {
+	constructor(_uniqueId, _height, _width, _background, _numberOfpairs, _evenPattern, _oddPattern, _showStrokes, _columns_per_width, _can_download, _patterns) {
 		// Work with textures.
-		this.patterns = _patterns;
 		this.images = [];
-		this.params = _params;
 		this.numberOfPairOfTriangles = 3;
+		this.patterns = _patterns;
+		this.height = _height;
+		this.width = _width;
 
-		if (!this.params.color) {
-			this.params.color = this.getRandomPattern();
+		if (!_background) {
+			this.color = this.getRandomPattern();
+		} else {
+			this.color = _background;
 		}
 
-		if (!this.params.triangleEvenPattern) {
-			this.params.triangleEvenPattern = this.getRandomPattern();
+		if (!_evenPattern) {
+			this.triangleEvenPattern = this.getRandomPattern();
+		} else {
+			this.triangleEvenPattern = _evenPattern;
 		}
 
-		if (!this.params.triangleOddPattern) {
-			this.params.triangleOddPattern = this.getRandomPattern();
+		if (!_oddPattern) {
+			this.triangleOddPattern = this.getRandomPattern();
+		} else {
+			this.triangleOddPattern = _oddPattern;
 		}
 
-		this.el_canvas = this.createCanvas('canva-' + _uniqueId, 'zone-' + _uniqueId, this.params);
+		this.numberOfPairOfTriangles = _numberOfpairs;
+		this.showStrokes = _showStrokes;
+		this.columnsPerWidth = _columns_per_width;
+		this.canDownload = _can_download;
+
+		this.el_canvas = this.createCanvas('canva-' + _uniqueId, 'zone-' + _uniqueId);
 
 		// Show download link if can download picture is set to true.
-		if (this.params.canDownload === true) {
+		if (this.canDownload === true) {
 			this.createDownloadLink(_uniqueId);
 		}
 
@@ -62,20 +82,19 @@ export default class BookMark {
 	 * Draw a canvas.
 	 * @param elementId
 	 * @param zoneId
-	 * @param params
 	 * @returns {Element}
 	 */
-	createCanvas(elementId, zoneId, params) {
+	createCanvas(elementId, zoneId) {
 
 		let _canvas = document.createElement('canvas');
 		_canvas.innerHTML = "Votre navigateur ne supporte pas canvas.<br>Essayez avec Firefox, Safari, Chrome ou Opera.";
 		let zone = document.getElementById(zoneId);
 		_canvas.id = elementId;
-		_canvas.width = params.width;
-		_canvas.height = params.height;
-		_canvas.showStrokes = params.showStrokes;
-		_canvas.colorTriangleEven = params.triangleEvenPattern;
-		_canvas.colorTriangleOdd = params.triangleOddPattern;
+		_canvas.width = this.width;
+		_canvas.height = this.height;
+		_canvas.showStrokes = this.showStrokes;
+		_canvas.colorTriangleEven = this.triangleEvenPattern;
+		_canvas.colorTriangleOdd = this.triangleOddPattern;
 		zone.appendChild(_canvas);
 		this.clearCanvasLayers();
 		return _canvas;
@@ -136,16 +155,16 @@ export default class BookMark {
 
 	/**
 	 * Draw the pairs of triangles.
-	 * @param params
 	 */
-	drawTriangles(params) {
+	drawTriangles() {
 		let _triangle_height;
-		let _column_width = this.el_canvas.width / params.columnsPerWidth;
+		let _column_width = this.el_canvas.width / this.columnsPerWidth;
 		let _half_width = _column_width / 2;
 
 		// Draw each triangle pair.
 		for (let j = 1; j <= this.numberOfPairOfTriangles; j++) {
-			for (let l = 0; l < params.columnsPerWidth; l++) {
+
+			for (let l = 0; l < this.columnsPerWidth; l++) {
 
 				_triangle_height = this.el_canvas.height / (this.numberOfPairOfTriangles * 2);
 
@@ -193,7 +212,7 @@ export default class BookMark {
 	workDone() {
 		this.clearCanvasLayers();
 		// Draw the triangles.
-		this.setBackgroundPattern(this.params.color);
-		this.drawTriangles(this.params);
+		this.setBackgroundPattern(this.color);
+		this.drawTriangles();
 	}
 }

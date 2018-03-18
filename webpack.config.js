@@ -5,8 +5,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
 	entry: {
 		main: './src/main.js',
-		parthenon: './src/bookmark.class.js',
-		params: './src/params.class.js',
+		parthenon: './src/Bookmark.class.js',
 	},
 	output: {
 		filename: '[name].js',
@@ -61,6 +60,6 @@ module.exports = {
 				compress: true
 			}
 		}),
-		new BundleAnalyzerPlugin()
+		//new BundleAnalyzerPlugin()
 	]
 };

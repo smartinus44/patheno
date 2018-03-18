@@ -2,8 +2,7 @@
 //import 'bootstrap';
 import '../scss/_custom.scss';
 import dat from '../node_modules/dat.gui/build/dat.gui.js'
-import BookMark from '../src/bookmark.class'
-import Params from '../src/params.class'
+import BookMark from '../src/Bookmark.class'
 
 const NUMBER_OF_LAYERS = 3;
 
@@ -15,8 +14,7 @@ window.onload = function () {
 		_gui.width = 380;
 		let _patterns = ["Erable", "Poirier", "Sycomore", "Etre", "Citronnier", "Chene", "Cypres", "Frene", "Merisier"];
 		for (let i = 1; i <= NUMBER_OF_LAYERS; i++) {
-			let _params = new Params(485, 300, "Frene", i, null, null, false, 3, true);
-			let _bookMark = new BookMark(i, _params, _patterns);
+			let _bookMark = new BookMark(i, 485, 300, "Frene", i, null, null, false, 3, true, _patterns);
 			let _folder = _gui.addFolder('Example ' + i);
 
 			/**
@@ -26,8 +24,8 @@ window.onload = function () {
 			function redrawNumberOfTriangles(el) {
 				_bookMark.clearCanvasLayers();
 				_bookMark.numberOfPairOfTriangles = el;
-				_bookMark.setBackgroundPattern(_bookMark.params.color);
-				_bookMark.drawTriangles(_bookMark.params);
+				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.drawTriangles();
 			}
 
 			/**
@@ -35,10 +33,10 @@ window.onload = function () {
 			 * @param el
 			 */
 			function redrawColumnsPerWidth(el) {
-				_bookMark.params.columnsPerWidth = el;
+				_bookMark.columnsPerWidth = el;
 				_bookMark.clearCanvasLayers();
-				_bookMark.setBackgroundPattern(_bookMark.params.color);
-				_bookMark.drawTriangles(_bookMark.params);
+				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.drawTriangles();
 			}
 
 			/**
@@ -47,8 +45,8 @@ window.onload = function () {
 			 */
 			function redrawHeight(el) {
 				_bookMark.el_canvas.height = el;
-				_bookMark.setBackgroundPattern(_bookMark.params.color);
-				_bookMark.drawTriangles(_bookMark.params);
+				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.drawTriangles();
 			}
 
 			/**
@@ -57,8 +55,8 @@ window.onload = function () {
 			 */
 			function redrawWidth(el) {
 				_bookMark.el_canvas.width = el;
-				_bookMark.setBackgroundPattern(_bookMark.params.color);
-				_bookMark.drawTriangles(_bookMark.params);
+				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.drawTriangles();
 			}
 
 			/**
@@ -67,8 +65,8 @@ window.onload = function () {
 			 */
 			function redrawTriangleEvenPattern(el) {
 				_bookMark.el_canvas.colorTriangleEven = el;
-				_bookMark.setBackgroundPattern(_bookMark.params.color);
-				_bookMark.drawTriangles(_bookMark.params);
+				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.drawTriangles();
 			}
 
 			/**
@@ -77,8 +75,8 @@ window.onload = function () {
 			 */
 			function redrawTriangleOddPattern(el) {
 				_bookMark.el_canvas.colorTriangleOdd = el;
-				_bookMark.setBackgroundPattern(_bookMark.params.color);
-				_bookMark.drawTriangles(_bookMark.params);
+				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.drawTriangles();
 			}
 
 			/**
@@ -88,8 +86,8 @@ window.onload = function () {
 			function redrawStrokes(el) {
 				_bookMark.el_canvas.showStrokes = el;
 				_bookMark.clearCanvasLayers();
-				_bookMark.setBackgroundPattern(_bookMark.params.color);
-				_bookMark.drawTriangles(_bookMark.params);
+				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.drawTriangles();
 			}
 
 			/**
@@ -99,25 +97,25 @@ window.onload = function () {
 			function redrawBackgroundPattern(el) {
 				_bookMark.el_ctx.fillStyle = _bookMark.images[el];
 				_bookMark.el_ctx.fillRect(0, 0, _bookMark.el_canvas.width, _bookMark.el_canvas.height);
-				_bookMark.drawTriangles(_bookMark.params);
+				_bookMark.drawTriangles();
 			}
 
 			// Attach param instance to the bookmark.
-			_folder.add(_bookMark.params, 'numberOfPairOfTriangles', 1, 15, 1).onFinishChange(redrawNumberOfTriangles);
-			_folder.add(_bookMark.params, 'columnsPerWidth', 1, 15, 1).onFinishChange(redrawColumnsPerWidth);
-			_folder.add(_bookMark.params, 'height', 100, 1000, 0.5).onFinishChange(redrawHeight);
-			_folder.add(_bookMark.params, 'width', 100, 300, 0.5).onFinishChange(redrawWidth);
-			_folder.add(_bookMark.params, 'color', _bookMark.patterns).onFinishChange(redrawBackgroundPattern);
-			_folder.add(_bookMark.params, 'triangleEvenPattern', _bookMark.patterns).onFinishChange(redrawTriangleEvenPattern);
-			_folder.add(_bookMark.params, 'triangleOddPattern', _bookMark.patterns).onFinishChange(redrawTriangleOddPattern);
-			_folder.add(_bookMark.params, 'showStrokes').onFinishChange(redrawStrokes);
+			_folder.add(_bookMark, 'numberOfPairOfTriangles', 1, 15, 1).onFinishChange(redrawNumberOfTriangles);
+			_folder.add(_bookMark, 'columnsPerWidth', 1, 15, 1).onFinishChange(redrawColumnsPerWidth);
+			_folder.add(_bookMark, 'height', 100, 1000, 0.5).onFinishChange(redrawHeight);
+			_folder.add(_bookMark, 'width', 100, 300, 0.5).onFinishChange(redrawWidth);
+			_folder.add(_bookMark, 'color', _bookMark.patterns).onFinishChange(redrawBackgroundPattern);
+			_folder.add(_bookMark, 'triangleEvenPattern', _bookMark.patterns).onFinishChange(redrawTriangleEvenPattern);
+			_folder.add(_bookMark, 'triangleOddPattern', _bookMark.patterns).onFinishChange(redrawTriangleOddPattern);
+			_folder.add(_bookMark, 'showStrokes').onFinishChange(redrawStrokes);
 
 			// Enables you to save the settings in the localstorage.
-			_gui.remember(_bookMark.params);
+			_gui.remember(_bookMark);
 		}
 
 		// Let's construct a non editable canvas without link.
-		let canvasOfDemo = new BookMark('demo', new Params(
+		let canvasOfDemo = new BookMark('demo',
 			300,
 			300,
 			"Frene",
@@ -126,8 +124,9 @@ window.onload = function () {
 			"Cypres",
 			false,
 			1,
-			true
-		), _patterns);
+			true,
+			_patterns
+		);
 	};
 
 	init();
