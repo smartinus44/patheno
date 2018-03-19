@@ -40,6 +40,7 @@ Setup your own bookmarks! Build inlay frieze with different wood species. You ar
 | Chene Vanille | ![alt text](dist/images/Chene.jpg) |
 | Cypres | ![alt text](dist/images/Cypres.jpg) |
 | Frene | ![alt text](dist/images/Frene.jpg) |
+| Merisier | ![alt text](dist/images/Merisier.jpg) |
 
 ## Example of utilisation
 

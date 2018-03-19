@@ -28,19 +28,19 @@ export default class BookMark {
 		this.width = _width;
 
 		if (!_background) {
-			this.color = this.getRandomPattern();
+			this.color = this.getRandomPattern('background');
 		} else {
 			this.color = _background;
 		}
 
 		if (!_evenPattern) {
-			this.triangleEvenPattern = this.getRandomPattern();
+			this.triangleEvenPattern = this.getRandomPattern('triangles');
 		} else {
 			this.triangleEvenPattern = _evenPattern;
 		}
 
 		if (!_oddPattern) {
-			this.triangleOddPattern = this.getRandomPattern();
+			this.triangleOddPattern = this.getRandomPattern('triangles');
 		} else {
 			this.triangleOddPattern = _oddPattern;
 		}
@@ -58,15 +58,18 @@ export default class BookMark {
 		}
 
 		this.el_ctx = this.el_canvas.getContext('2d');
-		this.initPatterns();
+		this.initPatterns('triangles');
+		this.initPatterns('background');
 	}
 
 	/**
 	 * Randomly returns a pattern.
+	 * @param zone
 	 * @returns {*}
 	 */
-	getRandomPattern() {
-		return this.patterns[Math.floor(Math.random() * this.patterns.length)];
+	getRandomPattern(zone) {
+		let value = Math.floor(Math.random() * this.patterns[zone].length);
+		return this.patterns[zone][value];
 	}
 
 	/**
@@ -113,11 +116,12 @@ export default class BookMark {
 
 	/**
 	 * Initialize the patterns, we decrement a variable. When it is zero we continue the loading script of the canvas.
+	 * @param zone
 	 */
-	initPatterns() {
-		let _imagesLoading = this.patterns.length;
+	initPatterns(zone) {
+		let _imagesLoading = this.patterns[zone].length;
 		let _this = this;
-		this.patterns.forEach(function (pattern) {
+		this.patterns[zone].forEach(function (pattern) {
 			let image = new Image();
 			image.onload = function () {
 				_this.images[pattern] = _this.el_ctx.createPattern(image, 'repeat');

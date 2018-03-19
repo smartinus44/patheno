@@ -1,5 +1,5 @@
-//import _ from 'lodash';
 //import 'bootstrap';
+import _ from 'lodash';
 import '../scss/_custom.scss';
 import dat from '../node_modules/dat.gui/build/dat.gui.js'
 import BookMark from '../src/Bookmark.class'
@@ -12,9 +12,12 @@ window.onload = function () {
 		let _gui = new dat.GUI({load: JSON});
 		_gui.useLocalStorage = true;
 		_gui.width = 380;
-		let _patterns = ["Erable", "Poirier", "Sycomore", "Etre", "Citronnier", "Chene", "Cypres", "Frene", "Merisier"];
+		let _patterns = {
+			'background': ["Frene", "Erable", "Sycomore", "Chene"],
+			'triangles': ["Poirier", "Citronnier", "Cypres", "Etre", "Merisier"]
+		};
 		for (let i = 1; i <= NUMBER_OF_LAYERS; i++) {
-			let _bookMark = new BookMark(i, 485, 300, "Frene", i, null, null, false, 3, true, _patterns);
+			let _bookMark = new BookMark(i, 485, 300, "Frene", _.random(1, 15), null, null, false, _.random(1, 15), true, _patterns);
 			let _folder = _gui.addFolder('Example ' + i);
 
 			/**
@@ -105,9 +108,9 @@ window.onload = function () {
 			_folder.add(_bookMark, 'columnsPerWidth', 1, 15, 1).onFinishChange(redrawColumnsPerWidth);
 			_folder.add(_bookMark, 'height', 100, 1000, 0.5).onFinishChange(redrawHeight);
 			_folder.add(_bookMark, 'width', 100, 300, 0.5).onFinishChange(redrawWidth);
-			_folder.add(_bookMark, 'color', _bookMark.patterns).onFinishChange(redrawBackgroundPattern);
-			_folder.add(_bookMark, 'triangleEvenPattern', _bookMark.patterns).onFinishChange(redrawTriangleEvenPattern);
-			_folder.add(_bookMark, 'triangleOddPattern', _bookMark.patterns).onFinishChange(redrawTriangleOddPattern);
+			_folder.add(_bookMark, 'color', _bookMark.patterns['background']).onFinishChange(redrawBackgroundPattern);
+			_folder.add(_bookMark, 'triangleEvenPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleEvenPattern);
+			_folder.add(_bookMark, 'triangleOddPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleOddPattern);
 			_folder.add(_bookMark, 'showStrokes').onFinishChange(redrawStrokes);
 
 			// Enables you to save the settings in the localstorage.
