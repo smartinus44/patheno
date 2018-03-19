@@ -7,7 +7,6 @@ Setup your own bookmarks! Build inlay frieze with different wood species. You ar
 - The dimensions of the bookmark.
 - The wood specie used for the background.
 - Even and odd background wood species for triangles.
-- An equilateral mode to build same sided triangles.
 - Mind the cutting lines with show strokes option.
 - Set if downloadable or not.
                 
@@ -16,30 +15,31 @@ Setup your own bookmarks! Build inlay frieze with different wood species. You ar
 
 | Param title | Possible value |
 | --- | --- | 
+| `uniqueId` | an unique HTML id |
 | `height` | from 100 to 1000 |
 | `width` | from 100 to 300 |
 | `background` | _see List of pattern species_ |
 | `numberOfpairs` | from 1 to 15 |
 | `evenPattern` | _see List of pattern species_ |
 | `oddPattern` | _see List of pattern species_ |
-| `equilateral` | true/false |
 | `showStrokes` | true/false |
 | `columns_per_width` | from 1 to 15 |
 | `can_download` | true/false |
+| `patterns` | a javascript array of "string" values |
 
 
 ## List of pattern species
 
 | Value | Show |
 | --- | --- |
-| ErableUS | ![alt text](dist/images/ErableUS.jpg) |
+| Erable | ![alt text](dist/images/Erable.jpg) |
 | Poirier | ![alt text](dist/images/Poirier.jpg) |
 | Sycomore | ![alt text](dist/images/Sycomore.jpg) |
-| EtreBlanc | ![alt text](dist/images/EtreBlanc.jpg) |
+| EtreBlanc | ![alt text](dist/images/Etre.jpg) |
 | Citronnier | ![alt text](dist/images/Citronnier.jpg) |
-| cheneLargeVanille | ![alt text](dist/images/cheneLargeVanille.jpg) |
+| Chene Vanille | ![alt text](dist/images/Chene.jpg) |
 | Cypres | ![alt text](dist/images/Cypres.jpg) |
-| FreneJapon | ![alt text](dist/images/FreneJapon.jpg) |
+| Frene | ![alt text](dist/images/Frene.jpg) |
 
 ## Example of utilisation
 
@@ -54,18 +54,18 @@ _In a javascript file:_
 ```javascript
     window.onload = function () {
         // Let's construct a non editable canvas without link.
-        let canvasOfDemo = new BookMark('demo',  new Params(
+        let canvasOfDemo = new BookMark('demo',
             300,
             300,
-            "FreneJapon",
+            "Frene",
             3,
             "Citronnier",
             "Cypres",
             false,
-            false,
             1,
-            true
-        ));
+            true,
+            ["Erable", "Poirier", "Sycomore", "Etre", "Citronnier", "Chene", "Cypres", "Frene", "Merisier"]
+        );
     };
 ```
 
