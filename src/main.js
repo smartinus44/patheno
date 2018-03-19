@@ -17,7 +17,7 @@ window.onload = function () {
 			'triangles': ["Poirier", "Citronnier", "Cypres", "Etre", "Merisier"]
 		};
 		for (let i = 1; i <= NUMBER_OF_LAYERS; i++) {
-			let _bookMark = new BookMark(i, 485, 300, "Frene", _.random(1, 15), null, null, false, _.random(1, 15), true, _patterns);
+			let _bookMark = new BookMark(i, 1063, 295, "Frene", _.random(1, 30), null, null, false, _.random(1, 5), true, _patterns);
 			let _folder = _gui.addFolder('Example ' + i);
 
 			/**
@@ -104,10 +104,10 @@ window.onload = function () {
 			}
 
 			// Attach param instance to the bookmark.
-			_folder.add(_bookMark, 'numberOfPairOfTriangles', 1, 15, 1).onFinishChange(redrawNumberOfTriangles);
-			_folder.add(_bookMark, 'columnsPerWidth', 1, 15, 1).onFinishChange(redrawColumnsPerWidth);
-			_folder.add(_bookMark, 'height', 100, 1000, 0.5).onFinishChange(redrawHeight);
-			_folder.add(_bookMark, 'width', 100, 300, 0.5).onFinishChange(redrawWidth);
+			_folder.add(_bookMark, 'numberOfPairOfTriangles', 1, 30, 1).onFinishChange(redrawNumberOfTriangles);
+			_folder.add(_bookMark, 'columnsPerWidth', 1, 5, 1).onFinishChange(redrawColumnsPerWidth);
+			_folder.add(_bookMark, 'height', 100, 1200, 0.5).onFinishChange(redrawHeight);
+			_folder.add(_bookMark, 'width', 100, 600, 0.5).onFinishChange(redrawWidth);
 			_folder.add(_bookMark, 'color', _bookMark.patterns['background']).onFinishChange(redrawBackgroundPattern);
 			_folder.add(_bookMark, 'triangleEvenPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleEvenPattern);
 			_folder.add(_bookMark, 'triangleOddPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleOddPattern);
