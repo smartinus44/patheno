@@ -1,5 +1,7 @@
 'use strict';
 
+//import  '../node_modules/canvas2svg/canvas2svg.js'
+
 const STROKE_COLOR = "#FF0000";
 const LINE_WIDTH = 1;
 
@@ -127,7 +129,7 @@ export default class BookMark {
 				_this.images[pattern] = _this.el_ctx.createPattern(image, 'repeat');
 				--_imagesLoading;
 				if (_imagesLoading === 0) {
-					_this.workDone();
+					_this._onPatternsLoaded();
 				}
 			};
 			image.src = 'images/' + pattern + '.jpg';
@@ -154,6 +156,14 @@ export default class BookMark {
 		}, false);
 		_zone.insertBefore(document.createElement('br'), _zone.firstChild);
 		_zone.insertBefore(document.createElement('br'), _zone.firstChild);
+
+		let params = document.createElement('textarea');
+		params.cols = 80;
+		params.rows = 10;
+		params.readOnly  = true;
+		params.innerHTML = JSON.stringify(_this);
+
+		//_zone.insertBefore(params, _zone.firstChild);
 		_zone.insertBefore(_link, _zone.firstChild);
 	}
 
@@ -181,7 +191,7 @@ export default class BookMark {
 				let _second_coef = _first_coef + (2 * _triangle_height);
 				let _third_coef = ((_second_coef - _triangle_height) / j) * j;
 
-				// Draw a pair of triangle.
+				// Draw a pair of triangles.
 				for (let k = 1; k <= 2; k++) {
 					this.el_ctx.beginPath();
 					this.el_ctx.moveTo(_half_width + _offset, _third_coef);
@@ -198,7 +208,8 @@ export default class BookMark {
 					}
 
 					this.el_ctx.closePath();
-					// If stroke flag is on.
+
+					// If show strokes flag is on.
 					if (this.el_canvas.showStrokes === true) {
 						this.el_ctx.strokeStyle = STROKE_COLOR;
 						this.el_ctx.stroke();
@@ -213,8 +224,10 @@ export default class BookMark {
 	/**
 	 * Function called when all images are loaded.
 	 */
-	workDone() {
+	_onPatternsLoaded() {
+
 		this.clearCanvasLayers();
+
 		// Draw the triangles.
 		this.setBackgroundPattern(this.color);
 		this.drawTriangles();
