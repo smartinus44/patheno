@@ -134,6 +134,5 @@ window.onload = function () {
 			_patterns
 		);
 	};
-
 	init();
 };

@@ -1,7 +1,5 @@
 'use strict';
 
-//import  '../node_modules/canvas2svg/canvas2svg.js'
-
 const STROKE_COLOR = "#FF0000";
 const LINE_WIDTH = 1;
 
@@ -29,23 +27,20 @@ export default class BookMark {
 		this.height = _height;
 		this.width = _width;
 
-		if (!_background) {
+		if (!_background)
 			this.color = this.getRandomPattern('background');
-		} else {
+		else
 			this.color = _background;
-		}
 
-		if (!_evenPattern) {
-			this.triangleEvenPattern = this.getRandomPattern('triangles');
-		} else {
+		if (!_evenPattern)
+			this.triangleEvenPattern = this.getRandomPattern('triangles'); 
+		else
 			this.triangleEvenPattern = _evenPattern;
-		}
 
-		if (!_oddPattern) {
+		if (!_oddPattern)
 			this.triangleOddPattern = this.getRandomPattern('triangles');
-		} else {
+		else
 			this.triangleOddPattern = _oddPattern;
-		}
 
 		this.numberOfPairOfTriangles = _numberOfpairs;
 		this.showStrokes = _showStrokes;
@@ -55,9 +50,8 @@ export default class BookMark {
 		this.el_canvas = this.createCanvas('canva-' + _uniqueId, 'zone-' + _uniqueId);
 
 		// Show download link if can download picture is set to true.
-		if (this.canDownload === true) {
+		if (this.canDownload === true)
 			this.createDownloadLink(_uniqueId);
-		}
 
 		this.el_ctx = this.el_canvas.getContext('2d');
 		this.initPatterns('triangles');
@@ -128,9 +122,8 @@ export default class BookMark {
 			image.onload = function () {
 				_this.images[pattern] = _this.el_ctx.createPattern(image, 'repeat');
 				--_imagesLoading;
-				if (_imagesLoading === 0) {
+				if (_imagesLoading === 0)
 					_this._onPatternsLoaded();
-				}
 			};
 			image.src = 'images/' + pattern + '.jpg';
 		});
