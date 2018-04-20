@@ -1,6 +1,8 @@
 # Geometric bookmark patterns
 
-Setup your own bookmarks! Build inlay frieze with different wood species. You are free to adjust:
+Setup your own bookmarks! Build inlay frieze with different wood species. 
+
+You are free to adjust:
 
 - The number of pairs of triangles.
 - The number of columns of triangles.
@@ -9,7 +11,6 @@ Setup your own bookmarks! Build inlay frieze with different wood species. You ar
 - Even and odd background wood species for triangles.
 - Mind the cutting lines with show strokes option.
 - Set if downloadable or not.
-                
 
 ## Params
 
@@ -44,7 +45,7 @@ Setup your own bookmarks! Build inlay frieze with different wood species. You ar
 
 ## Example of utilisation
 
-_In a html file:_
+_In a div in a html file:_
 
 ```html
 <div id="zone-demo"></div>
