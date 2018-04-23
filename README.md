@@ -42,15 +42,15 @@ You are free to adjust:
 | 1 | Noyer | ![alt text](dist/images/dataset/1/noyer.jpg) |
 | 1 | Sycomore | ![alt text](dist/images/dataset/1/sycomore.jpg) |
 | 1 | Teck | ![alt text](dist/images/dataset/1/teck.jpg) |
-| 2 | Chene large vanille | ![alt text](dist/images/dataset/1/cheneLargeVanille.jpg) |
-| 2 | Citronnier | ![alt text](dist/images/dataset/1/Citronnier.jpg) |
-| 2 | Cypres | ![alt text](dist/images/dataset/1/Cypres.jpg) |
-| 2 | Erable US | ![alt text](dist/images/dataset/1/ErableUS.jpg) |
-| 2 | Etre Blanc | ![alt text](dist/images/dataset/1/EtreBlanc.jpg) |
-| 2 | Frêne du Japon | ![alt text](dist/images/dataset/1/FreneJapon.jpg) |
-| 2 | Merisier de France | ![alt text](dist/images/dataset/1/MerisierDeFrance.jpg) |
-| 2 | Poirier | ![alt text](dist/images/dataset/1/Poirier.jpg) |
-| 2 | Sycomore | ![alt text](dist/images/dataset/1/Sycomore.jpg) |
+| 2 | Chene large vanille | ![alt text](dist/images/dataset/2/cheneLargeVanille.jpg) |
+| 2 | Citronnier | ![alt text](dist/images/dataset/2/Citronnier.jpg) |
+| 2 | Cypres | ![alt text](dist/images/dataset/2/Cypres.jpg) |
+| 2 | Erable US | ![alt text](dist/images/dataset/2/ErableUS.jpg) |
+| 2 | Etre Blanc | ![alt text](dist/images/dataset/2/EtreBlanc.jpg) |
+| 2 | Frêne du Japon | ![alt text](dist/images/dataset/2/FreneJapon.jpg) |
+| 2 | Merisier de France | ![alt text](dist/images/dataset/2/MerisierDeFrance.jpg) |
+| 2 | Poirier | ![alt text](dist/images/dataset/2/Poirier.jpg) |
+| 2 | Sycomore | ![alt text](dist/images/dataset/2/Sycomore.jpg) |
 | 3 | Erable | ![alt text](dist/images/dataset/3/Erable.jpg) |
 | 3 | Poirier | ![alt text](dist/images/dataset/3/Poirier.jpg) |
 | 3 | Sycomore | ![alt text](dist/images/dataset/3/Sycomore.jpg) |
