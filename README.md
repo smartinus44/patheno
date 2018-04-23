@@ -84,7 +84,21 @@ _In a javascript file:_
             false,
             1,
             true,
-            ["Erable", "Poirier", "Sycomore", "Etre", "Citronnier", "Chene", "Cypres", "Frene", "Merisier"]
+            {
+                'background': [
+                    "images/dataset/2/FreneJapon.jpg",
+                    "images/dataset/2/ErableUS.jpg",
+                    "images/dataset/2/Sycomore.jpg",
+                    "images/dataset/2/cheneLargeVanille.jpg",
+                ],
+                'triangles': [
+                    "images/dataset/2/Poirier.jpg",
+                    "images/dataset/2/Citronnier.jpg",
+                    "images/dataset/2/Cypres.jpg",
+                    "images/dataset/2/EtreBlanc.jpg",
+                    "images/dataset/2/MerisierDeFrance.jpg"
+                ]
+            }
         );
     };
 ```
