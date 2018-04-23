@@ -125,7 +125,7 @@ export default class BookMark {
 				if (_imagesLoading === 0)
 					_this._onPatternsLoaded();
 			};
-			image.src = 'images/' + pattern + '.jpg';
+			image.src = pattern;
 		});
 	}
 

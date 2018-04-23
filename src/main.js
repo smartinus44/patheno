@@ -14,14 +14,56 @@ window.onload = function () {
 		_gui.width = 380;
 
 		// @todo: this should be externalized in a service.
-		let _patterns = {
-			'background': ["Frene", "Erable", "Sycomore", "Chene"],
-			'triangles': ["Poirier", "Citronnier", "Cypres", "Etre", "Merisier"]
-		};
+		let _patterns_dataset = [{
+			'background': [
+				"images/dataset/1/bubimga.jpg",
+				"images/dataset/1/teck.jpg",
+				"images/dataset/1/sycomore.jpg",
+				"images/dataset/1/etre.jpg",
+			],
+			'triangles': [
+				"images/dataset/1/eucalyptus.jpg",
+				"images/dataset/1/chene.jpg",
+				"images/dataset/1/aniegré.jpg",
+				"images/dataset/1/merisier.jpg",
+				"images/dataset/1/noyer.jpg",
+			]
+		},
+		{
+			'background': [
+				"images/dataset/2/FreneJapon.jpg",
+				"images/dataset/2/ErableUS.jpg",
+				"images/dataset/2/Sycomore.jpg",
+				"images/dataset/2/cheneLargeVanille.jpg",
+			],
+			'triangles': [
+				"images/dataset/2/Poirier.jpg",
+				"images/dataset/2/Citronnier.jpg",
+				"images/dataset/2/Cypres.jpg",
+				"images/dataset/2/EtreBlanc.jpg",
+				"images/dataset/2/MerisierDeFrance.jpg"
+			]
+		},
+		{
+			'background': [
+				"images/dataset/3/Frene.jpg",
+				"images/dataset/3/Erable.jpg",
+				"images/dataset/3/Sycomore.jpg",
+				"images/dataset/3/Chene.jpg",
+			],
+			'triangles': [
+				"images/dataset/3/Poirier.jpg",
+				"images/dataset/3/Citronnier.jpg",
+				"images/dataset/3/Cypres.jpg",
+				"images/dataset/3/Etre.jpg",
+				"images/dataset/3/Merisier.jpg"
+			]
+		}];
 
 		for (let i = 1; i <= NUMBER_OF_LAYERS; i++) {
-			let _bookMark = new BookMark(i, 1063, 295, "Frene", _.random(1, 30), null, null, false, _.random(1, 5), true, _patterns);
-			let _folder = _gui.addFolder('Example ' + i);
+
+			let _bookMark = new BookMark(i, 1063, 295, _patterns_dataset[i-1].background[0], _.random(1, 30), null, null, false, _.random(1, 5), true, _patterns_dataset[i-1]);
+			let _folder = _gui.addFolder('Example avec le jeu de données ' + i);
 
 			/**
 			 * Draw the canvas with the desired number of triangle pairs.
@@ -131,7 +173,7 @@ window.onload = function () {
 			false,
 			1,
 			true,
-			_patterns
+			_patterns_dataset[0]
 		);
 	};
 	init();
