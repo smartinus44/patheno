@@ -31,17 +31,35 @@ You are free to adjust:
 
 ## List of pattern species
 
-| Value | Show |
-| --- | --- |
-| Erable | ![alt text](dist/images/Erable.jpg) |
-| Poirier | ![alt text](dist/images/Poirier.jpg) |
-| Sycomore | ![alt text](dist/images/Sycomore.jpg) |
-| EtreBlanc | ![alt text](dist/images/Etre.jpg) |
-| Citronnier | ![alt text](dist/images/Citronnier.jpg) |
-| Chene Vanille | ![alt text](dist/images/Chene.jpg) |
-| Cypres | ![alt text](dist/images/Cypres.jpg) |
-| Frene | ![alt text](dist/images/Frene.jpg) |
-| Merisier | ![alt text](dist/images/Merisier.jpg) |
+| Dataset | Value | Show |
+| --- | --- | --- |
+| 1 | Aniegré | ![alt text](dist/images/dataset/1/aniegré.jpg) |
+| 1 | Bubimga | ![alt text](dist/images/dataset/1/bubimga.jpg) |
+| 1 | Chene | ![alt text](dist/images/dataset/1/chene.jpg) |
+| 1 | Etre | ![alt text](dist/images/dataset/1/etre.jpg) |
+| 1 | Eucalyptus | ![alt text](dist/images/dataset/1/eucalyptus.jpg) |
+| 1 | Merisier | ![alt text](dist/images/dataset/1/merisier.jpg) |
+| 1 | Noyer | ![alt text](dist/images/dataset/1/noyer.jpg) |
+| 1 | Sycomore | ![alt text](dist/images/dataset/1/sycomore.jpg) |
+| 1 | Teck | ![alt text](dist/images/dataset/1/teck.jpg) |
+| 2 | Chene large vanille | ![alt text](dist/images/dataset/1/cheneLargeVanille.jpg) |
+| 2 | Citronnier | ![alt text](dist/images/dataset/1/Citronnier.jpg) |
+| 2 | Cypres | ![alt text](dist/images/dataset/1/Cypres.jpg) |
+| 2 | Erable US | ![alt text](dist/images/dataset/1/ErableUS.jpg) |
+| 2 | Etre Blanc | ![alt text](dist/images/dataset/1/EtreBlanc.jpg) |
+| 2 | Frêne du Japon | ![alt text](dist/images/dataset/1/FreneJapon.jpg) |
+| 2 | Merisier de France | ![alt text](dist/images/dataset/1/MerisierDeFrance.jpg) |
+| 2 | Poirier | ![alt text](dist/images/dataset/1/Poirier.jpg) |
+| 2 | Sycomore | ![alt text](dist/images/dataset/1/Sycomore.jpg) |
+| 3 | Erable | ![alt text](dist/images/dataset/3/Erable.jpg) |
+| 3 | Poirier | ![alt text](dist/images/dataset/3/Poirier.jpg) |
+| 3 | Sycomore | ![alt text](dist/images/dataset/3/Sycomore.jpg) |
+| 3 | Etre Blanc | ![alt text](dist/images/dataset/3/Etre.jpg) |
+| 3 | Citronnier | ![alt text](dist/images/dataset/3/Citronnier.jpg) |
+| 3 | Chene | ![alt text](dist/images/dataset/3/Chene.jpg) |
+| 3 | Cypres | ![alt text](dist/images/dataset/3/Cypres.jpg) |
+| 3 | Frene | ![alt text](dist/images/dataset/3/Frene.jpg) |
+| 3 | Merisier | ![alt text](dist/images/dataset/3/Merisier.jpg) |
 
 ## Example of utilisation
 
