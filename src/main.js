@@ -72,7 +72,7 @@ window.onload = function () {
 			function redrawNumberOfTriangles(el) {
 				_bookMark.clearCanvasLayers();
 				_bookMark.numberOfPairOfTriangles = el;
-				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
 				_bookMark.drawTriangles();
 			}
 
@@ -83,7 +83,7 @@ window.onload = function () {
 			function redrawColumnsPerWidth(el) {
 				_bookMark.columnsPerWidth = el;
 				_bookMark.clearCanvasLayers();
-				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
 				_bookMark.drawTriangles();
 			}
 
@@ -93,7 +93,7 @@ window.onload = function () {
 			 */
 			function redrawHeight(el) {
 				_bookMark.el_canvas.height = el;
-				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
 				_bookMark.drawTriangles();
 			}
 
@@ -103,7 +103,7 @@ window.onload = function () {
 			 */
 			function redrawWidth(el) {
 				_bookMark.el_canvas.width = el;
-				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
 				_bookMark.drawTriangles();
 			}
 
@@ -112,8 +112,8 @@ window.onload = function () {
 			 * @param el
 			 */
 			function redrawTriangleEvenPattern(el) {
-				_bookMark.el_canvas.colorTriangleEven = el;
-				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.el_canvas.backgroundPatternTriangleEven = el;
+				_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
 				_bookMark.drawTriangles();
 			}
 
@@ -122,8 +122,8 @@ window.onload = function () {
 			 * @param el
 			 */
 			function redrawTriangleOddPattern(el) {
-				_bookMark.el_canvas.colorTriangleOdd = el;
-				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.el_canvas.backgroundPatternTriangleOdd = el;
+				_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
 				_bookMark.drawTriangles();
 			}
 
@@ -134,7 +134,7 @@ window.onload = function () {
 			function redrawStrokes(el) {
 				_bookMark.el_canvas.showStrokes = el;
 				_bookMark.clearCanvasLayers();
-				_bookMark.setBackgroundPattern(_bookMark.color);
+				_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
 				_bookMark.drawTriangles();
 			}
 
@@ -153,7 +153,7 @@ window.onload = function () {
 			_folder.add(_bookMark, 'columnsPerWidth', 1, 5, 1).onFinishChange(redrawColumnsPerWidth);
 			_folder.add(_bookMark, 'height', 100, 1200, 0.5).onFinishChange(redrawHeight);
 			_folder.add(_bookMark, 'width', 100, 335, 0.5).onFinishChange(redrawWidth);
-			_folder.add(_bookMark, 'color', _bookMark.patterns['background']).onFinishChange(redrawBackgroundPattern);
+			_folder.add(_bookMark, 'backgroundPattern', _bookMark.patterns['background']).onFinishChange(redrawBackgroundPattern);
 			_folder.add(_bookMark, 'triangleEvenPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleEvenPattern);
 			_folder.add(_bookMark, 'triangleOddPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleOddPattern);
 			_folder.add(_bookMark, 'showStrokes').onFinishChange(redrawStrokes);

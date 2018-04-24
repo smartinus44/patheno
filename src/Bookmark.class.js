@@ -19,7 +19,8 @@ export default class BookMark {
 	 * @param _can_download
 	 * @param _patterns
 	 */
-	constructor(_uniqueId, _height, _width, _background, _numberOfpairs, _evenPattern, _oddPattern, _showStrokes, _columns_per_width, _can_download, _patterns) {
+	constructor(_uniqueId, _height, _width, _background, _numberOfpairs, _evenPattern, _oddPattern, _showStrokes,
+				_columns_per_width, _can_download, _patterns) {
 		// Work with textures.
 		this.images = [];
 		this.numberOfPairOfTriangles = 3;
@@ -28,9 +29,9 @@ export default class BookMark {
 		this.width = _width;
 
 		if (!_background)
-			this.color = this.getRandomPattern('background');
+			this.backgroundPattern = this.getRandomPattern('background');
 		else
-			this.color = _background;
+			this.backgroundPattern = _background;
 
 		if (!_evenPattern)
 			this.triangleEvenPattern = this.getRandomPattern('triangles'); 
@@ -92,8 +93,8 @@ export default class BookMark {
 		_canvas.width = this.width;
 		_canvas.height = this.height;
 		_canvas.showStrokes = this.showStrokes;
-		_canvas.colorTriangleEven = this.triangleEvenPattern;
-		_canvas.colorTriangleOdd = this.triangleOddPattern;
+		_canvas.backgroundPatternTriangleEven = this.triangleEvenPattern;
+		_canvas.backgroundPatternTriangleOdd = this.triangleOddPattern;
 		zone.appendChild(_canvas);
 		this.clearCanvasLayers();
 		return _canvas;
@@ -191,11 +192,11 @@ export default class BookMark {
 
 					// Draw a triangle with the base at the top or at the bottom.
 					if (k % 2 === 1) {
-						this.el_ctx.fillStyle = this.images[this.el_canvas.colorTriangleEven];
+						this.el_ctx.fillStyle = this.images[this.el_canvas.backgroundPatternTriangleEven];
 						this.el_ctx.lineTo(_column_width + _offset, _first_coef);
 						this.el_ctx.lineTo(_offset, _first_coef);
 					} else {
-						this.el_ctx.fillStyle = this.images[this.el_canvas.colorTriangleOdd];
+						this.el_ctx.fillStyle = this.images[this.el_canvas.backgroundPatternTriangleOdd];
 						this.el_ctx.lineTo(_column_width + _offset, _second_coef);
 						this.el_ctx.lineTo(_offset, _second_coef);
 					}
@@ -222,7 +223,7 @@ export default class BookMark {
 		this.clearCanvasLayers();
 
 		// Draw the triangles.
-		this.setBackgroundPattern(this.color);
+		this.setBackgroundPattern(this.backgroundPattern);
 		this.drawTriangles();
 	}
 }
