@@ -3,6 +3,7 @@ import _ from 'lodash';
 import '../scss/_custom.scss';
 import dat from '../node_modules/dat.gui/build/dat.gui.js'
 import BookMark from '../src/Bookmark.class'
+import fetch from '../node_modules/node-fetch/lib/index.js'
 
 const NUMBER_OF_LAYERS = 3;
 
@@ -13,54 +14,17 @@ window.onload = function () {
 		_gui.useLocalStorage = true;
 		_gui.width = 380;
 
-		// @todo: this should be externalized in a service.
-		let _patterns_dataset = [{
-			'background': [
-				"images/dataset/1/bubimga.jpg",
-				"images/dataset/1/teck.jpg",
-				"images/dataset/1/sycomore.jpg",
-				"images/dataset/1/etre.jpg",
-			],
-			'triangles': [
-				"images/dataset/1/eucalyptus.jpg",
-				"images/dataset/1/chene.jpg",
-				"images/dataset/1/aniegré.jpg",
-				"images/dataset/1/merisier.jpg",
-				"images/dataset/1/noyer.jpg",
-			]
-		},
-		{
-			'background': [
-				"images/dataset/2/FreneJapon.jpg",
-				"images/dataset/2/ErableUS.jpg",
-				"images/dataset/2/Sycomore.jpg",
-				"images/dataset/2/cheneLargeVanille.jpg",
-			],
-			'triangles': [
-				"images/dataset/2/Poirier.jpg",
-				"images/dataset/2/Citronnier.jpg",
-				"images/dataset/2/Cypres.jpg",
-				"images/dataset/2/EtreBlanc.jpg",
-				"images/dataset/2/MerisierDeFrance.jpg"
-			]
-		},
-		{
-			'background': [
-				"images/dataset/3/Frene.jpg",
-				"images/dataset/3/Erable.jpg",
-				"images/dataset/3/Sycomore.jpg",
-				"images/dataset/3/Chene.jpg",
-			],
-			'triangles': [
-				"images/dataset/3/Poirier.jpg",
-				"images/dataset/3/Citronnier.jpg",
-				"images/dataset/3/Cypres.jpg",
-				"images/dataset/3/Etre.jpg",
-				"images/dataset/3/Merisier.jpg"
-			]
-		}];
+		let _patterns_dataset = fetch('http://127.0.0.1:3000/patterns')
+			.then(function(response){
+			    return response;
+			})
+			.then(function(json){
+					_process();
+			    console.log(json);
+		});
 
-		for (let i = 1; i <= NUMBER_OF_LAYERS; i++) {
+		function _process() {
+			for (let i = 1; i <= NUMBER_OF_LAYERS; i++) {
 
 			let _bookMark = new BookMark(i, 1063, 295, _patterns_dataset[i-1].background[0], _.random(1, 30), null, null, false, _.random(1, 5), true, _patterns_dataset[i-1]);
 			let _folder = _gui.addFolder('Example avec le jeu de données ' + i);
@@ -160,21 +124,22 @@ window.onload = function () {
 
 			// Enables you to save the settings in the localstorage.
 			_gui.remember(_bookMark);
+			}
+		
+			// Let's construct a non editable canvas without link.
+			let canvasOfDemo = new BookMark('demo',
+				300,
+				300,
+				"Frene",
+				3,
+				"Citronnier",
+				"Cypres",
+				false,
+				1,
+				true,
+				_patterns_dataset[0]
+			);
 		}
-
-		// Let's construct a non editable canvas without link.
-		let canvasOfDemo = new BookMark('demo',
-			300,
-			300,
-			"Frene",
-			3,
-			"Citronnier",
-			"Cypres",
-			false,
-			1,
-			true,
-			_patterns_dataset[0]
-		);
 	};
 	init();
 };
