@@ -22,6 +22,7 @@
     "babel-loader": "^8.0.0-beta.2",
     "babel-preset-env": "^1.6.1",
     "css-loader": "^0.28.9",
+    "node-fetch": "^2.1.2",
     "node-sass": "^4.7.2",
     "postcss-loader": "^2.1.0",
     "precss": "^3.1.0",
