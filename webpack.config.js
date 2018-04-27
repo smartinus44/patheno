@@ -4,22 +4,23 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
+
 	mode: 'production',
 	optimization: {
-    minimizer: [
-      // we specify a custom UglifyJsPlugin here to get source maps in production
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true,
-        uglifyOptions: {
-          compress: false,
-          ecma: 6,
-          mangle: true
-        },
-        sourceMap: true
-      })
-    ]
-  },
+		minimizer: [
+			// we specify a custom UglifyJsPlugin here to get source maps in production
+			new UglifyJsPlugin({
+				cache: true,
+				parallel: true,
+				uglifyOptions: {
+					compress: false,
+					ecma: 6,
+					mangle: true
+				},
+				sourceMap: true
+			})
+		]
+	},
 	entry: {
 		main: './src/main.js',
 		parthenon: './src/Bookmark.class.js',

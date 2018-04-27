@@ -119,14 +119,15 @@ export default class BookMark {
 		let _imagesLoading = this.patterns[zone].length;
 		let _this = this;
 		this.patterns[zone].forEach(function (pattern) {
+			let elpattern = encodeURI(pattern);
 			let image = new Image();
 			image.onload = function () {
-				_this.images[pattern] = _this.el_ctx.createPattern(image, 'repeat');
+				_this.images[elpattern] = _this.el_ctx.createPattern(image, 'repeat');
 				--_imagesLoading;
 				if (_imagesLoading === 0)
 					_this._onPatternsLoaded();
 			};
-			image.src = pattern;
+			image.src = elpattern;
 		});
 	}
 

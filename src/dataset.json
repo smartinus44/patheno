@@ -1,0 +1,47 @@
+[
+  {
+    "background": [
+      "images/dataset/1/bubimga.jpg",
+      "images/dataset/1/teck.jpg",
+      "images/dataset/1/sycomore.jpg",
+      "images/dataset/1/etre.jpg"
+    ],
+    "triangles": [
+      "images/dataset/1/eucalyptus.jpg",
+      "images/dataset/1/chene.jpg",
+      "images/dataset/1/aniegré.jpg",
+      "images/dataset/1/merisier.jpg",
+      "images/dataset/1/noyer.jpg"
+    ]
+  },
+  {
+    "background": [
+      "images/dataset/2/FreneJapon.jpg",
+      "images/dataset/2/ErableUS.jpg",
+      "images/dataset/2/Sycomore.jpg",
+      "images/dataset/2/cheneLargeVanille.jpg"
+    ],
+    "triangles": [
+      "images/dataset/2/Poirier.jpg",
+      "images/dataset/2/Citronnier.jpg",
+      "images/dataset/2/Cypres.jpg",
+      "images/dataset/2/EtreBlanc.jpg",
+      "images/dataset/2/MerisierDeFrance.jpg"
+    ]
+  },
+  {
+    "background": [
+      "images/dataset/3/Frene.jpg",
+      "images/dataset/3/Erable.jpg",
+      "images/dataset/3/Sycomore.jpg",
+      "images/dataset/3/Chene.jpg"
+    ],
+    "triangles": [
+      "images/dataset/3/Poirier.jpg",
+      "images/dataset/3/Citronnier.jpg",
+      "images/dataset/3/Cypres.jpg",
+      "images/dataset/3/Etre.jpg",
+      "images/dataset/3/Merisier.jpg"
+    ]
+  }
+]
