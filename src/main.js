@@ -30,7 +30,7 @@ window.onload = function () {
 			for (let i = 1; i <= NUMBER_OF_LAYERS; i++) {
 
 				let _bookMark = new BookMark(i, 1063, 295, _dataset[i - 1].background[0], _.random(1, 30), null, null, false, _.random(1, 5), true, _dataset[i - 1]);
-				let _folder = _gui.addFolder('Example avec le jeu de données ' + i);
+				let _folder = _gui.addFolder('Example with dataset ' + i);
 
 				/**
 				 * Draw the canvas with the desired number of triangle pairs.
