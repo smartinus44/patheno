@@ -6,6 +6,22 @@ $third-color: #666666;
 
 body {
 
+  h1 {
+    border: 4px double white;
+    text-align: center;
+  }
+
+  section {
+    background: #333;
+    padding: 10px;
+  }
+
+  #results {
+    display: flex;
+    text-align: center;
+    margin: 10px 0;
+  }
+
   textarea {
     width: calc(100% - 30px);
     margin: 15px 15px 0 15px;
@@ -22,8 +38,8 @@ body {
   }
 
   .help {
-    margin-top: 20px;
-    margin-bottom: 10px;
+    padding: 10px 0;
+
     > img {
       margin-right: 10px;
       height: 120px;
@@ -39,7 +55,7 @@ body {
     }
   }
   background-color: $primary-color;
-  color: $primary-color;
+  color: whitesmoke;
   margin: 10px 0;
   font-family: SFMono-Regular, Menlo, Monaco, Consolas,
   "Liberation Mono",

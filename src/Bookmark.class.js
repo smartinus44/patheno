@@ -20,7 +20,7 @@ export default class BookMark {
 	 * @param _patterns
 	 */
 	constructor(_uniqueId, _height, _width, _background, _numberOfpairs, _evenPattern, _oddPattern, _showStrokes,
-				_columns_per_width, _can_download, _patterns) {
+				_columns_per_width, _can_download, _patterns, _chamfer) {
 		// Work with textures.
 		this.images = [];
 		this.numberOfPairOfTriangles = 3;
@@ -34,7 +34,7 @@ export default class BookMark {
 			this.backgroundPattern = _background;
 
 		if (!_evenPattern)
-			this.triangleEvenPattern = this.getRandomPattern('triangles'); 
+			this.triangleEvenPattern = this.getRandomPattern('triangles');
 		else
 			this.triangleEvenPattern = _evenPattern;
 
@@ -47,6 +47,7 @@ export default class BookMark {
 		this.showStrokes = _showStrokes;
 		this.columnsPerWidth = _columns_per_width;
 		this.canDownload = _can_download;
+		this.chamfer = _chamfer;
 
 		this.el_canvas = this.createCanvas('canva-' + _uniqueId, 'zone-' + _uniqueId);
 
@@ -75,7 +76,99 @@ export default class BookMark {
 	 */
 	setBackgroundPattern(el) {
 		this.el_ctx.fillStyle = this.images[el];
-		this.el_ctx.fillRect(0, 0, this.el_canvas.width, this.el_canvas.height);
+		if (this.chamfer > 0) {
+			this.chamferedRect(0, 0, this.el_canvas.width, this.el_canvas.height, this.chamfer);
+			this.el_ctx.fill();
+		} else {
+			this.el_ctx.fillRect(0, 0, this.el_canvas.width, this.el_canvas.height);
+		}
+	}
+
+	/**
+	 *
+	 * @param x
+	 * @param y
+	 * @param w
+	 * @param h
+	 * @param radius
+	 */
+	roundRect(x, y, w, h, radius) {
+		let r = x + w;
+		let b = y + h;
+		this.el_ctx.beginPath();
+		this.el_ctx.strokeStyle = "green";
+		this.el_ctx.lineWidth = "2";
+
+		if (rt) {
+
+			if (lt) {
+				this.el_ctx.moveTo(x, y);
+			} else {
+				this.el_ctx.moveTo(x + radius, y);
+			}
+
+			this.el_ctx.lineTo(r - radius, y);
+			this.el_ctx.quadraticCurveTo(r, y, r, y + radius);
+		} else {
+
+			if (lb) {
+
+				this.el_ctx.moveTo(x + radius, y);
+			} else {
+				this.el_ctx.moveTo(x, y);
+
+			}
+			this.el_ctx.lineTo(r, y);
+		}
+
+		if (rb) {
+			this.el_ctx.lineTo(r, y + h - radius);
+			this.el_ctx.quadraticCurveTo(r, b, r - radius, b);
+		} else {
+			this.el_ctx.lineTo(r, y + h);
+		}
+
+		if (lt) {
+			this.el_ctx.lineTo(x + radius, b);
+			this.el_ctx.quadraticCurveTo(x, b, x, b - radius);
+		} else {
+			this.el_ctx.lineTo(x, b);
+		}
+
+		if (lb) {
+			this.el_ctx.lineTo(x, y + radius);
+			this.el_ctx.quadraticCurveTo(x, y, x + radius, y);
+		} else {
+			this.el_ctx.lineTo(x, y);
+		}
+		this.el_ctx.stroke();
+	}
+
+	/**
+	 *
+	 * @param x
+	 * @param y
+	 * @param w
+	 * @param h
+	 * @param radius
+	 */
+	chamferedRect(x, y, w, h, radius) {
+
+		let r = x + w;
+		let b = y + h;
+		this.el_ctx.moveTo(x + radius, y);
+
+		this.el_ctx.lineTo(r - radius, y);
+		this.el_ctx.lineTo(r, y + radius);
+
+		this.el_ctx.lineTo(r, y + h - radius);
+		this.el_ctx.lineTo(r - radius, b);
+
+		this.el_ctx.lineTo(x + radius, b);
+		this.el_ctx.lineTo(x, b - radius);
+
+		this.el_ctx.lineTo(x, y + radius);
+		this.el_ctx.lineTo(x + radius, y);
 	}
 
 	/**
@@ -93,6 +186,7 @@ export default class BookMark {
 		_canvas.width = this.width;
 		_canvas.height = this.height;
 		_canvas.showStrokes = this.showStrokes;
+		_canvas.chamfer = this.chamfer;
 		_canvas.backgroundPatternTriangleEven = this.triangleEvenPattern;
 		_canvas.backgroundPatternTriangleOdd = this.triangleOddPattern;
 		zone.appendChild(_canvas);
@@ -155,7 +249,7 @@ export default class BookMark {
 		let params = document.createElement('textarea');
 		params.cols = 80;
 		params.rows = 10;
-		params.readOnly  = true;
+		params.readOnly = true;
 		params.innerHTML = JSON.stringify(_this);
 
 		//_zone.insertBefore(params, _zone.firstChild);
@@ -225,6 +319,12 @@ export default class BookMark {
 
 		// Draw the triangles.
 		this.setBackgroundPattern(this.backgroundPattern);
+		if (this.chamfer > 0) {
+			this.el_ctx.clip();
+		}
 		this.drawTriangles();
+		if (this.chamfer > 0) {
+			this.el_ctx.restore();
+		}
 	}
 }

@@ -17,7 +17,9 @@ window.onload = function () {
 			.then(dataset => dataset.json())
 			.then(json => _process(json)
 			).catch(function (ex) {
-			console.log('parsing failed', ex)
+			console.log('parsing failed', ex);
+			let _results_zone = document.getElementById("results");
+			_results_zone.innerText = "Unable to fetch data.";
 		});
 
 		/**
@@ -29,7 +31,10 @@ window.onload = function () {
 
 			for (let i = 1; i <= NUMBER_OF_LAYERS; i++) {
 
-				let _bookMark = new BookMark(i, 1063, 295, _dataset[i - 1].background[0], _.random(1, 30), null, null, false, _.random(1, 5), true, _dataset[i - 1]);
+				// Initial arbitrary width value.
+				let width = 295;
+				let _bookMark = new BookMark(i, 1063, width, _dataset[i - 1].background[0], _.random(1, 30), null, null,
+					false, _.random(1, 5), true, _dataset[i - 1], (width / 2));
 				let _folder = _gui.addFolder('Example with dataset ' + i);
 
 				/**
@@ -75,6 +80,37 @@ window.onload = function () {
 				}
 
 				/**
+				 * Draw bookmark with chamfer or not.
+				 * @param el
+				 */
+				function redrawHasChamfer(el) {
+					_bookMark.el_canvas.chamfer = el;
+					_bookMark.el_canvas.width = _bookMark.width;
+					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
+
+					if (_bookMark.el_canvas.chamfer > 0) {
+						_bookMark.el_ctx.clip();
+					}
+
+					_bookMark.drawTriangles();
+					if (_bookMark.el_canvas.chamfer > 0) {
+						_bookMark.el_ctx.restore();
+					}
+				}
+
+				/**
+				 * Draw the cut lines.
+				 * @param el
+				 */
+				function redrawStrokes(el) {
+					_bookMark.el_canvas.showStrokes = el;
+					_bookMark.clearCanvasLayers();
+					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
+					_bookMark.drawTriangles();
+				}
+
+
+				/**
 				 * Change the pattern of the even triangle.
 				 * @param el
 				 */
@@ -90,17 +126,6 @@ window.onload = function () {
 				 */
 				function redrawTriangleOddPattern(el) {
 					_bookMark.el_canvas.backgroundPatternTriangleOdd = el;
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
-				}
-
-				/**
-				 * Draw the cut lines.
-				 * @param el
-				 */
-				function redrawStrokes(el) {
-					_bookMark.el_canvas.showStrokes = el;
-					_bookMark.clearCanvasLayers();
 					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
 					_bookMark.drawTriangles();
 				}
@@ -124,6 +149,7 @@ window.onload = function () {
 				_folder.add(_bookMark, 'triangleEvenPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleEvenPattern);
 				_folder.add(_bookMark, 'triangleOddPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleOddPattern);
 				_folder.add(_bookMark, 'showStrokes').onFinishChange(redrawStrokes);
+				_folder.add(_bookMark, 'chamfer', 0, (_bookMark.width / 2), 1).onFinishChange(redrawHasChamfer);
 
 				// Enables you to save the settings in the localstorage.
 				_gui.remember(_bookMark);
@@ -140,7 +166,8 @@ window.onload = function () {
 				false,
 				1,
 				true,
-				_dataset[0]
+				_dataset[0],
+				10
 			);
 		}
 	};
