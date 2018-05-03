@@ -235,7 +235,7 @@ export default class BookMark {
 		let _link = document.createElement('a');
 		let _this = this;
 
-		_link.innerHTML = 'Télécharger l\'image';
+		_link.innerHTML = 'Download the picture';
 		_link.className = "btn btn-dark";
 		_link.href = "#";
 		_link.role = "button";
@@ -260,6 +260,9 @@ export default class BookMark {
 	 * Draw the pairs of triangles.
 	 */
 	drawTriangles() {
+		if (this.el_canvas.chamfer > 0) {
+			this.el_ctx.clip();
+		}
 		let _triangle_height;
 		let _column_width = this.el_canvas.width / this.columnsPerWidth;
 		let _half_width = _column_width / 2;
@@ -308,6 +311,9 @@ export default class BookMark {
 				}
 			}
 		}
+		if (this.el_canvas.chamfer > 0) {
+			this.el_ctx.restore();
+		}
 	}
 
 	/**
@@ -319,12 +325,6 @@ export default class BookMark {
 
 		// Draw the triangles.
 		this.setBackgroundPattern(this.backgroundPattern);
-		if (this.chamfer > 0) {
-			this.el_ctx.clip();
-		}
 		this.drawTriangles();
-		if (this.chamfer > 0) {
-			this.el_ctx.restore();
-		}
 	}
 }

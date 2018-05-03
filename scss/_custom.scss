@@ -6,14 +6,28 @@ $third-color: #666666;
 
 body {
 
+  h1, h2 {
+    text-align: center;
+  }
+
   h1 {
     border: 4px double white;
-    text-align: center;
   }
 
   section {
     background: #333;
     padding: 10px;
+  }
+
+  aside {
+    position: absolute;
+    left: 10px;
+    width: 300px;
+    padding: 10px;
+    top: 10px;
+    background-color: firebrick;
+    font-size: 14px;
+    border-left: 10px solid black;
   }
 
   #results {
@@ -79,5 +93,10 @@ body {
     height: 60px;
     line-height: 60px; /* Vertically center the text there */
     background-color: $primary-color;
+  }
+
+  .dg li.save-row .button.gears {
+    height: 16px;
+    width: 16px;
   }
 }

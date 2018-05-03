@@ -34,7 +34,7 @@ window.onload = function () {
 				// Initial arbitrary width value.
 				let width = 295;
 				let _bookMark = new BookMark(i, 1063, width, _dataset[i - 1].background[0], _.random(1, 30), null, null,
-					false, _.random(1, 5), true, _dataset[i - 1], (width / 2));
+					false, _.random(1, 5), true, _dataset[i - 1], _.random(1, (width / 2)));
 				let _folder = _gui.addFolder('Example with dataset ' + i);
 
 				/**
@@ -87,15 +87,7 @@ window.onload = function () {
 					_bookMark.el_canvas.chamfer = el;
 					_bookMark.el_canvas.width = _bookMark.width;
 					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-
-					if (_bookMark.el_canvas.chamfer > 0) {
-						_bookMark.el_ctx.clip();
-					}
-
 					_bookMark.drawTriangles();
-					if (_bookMark.el_canvas.chamfer > 0) {
-						_bookMark.el_ctx.restore();
-					}
 				}
 
 				/**
@@ -149,7 +141,7 @@ window.onload = function () {
 				_folder.add(_bookMark, 'triangleEvenPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleEvenPattern);
 				_folder.add(_bookMark, 'triangleOddPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleOddPattern);
 				_folder.add(_bookMark, 'showStrokes').onFinishChange(redrawStrokes);
-				_folder.add(_bookMark, 'chamfer', 0, (_bookMark.width / 2), 1).onFinishChange(redrawHasChamfer);
+				_folder.add(_bookMark, 'chamfer', 0, (_bookMark.el_canvas.width / 2), 1).onFinishChange(redrawHasChamfer);
 
 				// Enables you to save the settings in the localstorage.
 				_gui.remember(_bookMark);
