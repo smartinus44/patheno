@@ -18,6 +18,7 @@ export default class BookMark {
 	 * @param _columns_per_width
 	 * @param _can_download
 	 * @param _patterns
+	 * @param _chamfer
 	 */
 	constructor(_uniqueId, _height, _width, _background, _numberOfpairs, _evenPattern, _oddPattern, _showStrokes,
 				_columns_per_width, _can_download, _patterns, _chamfer) {

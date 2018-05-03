@@ -26,7 +26,7 @@ module.exports = {
 		parthenon: './src/Bookmark.class.js',
 	},
 	output: {
-		filename: '[name].js',
+		filename: '[name].min.js',
 		path: path.resolve(__dirname, 'dist')
 	},
 	resolve: {
