@@ -78,7 +78,7 @@ export default class BookMark {
 	setBackgroundPattern(el) {
 		this.el_ctx.fillStyle = this.images[el];
 		if (this.chamfer > 0) {
-			this.chamferedRect(0, 0, this.el_canvas.width, this.el_canvas.height, this.chamfer);
+			this.chamferedRect(0, 0, this.el_canvas.width, this.el_canvas.height, this.chamfer, false, false, false, false);
 			this.el_ctx.fill();
 		} else {
 			this.el_ctx.fillRect(0, 0, this.el_canvas.width, this.el_canvas.height);
@@ -92,8 +92,12 @@ export default class BookMark {
 	 * @param w
 	 * @param h
 	 * @param radius
+	 * @param rt
+	 * @param lt
+	 * @param rb
+	 * @param lb
 	 */
-	roundRect(x, y, w, h, radius) {
+	roundRect(x, y, w, h, radius, rt, lt, rb, lb) {
 		let r = x + w;
 		let b = y + h;
 		this.el_ctx.beginPath();
@@ -152,11 +156,16 @@ export default class BookMark {
 	 * @param w
 	 * @param h
 	 * @param radius
+	 * @param rt
+	 * @param lt
+	 * @param rb
+	 * @param lb
 	 */
-	chamferedRect(x, y, w, h, radius) {
+	chamferedRect(x, y, w, h, radius, rt, lt, rb, lb) {
 
 		let r = x + w;
 		let b = y + h;
+
 		this.el_ctx.moveTo(x + radius, y);
 
 		this.el_ctx.lineTo(r - radius, y);
