@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import '../scss/_custom.scss';
-import dat from '../node_modules/dat.gui/build/dat.gui.js'
+import dat from 'dat.gui'
 import BookMark from '../src/Bookmark.class'
 
 const NUMBER_OF_LAYERS = 3;
