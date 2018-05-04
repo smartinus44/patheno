@@ -34,7 +34,7 @@ window.onload = function () {
 				// Initial arbitrary width value.
 				let width = 295;
 				let _bookMark = new BookMark(i, 1063, width, _dataset[i - 1].background[0], _.random(1, 30), null, null,
-					false, _.random(1, 5), true, _dataset[i - 1], _.random(1, (width / 2)));
+					false, _.random(1, 5), true, _dataset[i - 1], _.random(1, (width / 2)), true, false, false, false);
 				let _folder = _gui.addFolder('Example with dataset ' + i);
 
 				/**
@@ -83,7 +83,7 @@ window.onload = function () {
 				 * Draw bookmark with chamfer or not.
 				 * @param el
 				 */
-				function redrawHasChamfer(el) {
+				function redrawChamfer(el) {
 					_bookMark.el_canvas.chamfer = el;
 					_bookMark.el_canvas.width = _bookMark.width;
 					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
@@ -100,7 +100,6 @@ window.onload = function () {
 					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
 					_bookMark.drawTriangles();
 				}
-
 
 				/**
 				 * Change the pattern of the even triangle.
@@ -132,16 +131,64 @@ window.onload = function () {
 					_bookMark.drawTriangles();
 				}
 
+				/**
+				 * Enable the right top chamfer.
+				 * @param el
+				 */
+				function redrawChamferRt(el) {
+					_bookMark.el_canvas.chamferRt = el;
+					_bookMark.el_canvas.width = _bookMark.width;
+					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
+					_bookMark.drawTriangles();
+				}
+
+				/**
+				 * Enable the right bottom chamfer.
+				 * @param el
+				 */
+				function redrawChamferRb(el) {
+					_bookMark.el_canvas.chamferRb = el;
+					_bookMark.el_canvas.width = _bookMark.width;
+					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
+					_bookMark.drawTriangles();
+				}
+
+				/**
+				 * Enable the left top chamfer.
+				 * @param el
+				 */
+				function redrawChamferLt(el) {
+					_bookMark.el_canvas.chamferLt = el;
+					_bookMark.el_canvas.width = _bookMark.width;
+					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
+					_bookMark.drawTriangles();
+				}
+
+				/**
+				 * Enable the left bottom chamfer.
+				 * @param el
+				 */
+				function redrawChamferLb(el) {
+					_bookMark.el_canvas.chamferLb = el;
+					_bookMark.el_canvas.width = _bookMark.width;
+					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
+					_bookMark.drawTriangles();
+				}
+
 				// Attach param instance to the bookmark.
 				_folder.add(_bookMark, 'numberOfPairOfTriangles', 1, 30, 1).onFinishChange(redrawNumberOfTriangles);
 				_folder.add(_bookMark, 'columnsPerWidth', 1, 5, 1).onFinishChange(redrawColumnsPerWidth);
 				_folder.add(_bookMark, 'height', 100, 1200, 0.5).onFinishChange(redrawHeight);
-				_folder.add(_bookMark, 'width', 100, 335, 0.5).onFinishChange(redrawWidth);
+				_folder.add(_bookMark, 'width', 150, 300, 0.5).onFinishChange(redrawWidth);
 				_folder.add(_bookMark, 'backgroundPattern', _bookMark.patterns['background']).onFinishChange(redrawBackgroundPattern);
 				_folder.add(_bookMark, 'triangleEvenPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleEvenPattern);
 				_folder.add(_bookMark, 'triangleOddPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleOddPattern);
 				_folder.add(_bookMark, 'showStrokes').onFinishChange(redrawStrokes);
-				_folder.add(_bookMark, 'chamfer', 0, (_bookMark.el_canvas.width / 2), 1).onFinishChange(redrawHasChamfer);
+				_folder.add(_bookMark, 'chamfer', 0, (_bookMark.el_canvas.width / 2), 1).onFinishChange(redrawChamfer);
+				_folder.add(_bookMark, 'chamferRt').onFinishChange(redrawChamferRt);
+				_folder.add(_bookMark, 'chamferRb').onFinishChange(redrawChamferRb);
+				_folder.add(_bookMark, 'chamferLt').onFinishChange(redrawChamferLt);
+				_folder.add(_bookMark, 'chamferLb').onFinishChange(redrawChamferLb);
 
 				// Enables you to save the settings in the localstorage.
 				_gui.remember(_bookMark);
@@ -159,7 +206,11 @@ window.onload = function () {
 				1,
 				true,
 				_dataset[0],
-				10
+				10,
+				false,
+				false,
+				false,
+				false
 			);
 		}
 	};

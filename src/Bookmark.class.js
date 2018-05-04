@@ -19,15 +19,23 @@ export default class BookMark {
 	 * @param _can_download
 	 * @param _patterns
 	 * @param _chamfer
+	 * @param _chamferRt
+	 * @param _chamferRb
+	 * @param _chamferLt
+	 * @param _chamferLb
 	 */
 	constructor(_uniqueId, _height, _width, _background, _numberOfpairs, _evenPattern, _oddPattern, _showStrokes,
-				_columns_per_width, _can_download, _patterns, _chamfer) {
+				_columns_per_width, _can_download, _patterns, _chamfer, _chamferRt, _chamferRb, _chamferLt, _chamferLb) {
 		// Work with textures.
 		this.images = [];
 		this.numberOfPairOfTriangles = 3;
 		this.patterns = _patterns;
 		this.height = _height;
 		this.width = _width;
+		this.chamferRt = _chamferRt;
+		this.chamferRb = _chamferRb;
+		this.chamferLt = _chamferLt;
+		this.chamferLb = _chamferLb;
 
 		if (!_background)
 			this.backgroundPattern = this.getRandomPattern('background');
@@ -78,7 +86,16 @@ export default class BookMark {
 	setBackgroundPattern(el) {
 		this.el_ctx.fillStyle = this.images[el];
 		if (this.chamfer > 0) {
-			this.chamferedRect(0, 0, this.el_canvas.width, this.el_canvas.height, this.chamfer, false, false, false, false);
+			this.chamferedRect(
+				0,
+				0,
+				this.el_canvas.width,
+				this.el_canvas.height,
+				this.chamfer,
+				this.chamferRt,
+				this.chamferRb,
+				this.chamferLt,
+				this.chamferLb);
 			this.el_ctx.fill();
 		} else {
 			this.el_ctx.fillRect(0, 0, this.el_canvas.width, this.el_canvas.height);
@@ -168,17 +185,34 @@ export default class BookMark {
 
 		this.el_ctx.moveTo(x + radius, y);
 
-		this.el_ctx.lineTo(r - radius, y);
-		this.el_ctx.lineTo(r, y + radius);
+		if (rt) {
+			this.el_ctx.lineTo(r - radius, y);
+			this.el_ctx.lineTo(r, y + radius);
+		} else {
+			this.el_ctx.lineTo(r - radius, y);
+			this.el_ctx.lineTo(r, y);
+		}
 
-		this.el_ctx.lineTo(r, y + h - radius);
-		this.el_ctx.lineTo(r - radius, b);
+		if (lb) {
+			this.el_ctx.lineTo(r, y + h - radius);
+			this.el_ctx.lineTo(r - radius, b);
+		} else {
+			this.el_ctx.lineTo(r, y + h);
+		}
 
-		this.el_ctx.lineTo(x + radius, b);
-		this.el_ctx.lineTo(x, b - radius);
+		if (lt) {
+			this.el_ctx.lineTo(x + radius, b);
+			this.el_ctx.lineTo(x, b - radius);
+		} else {
+			this.el_ctx.lineTo(x, b);
+		}
 
-		this.el_ctx.lineTo(x, y + radius);
-		this.el_ctx.lineTo(x + radius, y);
+		if (rb) {
+			this.el_ctx.lineTo(x, y + radius);
+			this.el_ctx.lineTo(x + radius, y);
+		} else {
+			this.el_ctx.lineTo(x, y);
+		}
 	}
 
 	/**
@@ -197,6 +231,10 @@ export default class BookMark {
 		_canvas.height = this.height;
 		_canvas.showStrokes = this.showStrokes;
 		_canvas.chamfer = this.chamfer;
+		_canvas.chamferRt = this.chamferRt;
+		_canvas.chamferRb = this.chamferRb;
+		_canvas.chamferLt = this.chamferLt;
+		_canvas.chamferLb = this.chamferLb;
 		_canvas.backgroundPatternTriangleEven = this.triangleEvenPattern;
 		_canvas.backgroundPatternTriangleOdd = this.triangleOddPattern;
 		zone.appendChild(_canvas);
