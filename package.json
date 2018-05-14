@@ -23,6 +23,7 @@
     "bootstrap": "^4.1.0",
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.9",
+    "eslint": "^4.19.1",
     "node-fetch": "^2.1.2",
     "node-sass": "^4.7.2",
     "popper": "^1.0.1",
