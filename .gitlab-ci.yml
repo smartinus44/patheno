@@ -10,3 +10,9 @@ test:
   script:
     - npm set progress=true
     - node_modules/eslint/bin/eslint src/**/*.js
+
+deploy_job:
+  stage: deploy
+  script:
+  - make deploy
+  when: manual
