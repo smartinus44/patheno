@@ -1,0 +1,13 @@
+stages:
+  - test
+  - build
+  - deploy
+  
+  
+test:
+  stage: test
+  only:
+    - develop
+  script:
+    - npm set progress=true
+    - node_modules/.bin/eslint app/**/*.js
