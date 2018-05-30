@@ -1,7 +1,10 @@
-{
+  {
   "name": "geometricanvas",
   "version": "1.0.0",
-  "description": "",
+  "description": "Lets's play with geometric patterns to make bookmarks.",
+  "engines": {
+    "node": "6"
+  },
   "main": "script.js",
   "dependencies": {
     "dat.gui": "^0.7.0",
@@ -38,6 +41,7 @@
     "webpack-dev-server": "^3.1.3"
   },
   "scripts": {
+    "start": "node server.js",
     "server": "pm2 start server.js --watch --name server",
     "devclient": "cross-env NODE_ENV=development pm2 start webpack-dev-server -f --name devclient -- --open --hot",
     "dev": "npm run server | npm run devclient",
