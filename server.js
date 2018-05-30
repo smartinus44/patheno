@@ -29,4 +29,4 @@ app.get('/patterns/:id', function (req, res, next) {
 
 });
 
-app.listen(3000, () => console.log('Partheno server listening on port 3000!'));
+app.listen(80, () => console.log('Partheno server listening on port 80!'));

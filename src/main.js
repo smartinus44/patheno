@@ -13,7 +13,7 @@ window.onload = function () {
 		_gui.width = 380;
 
 		// Get the datasets from the server.
-		fetch('http://parthenojs.com:3000/patterns')
+		fetch('http://parthenojs.com/patterns')
 			.then(dataset => dataset.json())
 			.then(json => _process(json)
 			).catch(function (ex) {
