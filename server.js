@@ -1,5 +1,5 @@
 //---ExpressJS
-console.log('Initializing Express...').
+console.log('Initializing Express...');
 const express = require('express');
 const app = express();
 app.disable('x-powered-by');
