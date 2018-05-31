@@ -11,7 +11,7 @@ app.use(function (err, req, res, next) {
 
 let _patterns_dataset = require('./src/dataset.json');
 
-app.get('/', (req, res) => res.send('Hello home !'));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/dist/index.html'));
 
 app.get('/patterns', function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
@@ -35,6 +35,6 @@ app.get('/patterns/:id', function (req, res, next) {
 
 
 //---Start listening
-var port = 8081;
+var port = process.env.PORT || 8081;
 app.listen(port);
 console.log('Partheno server  started on port: '+port);
