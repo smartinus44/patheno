@@ -13,7 +13,7 @@ window.onload = function () {
 		_gui.width = 380;
 
 		// Get the datasets from the server.
-		fetch('http://localhost/patterns')
+		fetch('http://localhost:5080/patterns')
 			.then(dataset => dataset.json())
 			.then(json => _process(json)
 			).catch(function (ex) {

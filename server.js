@@ -35,6 +35,6 @@ app.get('/patterns/:id', function (req, res, next) {
 
 
 //---Start listening
-var port = 80;
+var port = 5080;
 app.listen(port);
 console.log('Partheno server  started on port: '+port);
