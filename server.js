@@ -1,6 +1,8 @@
 //---ExpressJS
 console.log('Initializing Express...');
 const express = require('express');
+const path = require('path');
+
 const app = express();
 app.disable('x-powered-by');
 
@@ -11,7 +13,7 @@ app.use(function (err, req, res, next) {
 
 let _patterns_dataset = require('./src/dataset.json');
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/dist/index.html'));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/dist/index.html')));
 
 app.get('/patterns', function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");

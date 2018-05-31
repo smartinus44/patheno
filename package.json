@@ -1,4 +1,4 @@
-  {
+{
   "name": "geometricanvas",
   "version": "1.0.0",
   "description": "Lets's play with geometric patterns to make bookmarks.",
@@ -8,6 +8,7 @@
     "jquery": "^3.3.1",
     "lodash": "^4.17.5",
     "node-fetch": "^2.1.2",
+    "path": "^0.12.7",
     "popper.js": "^1.12.9",
     "tether": "^1.4.3"
   },
@@ -23,10 +24,9 @@
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.9",
     "eslint": "^4.19.1",
-    "node-fetch": "^2.1.2",
     "node-sass": "^4.7.2",
     "popper": "^1.0.1",
-    "postcss-loader": "^2.1.4",
+    "postcss-loader": "^2.1.5",
     "precss": "^3.1.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.20.3",
