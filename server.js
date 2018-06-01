@@ -11,6 +11,9 @@ app.use(function (err, req, res, next) {
 	res.status(500).send('Something broke!');
 });
 
+//app.use(express.static(__dirname + '/dist' ));
+
+
 let _patterns_dataset = require('./src/dataset.json');
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/dist/index.html')));
