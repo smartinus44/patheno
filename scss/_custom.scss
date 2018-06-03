@@ -6,23 +6,34 @@ $third-color: #666666;
 
 body {
 
+  background-color: $primary-color;
+  color: whitesmoke;
+  margin: 10px 0;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas,
+  "Liberation Mono",
+  "Courier New",
+  monospace;
+
   h1, h2 {
     text-align: center;
     width: 100%;
     margin: 3px 10px;
+    max-width: 1280px;
   }
 
   h1 {
     border: 4px double white;
   }
 
-  a { 
+  a {
+
+    text-decoration: none;
+    color: white;
+    
     &.btn { 
       &.btn-dark {
         background: black;
-        color: white;
         padding: 10px;
-        text-decoration: none;
         font-size: 11px;
       }
     }
@@ -42,6 +53,7 @@ body {
     padding: 10px;
     min-height: 462px;
     width: 100%;
+    align-items: center;
   }
 
   aside {
@@ -54,7 +66,7 @@ body {
     width:300px;
   }
 
-  #results {
+  .main {
     display: flex;
     justify-content: center;
     margin: 10px 0;
@@ -70,38 +82,11 @@ body {
   }
 
   .row {
-    &.text-center {
-      margin: 0 10px 0 0;
-    }
+    margin: 0 10px 0 0;
   }
-
-  .help {
-    padding: 10px 0;
-
-    > img {
-      margin-right: 10px;
-      height: 120px;
-    }
-  }
-  .jumbotron {
-    padding-top: 6px;
-    > .jumbotron-heading {
-      padding: 10px;
-      border-bottom: 1px solid grey;
-      border-top: 1px solid grey;
-      background-color: grey;
-    }
-  }
-
-  background-color: $primary-color;
-  color: whitesmoke;
-  margin: 10px 0;
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas,
-  "Liberation Mono",
-  "Courier New",
-  monospace;
 
   .canvas-container {
+    display: flex;
     background-color: $secondary-color;
   }
 
@@ -121,6 +106,4 @@ body {
     line-height: 60px; /* Vertically center the text there */
     background-color: $primary-color;
   }
-
-
 }

@@ -10,11 +10,11 @@
 <div class="container">
 	<section>
 		<h1>Partheno.JS</h1>
-		<h2>Lets's play with geometric patterns to make bookmarks</h2>
-		<div id="results">
+		<h2>Lets's play with geometric patterns to design the front of a bookmark.</h2>
+		<div class="main">
 			<aside>
 				<p>
-					Setup your own bookmarks!<br/><br/>Build inlay frieze with different wood species.<br/><hr />You are free to
+					Partheno.js has originally been thought to permit you to setup your own wooden bookmarks!<br/><br/>Build inlay frieze with different wood species.<br/><hr />You are free to
 					adjust:
 				</p>
 				<ul>
@@ -30,12 +30,18 @@
 				<p>Use the toolbox at the right to configure your own or just press F5 to refresh the three displayed examples.</p>
 				<hr />
 				<em>Here are a few examples demonstrating the library &rightarrow;</em>
-			</aside>	<div class="col-lg-4 panel" id="zone-1"></div>
-			<div class="col-lg-4 panel" id="zone-2"></div>
-			<div class="col-lg-4 panel" id="zone-3"></div>
+
+				<h3>Why partheno?<h3>
+				<p>It comes from the ancient monument &laquo;The parthenon&raquo;. The building used to house a large frieze and was erected through ingenious mathematical procedures.</p>
+			</aside>	
+			<div class='canvas-container' id="results">
+				<div class="panel" id="zone-1"></div>
+				<div class="panel" id="zone-2"></div>
+				<div class="panel" id="zone-3"></div>
+			</div>
 		</div>
 		<br/>
-		<div class="row text-center">
+		<div class="row">
 			<div id="zone-demo" style="display: none;">
 			</div>
 		</div>
@@ -43,7 +49,8 @@
 </div>
 <footer class="footer">
 	<div class="container">
-		<span class="text-muted">&copy; 2018 Partheno.JS</span>
+		<span class="text-muted">&copy; 2018 Partheno.JS - <a href="mailto:contact-AT-parthenojs.com?subject=Contact&body=Thank you for using partheno.js !">Contact-us</a>
+</span>
 	</div>
 </footer>
 <script src="main.min.js"></script>
