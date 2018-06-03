@@ -12,12 +12,8 @@ window.onload = function () {
 		_gui.useLocalStorage = true;
 		_gui.width = 380;
 
-		var port = process.env.PORT || 8081;
-
-		console.log(process);
-
 		// Get the datasets from the server.
-		fetch('http://localhost:' + port + '/patterns')
+		fetch('/patterns')
 			.then(dataset => dataset.json())
 			.then(json => _process(json)
 			).catch(function (ex) {
