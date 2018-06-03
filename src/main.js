@@ -14,6 +14,8 @@ window.onload = function () {
 
 		var port = process.env.PORT || 8081;
 
+		console.log(process);
+
 		// Get the datasets from the server.
 		fetch('http://localhost:' + port + '/patterns')
 			.then(dataset => dataset.json())
