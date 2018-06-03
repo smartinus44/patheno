@@ -1,4 +1,4 @@
-@import "~bootstrap/scss/bootstrap";
+//@import "~bootstrap/scss/bootstrap";
 
 $primary-color: #343a40;
 $secondary-color: #999999;
@@ -8,32 +8,55 @@ body {
 
   h1, h2 {
     text-align: center;
+    width: 100%;
+    margin: 3px 10px;
   }
 
   h1 {
     border: 4px double white;
   }
 
+  a { 
+    &.btn { 
+      &.btn-dark {
+        background: black;
+        color: white;
+        padding: 10px;
+        text-decoration: none;
+        font-size: 11px;
+      }
+    }
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+
   section {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     background: #333;
     padding: 10px;
     min-height: 462px;
+    width: 100%;
   }
 
   aside {
-    position: absolute;
-    left: 10px;
-    width: 300px;
+    text-align: left;
     padding: 10px;
     top: 10px;
     background-color: firebrick;
     font-size: 14px;
     border-left: 10px solid black;
+    width:300px;
   }
 
   #results {
     display: flex;
-    text-align: center;
+    justify-content: center;
     margin: 10px 0;
   }
 
@@ -69,6 +92,7 @@ body {
       background-color: grey;
     }
   }
+
   background-color: $primary-color;
   color: whitesmoke;
   margin: 10px 0;
@@ -82,8 +106,10 @@ body {
   }
 
   .panel {
+    text-align: center;
     background: $third-color;
     padding: 10px;
+    width: 320px;
   }
 
   .footer {
@@ -96,8 +122,5 @@ body {
     background-color: $primary-color;
   }
 
-  .dg li.save-row .button.gears {
-    height: 16px;
-    width: 16px;
-  }
+
 }
