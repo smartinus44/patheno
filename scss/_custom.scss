@@ -46,14 +46,19 @@ $third-color: #666666;
 @media only screen and (min-width: 600px) {
 
   body {
-    .main {
-      flex-wrap: wrap;
-    }
 
-    h1, H2 {
-      margin-left: 10px;
-    } 
+  .container {
+    margin-left: 10px;
   }
+
+  .main {
+    flex-wrap: wrap;
+  }
+
+  h1, H2 {
+    margin-left: 10px;
+  } 
+}
   
   /* For tablets: */
   .col-s-1 {width: 8.33%;}
@@ -123,7 +128,6 @@ body {
   h1, h2 {
     text-align: center;
     width: 100%;
-    max-width: 1200px;
   }
 
   h1 {
