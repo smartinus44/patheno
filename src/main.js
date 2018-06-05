@@ -69,15 +69,6 @@ window.onload = function () {
 					_bookMark.drawTriangles();
 				}
 
-				/**
-				 * Change the width of the canvas.
-				 * @param el
-				 */
-				function redrawWidth(el) {
-					_bookMark.el_canvas.width = el;
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
-				}
 
 				/**
 				 * Draw bookmark with chamfer or not.
@@ -122,13 +113,23 @@ window.onload = function () {
 				}
 
 				/**
+				 * Change the width of the canvas.
+				 * @param el
+				 */
+				function redrawWidth(el) {
+					_bookMark.el_canvas.width = el;
+					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
+					_bookMark.drawTriangles();
+				}
+
+				/**
 				 * Draw the background pattern.
 				 * @param el
 				 */
 				function redrawBackgroundPattern(el) {
 					_bookMark.el_ctx.fillStyle = _bookMark.images[el];
 					_bookMark.el_ctx.fillRect(0, 0, _bookMark.el_canvas.width, _bookMark.el_canvas.height);
-					_bookMark.drawTriangles();
+					redrawWidth(_bookMark.el_canvas.width);
 				}
 
 				/**

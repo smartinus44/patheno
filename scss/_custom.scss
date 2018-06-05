@@ -4,21 +4,56 @@ $third-color: #666666;
 
 /* For mobile phones: */
 [class*="col-"] {
-    width: 100%;
+  width: 100%;
 }
 
-.col-1 {width: 8.33%;}
-.col-2 {width: 16.66%;}
-.col-3 {width: 25%;}
-.col-4 {width: 33.33%;}
-.col-5 {width: 41.66%;}
-.col-6 {width: 50%;}
-.col-7 {width: 58.33%;}
-.col-8 {width: 66.66%;}
-.col-9 {width: 75%;}
-.col-10 {width: 83.33%;}
-.col-11 {width: 91.66%;}
-.col-12 {width: 100%;}
+.col-1 {
+  width: 8.33%;
+}
+
+.col-2 {
+  width: 16.66%;
+}
+
+.col-3 {
+  width: 25%;
+}
+
+.col-4 {
+  width: 33.33%;
+}
+
+.col-5 {
+  width: 41.66%;
+}
+
+.col-6 {
+  width: 50%;
+}
+
+.col-7 {
+  width: 58.33%;
+}
+
+.col-8 {
+  width: 66.66%;
+}
+
+.col-9 {
+  width: 75%;
+}
+
+.col-10 {
+  width: 83.33%;
+}
+
+.col-11 {
+  width: 91.66%;
+}
+
+.col-12 {
+  width: 100%;
+}
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
@@ -26,71 +61,119 @@ $third-color: #666666;
 }
 
 @media only screen and (max-width: 768px) {
-    /* For mobile phones: */
-    [class*="col-"] {
-        width: 100%;
+  /* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;
+  }
+
+  body {
+    .main {
+      flex-wrap: wrap;
     }
 
-    body {
-      .main {
-        flex-wrap: wrap;
-      }
-
-      h1, H2 {
-        margin-left: 10px;
-      } 
+    h1, H2 {
+      margin-left: 10px;
     }
   }
+}
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
 
   body {
 
-  .container {
-    margin-left: 10px;
+    .container {
+      margin-left: 10px;
+    }
+
+    .main {
+      flex-wrap: wrap;
+    }
+
+    h1, H2 {
+      margin-left: 10px;
+    }
   }
 
-  .main {
-    flex-wrap: wrap;
-  }
-
-  h1, H2 {
-    margin-left: 10px;
-  } 
-}
-  
   /* For tablets: */
-  .col-s-1 {width: 8.33%;}
-  .col-s-2 {width: 16.66%;}
-  .col-s-3 {width: 25%;}
-  .col-s-4 {width: 33.33%;}
-  .col-s-5 {width: 41.66%;}
-  .col-s-6 {width: 50%;}
-  .col-s-7 {width: 58.33%;}
-  .col-s-8 {width: 66.66%;}
-  .col-s-9 {width: 75%;}
-  .col-s-10 {width: 83.33%;}
-  .col-s-11 {width: 91.66%;}
-  .col-s-12 {width: 100%;}
-} 
+  .col-s-1 {
+    width: 8.33%;
+  }
+  .col-s-2 {
+    width: 16.66%;
+  }
+  .col-s-3 {
+    width: 25%;
+  }
+  .col-s-4 {
+    width: 33.33%;
+  }
+  .col-s-5 {
+    width: 41.66%;
+  }
+  .col-s-6 {
+    width: 50%;
+  }
+  .col-s-7 {
+    width: 58.33%;
+  }
+  .col-s-8 {
+    width: 66.66%;
+  }
+  .col-s-9 {
+    width: 75%;
+  }
+  .col-s-10 {
+    width: 83.33%;
+  }
+  .col-s-11 {
+    width: 91.66%;
+  }
+  .col-s-12 {
+    width: 100%;
+  }
+}
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
 
   /* For desktop: */
-  .col-1 {width: 8.33%;}
-  .col-2 {width: 16.66%;}
-  .col-3 {width: 25%;}
-  .col-4 {width: 33.33%;}
-  .col-5 {width: 41.66%;}
-  .col-6 {width: 50%;}
-  .col-7 {width: 58.33%;}
-  .col-8 {width: 66.66%;}
-  .col-9 {width: 75%;}
-  .col-10 {width: 83.33%;}
-  .col-11 {width: 91.66%;}
-  .col-12 {width: 100%;}
+  .col-1 {
+    width: 8.33%;
+  }
+  .col-2 {
+    width: 16.66%;
+  }
+  .col-3 {
+    width: 25%;
+  }
+  .col-4 {
+    width: 33.33%;
+  }
+  .col-5 {
+    width: 41.66%;
+  }
+  .col-6 {
+    width: 50%;
+  }
+  .col-7 {
+    width: 58.33%;
+  }
+  .col-8 {
+    width: 66.66%;
+  }
+  .col-9 {
+    width: 75%;
+  }
+  .col-10 {
+    width: 83.33%;
+  }
+  .col-11 {
+    width: 91.66%;
+  }
+  .col-12 {
+    width: 100%;
+  }
 
   body {
 
@@ -103,17 +186,22 @@ $third-color: #666666;
     }
 
     aside {
-      width: 300px!important;
+      width: 300px !important;
     }
   }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {} 
+@media only screen and (min-width: 992px) {
+
+  .container {
+    margin-left: 0;
+  }
+}
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {}
-
+@media only screen and (min-width: 1200px) {
+}
 
 body {
 
@@ -125,21 +213,22 @@ body {
   "Courier New",
   monospace;
 
+  h1 {
+    text-transform: uppercase;
+    font-size: 3em;
+  }
+
   h1, h2 {
     text-align: center;
     width: 100%;
-  }
-
-  h1 {
-    border: 4px double white;
   }
 
   a {
 
     text-decoration: none;
     color: white;
-    
-    &.btn { 
+
+    &.btn {
       &.btn-dark {
         background: black;
         padding: 10px;
@@ -172,7 +261,7 @@ body {
     background-color: firebrick;
     font-size: 14px;
     border-left: 10px solid black;
-    width:300px;
+    width: 300px;
   }
 
   .main {
@@ -198,7 +287,7 @@ body {
   .canvas-container {
     display: flex;
     background-color: $secondary-color;
-    overflow: scroll;
+    overflow: hidden;
   }
 
   .panel {
