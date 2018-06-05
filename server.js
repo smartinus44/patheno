@@ -2,7 +2,6 @@
 console.log('Initializing Express...');
 const express = require('express');
 const path = require('path');
-
 const app = express();
 app.disable('x-powered-by');
 
@@ -35,9 +34,6 @@ app.get('/patterns/:id', function (req, res, next) {
 	}
 
 });
-
-//app.listen(3000, () => console.log('Partheno server listening on port 3000!'));
-
 
 //---Start listening
 var port = process.env.PORT || 8081;
