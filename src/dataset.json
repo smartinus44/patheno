@@ -1,47 +1,59 @@
 [
   {
+    "path": "images/dataset/1/",
     "background": [
-      "images/dataset/1/bubimga.jpg",
-      "images/dataset/1/teck.jpg",
-      "images/dataset/1/sycomore.jpg",
-      "images/dataset/1/etre.jpg"
+      "bubimga.jpg",
+      "teck.jpg",
+      "sycomore.jpg",
+      "etre.jpg",
+      [
+        {
+          "aniegré": [
+            "aniegré_top_left.jpg",
+            "aniegré_top_right.jpg",
+            "aniegré_bottom_left.jpg",
+            "aniegré_bottom_right.jpg"
+          ]
+        }
+      ]
     ],
     "triangles": [
-      "images/dataset/1/eucalyptus.jpg",
-      "images/dataset/1/chene.jpg",
-      "images/dataset/1/aniegré.jpg",
-      "images/dataset/1/merisier.jpg",
-      "images/dataset/1/noyer.jpg"
+      "eucalyptus.jpg",
+      "chene.jpg",
+      "merisier.jpg",
+      "noyer.jpg"
     ]
   },
   {
+    "path": "images/dataset/2/",
     "background": [
-      "images/dataset/2/FreneJapon.jpg",
-      "images/dataset/2/ErableUS.jpg",
-      "images/dataset/2/Sycomore.jpg",
-      "images/dataset/2/cheneLargeVanille.jpg"
+      "FreneJapon.jpg",
+      "ErableUS.jpg",
+      "Sycomore.jpg",
+      "cheneLargeVanille.jpg"
     ],
     "triangles": [
-      "images/dataset/2/Poirier.jpg",
-      "images/dataset/2/Citronnier.jpg",
-      "images/dataset/2/Cypres.jpg",
-      "images/dataset/2/EtreBlanc.jpg",
-      "images/dataset/2/MerisierDeFrance.jpg"
+      "Poirier.jpg",
+      "Citronnier.jpg",
+      "Cypres.jpg",
+      "EtreBlanc.jpg",
+      "MerisierDeFrance.jpg"
     ]
   },
   {
+    "path": "images/dataset/3/",
     "background": [
-      "images/dataset/3/Frene.jpg",
-      "images/dataset/3/Erable.jpg",
-      "images/dataset/3/Sycomore.jpg",
-      "images/dataset/3/Chene.jpg"
+      "Frene.jpg",
+      "Erable.jpg",
+      "Sycomore.jpg",
+      "Chene.jpg"
     ],
     "triangles": [
-      "images/dataset/3/Poirier.jpg",
-      "images/dataset/3/Citronnier.jpg",
-      "images/dataset/3/Cypres.jpg",
-      "images/dataset/3/Etre.jpg",
-      "images/dataset/3/Merisier.jpg"
+      "Poirier.jpg",
+      "Citronnier.jpg",
+      "Cypres.jpg",
+      "Etre.jpg",
+      "Merisier.jpg"
     ]
   }
 ]

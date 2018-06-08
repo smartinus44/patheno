@@ -127,7 +127,7 @@ window.onload = function () {
 				 * @param el
 				 */
 				function redrawBackgroundPattern(el) {
-					_bookMark.el_ctx.fillStyle = _bookMark.images[el];
+					_bookMark.el_ctx.fillStyle = _bookMark.images[_bookMark.patterns['path'] + el];
 					_bookMark.el_ctx.fillRect(0, 0, _bookMark.el_canvas.width, _bookMark.el_canvas.height);
 					redrawWidth(_bookMark.el_canvas.width);
 				}
@@ -176,12 +176,17 @@ window.onload = function () {
 					_bookMark.drawTriangles();
 				}
 
+				// Specific patterns are excluded.
+				let filtered = _bookMark.patterns['background'].filter(function (pattern) {
+					return !Array.isArray(pattern);
+				});
+
 				// Attach param instance to the bookmark.
 				_folder.add(_bookMark, 'numberOfPairOfTriangles', 1, 30, 1).onFinishChange(redrawNumberOfTriangles);
 				_folder.add(_bookMark, 'columnsPerWidth', 1, 5, 1).onFinishChange(redrawColumnsPerWidth);
 				_folder.add(_bookMark, 'height', 100, 1200, 0.5).onFinishChange(redrawHeight);
 				_folder.add(_bookMark, 'width', 150, 300, 0.5).onFinishChange(redrawWidth);
-				_folder.add(_bookMark, 'backgroundPattern', _bookMark.patterns['background']).onFinishChange(redrawBackgroundPattern);
+				_folder.add(_bookMark, 'backgroundPattern', filtered).onFinishChange(redrawBackgroundPattern);
 				_folder.add(_bookMark, 'triangleEvenPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleEvenPattern);
 				_folder.add(_bookMark, 'triangleOddPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleOddPattern);
 				_folder.add(_bookMark, 'showStrokes').onFinishChange(redrawStrokes);

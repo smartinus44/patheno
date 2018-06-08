@@ -27,6 +27,7 @@ export default class BookMark {
 	constructor(_uniqueId, _height, _width, _background, _numberOfpairs, _evenPattern, _oddPattern, _showStrokes,
 				_columns_per_width, _can_download, _patterns, _chamfer, _chamferRt, _chamferRb, _chamferLt, _chamferLb) {
 		// Work with textures.
+		this.uniqueId = _uniqueId;
 		this.images = [];
 		this.numberOfPairOfTriangles = 3;
 		this.patterns = _patterns;
@@ -76,7 +77,7 @@ export default class BookMark {
 	 */
 	getRandomPattern(zone) {
 		let value = Math.floor(Math.random() * this.patterns[zone].length);
-		return this.patterns[zone][value];
+		return this.patterns['path'] + this.patterns[zone][value];
 	}
 
 	/**
@@ -260,16 +261,22 @@ export default class BookMark {
 	initPatterns(zone) {
 		let _imagesLoading = this.patterns[zone].length;
 		let _this = this;
+		let path = this.patterns['path'];
 		this.patterns[zone].forEach(function (pattern) {
-			let elpattern = encodeURI(pattern);
-			let image = new Image();
-			image.onload = function () {
-				_this.images[elpattern] = _this.el_ctx.createPattern(image, 'repeat');
-				--_imagesLoading;
-				if (_imagesLoading === 0)
-					_this._onPatternsLoaded();
-			};
-			image.src = elpattern;
+
+			if (Array.isArray(pattern)) {
+
+			} else {
+				let elpattern = encodeURI(path + pattern);
+				let image = new Image();
+				image.onload = function () {
+					_this.images[elpattern] = _this.el_ctx.createPattern(image, 'repeat');
+					--_imagesLoading;
+					if (_imagesLoading === 0)
+						_this._onPatternsLoaded();
+				};
+				image.src = elpattern;
+			}
 		});
 	}
 
@@ -311,6 +318,7 @@ export default class BookMark {
 		if (this.el_canvas.chamfer > 0) {
 			this.el_ctx.clip();
 		}
+
 		let _triangle_height;
 		let _column_width = this.el_canvas.width / this.columnsPerWidth;
 		let _half_width = _column_width / 2;
