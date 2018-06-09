@@ -2,58 +2,135 @@
   {
     "path": "images/dataset/1/",
     "background": [
-      "sycomore.jpg",
-      "etre.jpg",
-      "noyer.jpg",
-      [
-        {
-          "aniegré": [
-            "aniegré_top_left.jpg",
-            "aniegré_top_right.jpg",
-            "aniegré_bottom_left.jpg",
-            "aniegré_bottom_right.jpg"
-          ]
-        }
-      ]
+      {
+        "title": "Sycomore",
+        "data": "sycomore.jpg"
+      },
+      {
+        "title": "Etre",
+        "data": "etre.jpg"
+      },
+      {
+        "title": "Noyer",
+        "data": "noyer.jpg"
+      },
+      {
+        "title": "Aniegré",
+        "data": [
+          "aniegré_top_left.jpg",
+          "aniegré_top_right.jpg",
+          "aniegré_bottom_left.jpg",
+          "aniegré_bottom_right.jpg"
+        ]
+      }
     ],
     "triangles": [
-      "eucalyptus.jpg",
-      "bubimga.jpg",
-      "teck.jpg",
-      "chene.jpg",
-      "merisier.jpg"
+      {
+        "title": "Eucalyptus",
+        "data": "eucalyptus.jpg"
+      },
+      {
+        "title": "Bubimga",
+        "data": "bubimga.jpg"
+      },
+      {
+        "title": "Teck",
+        "data": "teck.jpg"
+      },
+      {
+        "title": "Chene",
+        "data": "chene.jpg"
+      },
+      {
+        "title": "Merisier",
+        "data": "merisier.jpg"
+      }
     ]
   },
   {
     "path": "images/dataset/2/",
     "background": [
-      "FreneJapon.jpg",
-      "ErableUS.jpg",
-      "Sycomore.jpg",
-      "cheneLargeVanille.jpg"
+      {
+        "title": "Frene du Japon",
+        "data": "FreneJapon.jpg"
+      },
+      {
+        "title": "Erable US",
+        "data": "ErableUS.jpg"
+      },
+      {
+        "title": "Sycomore",
+        "data": "Sycomore.jpg"
+      },
+      {
+        "title": "Chene Vanille",
+        "data": "cheneLargeVanille.jpg"
+      }
     ],
     "triangles": [
-      "Poirier.jpg",
-      "Citronnier.jpg",
-      "Cypres.jpg",
-      "EtreBlanc.jpg",
-      "MerisierDeFrance.jpg"
+      {
+        "title": "Poirier",
+        "data": "Poirier.jpg"
+      },
+      {
+        "title": "Citronnier",
+        "data": "Citronnier.jpg"
+      },
+      {
+        "title": "Cypres",
+        "data": "Cypres.jpg"
+      },
+      {
+        "title": "Etre blanc",
+        "data": "EtreBlanc.jpg"
+      },
+      {
+        "title": "Merisier de France",
+        "data": "MerisierDeFrance.jpg"
+      }
     ]
   },
   {
     "path": "images/dataset/3/",
     "background": [
-      "Frene.jpg",
-      "Erable.jpg",
-      "Sycomore.jpg",
-      "Chene.jpg"
+      {
+        "title": "Frene",
+        "data": "Frene.jpg"
+      },
+      {
+        "title": "Erable",
+        "data": "Erable.jpg"
+      },
+      {
+        "title": "Sycomore",
+        "data": "Sycomore.jpg"
+      },
+      {
+        "title": "Chene",
+        "data": "Chene.jpg"
+      }
     ],
     "triangles": [
-      "Poirier.jpg",
-      "Citronnier.jpg",
-      "Cypres.jpg",
-      "Etre.jpg",
-      "Merisier.jpg"
+      {
+        "title": "Poirier",
+        "data": "Poirier.jpg"
+      },
+      {
+        "title": "Citronnier",
+        "data": "Citronnier.jpg"
+      },
+      {
+        "title": "Cypres",
+        "data": "Cypres.jpg"
+      },
+      {
+        "title": "Etre",
+        "data": "Etre.jpg"
+      },
+      {
+        "title": "Merisier",
+        "data": "Merisier.jpg"
+      }
     ]
   }
 ]

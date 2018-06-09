@@ -32,13 +32,13 @@ window.onload = function () {
 				// Initial arbitrary width value.
 				let width = 295;
 				let collection = _dataset[i - 1];
-
 				let _bookMark = new BookMark(
 					i,
 					1063,
 					width,
-					collection.path + collection.background[0],
+					collection.path + collection.background[0].data,
 					_.random(1, 30),
+					true,
 					null,
 					null,
 					false,
@@ -82,7 +82,6 @@ window.onload = function () {
 					_bookMark.el_canvas.height = el;
 					_bookMark.render();
 				}
-
 
 				/**
 				 * Draw bookmark with chamfer or not.
@@ -182,18 +181,28 @@ window.onload = function () {
 				}
 
 				// Specific patterns are excluded.
-				let filteredBackgroundFull = _bookMark.getFiltered('background');
-				let filteredTrianglesFull = _bookMark.getFiltered('triangles');
+				let filteredBackgroundFull = _bookMark.getFilteredPatternsObjects('background');
+				let filteredTrianglesFull = _bookMark.getFilteredPatternsObjects('triangles');
 
 				// Attach param instance to the bookmark.
 				_folder.add(_bookMark, 'numberOfPairOfTriangles', 1, 30, 1).onFinishChange(redrawNumberOfTriangles);
 				_folder.add(_bookMark, 'columnsPerWidth', 1, 5, 1).onFinishChange(redrawColumnsPerWidth);
+
 				_folder.add(_bookMark, 'height', 150, 1200, 0.5).onFinishChange(redrawHeight);
 				_folder.add(_bookMark, 'width', 150, 1200, 0.5).onFinishChange(redrawWidth);
+
 				_folder.add(_bookMark, 'backgroundPattern', filteredBackgroundFull).onFinishChange(redrawBackgroundPattern);
+
+				_folder.add(_bookMark, 'enableTriangles', true, false).onFinishChange(function (el) {
+					_bookMark.enableTriangles = el;
+					_bookMark.render();
+				});
+
 				_folder.add(_bookMark, 'triangleEvenPattern', filteredTrianglesFull).onFinishChange(redrawTriangleEvenPattern);
 				_folder.add(_bookMark, 'triangleOddPattern', filteredTrianglesFull).onFinishChange(redrawTriangleOddPattern);
+
 				_folder.add(_bookMark, 'showStrokes').onFinishChange(redrawStrokes);
+
 				_folder.add(_bookMark, 'chamfer', 0, (_bookMark.el_canvas.width / 2), 1).onFinishChange(redrawChamfer);
 				_folder.add(_bookMark, 'chamferRt').onFinishChange(redrawChamferRt);
 				_folder.add(_bookMark, 'chamferRb').onFinishChange(redrawChamferRb);
@@ -205,11 +214,14 @@ window.onload = function () {
 			}
 
 			// Let's construct a non editable canvas without link.
-			let demo = new BookMark('demo',
+			/*
+			let demo = new BookMark(
+				'demo'
 				300,
 				300,
 				"/images/dataset/1/etre.jpg",
 				3,
+				true,
 				"Citronnier",
 				"Cypres",
 				false,
@@ -221,7 +233,7 @@ window.onload = function () {
 				false,
 				false,
 				false
-			);
+			);*/
 		}
 	};
 	init();

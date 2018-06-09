@@ -12,6 +12,7 @@ export default class BookMark {
 	 * @param _width
 	 * @param _background
 	 * @param _numberOfpairs
+	 * @param _enableTriangles
 	 * @param _evenPattern
 	 * @param _oddPattern
 	 * @param _showStrokes
@@ -29,6 +30,7 @@ export default class BookMark {
 				_width,
 				_background,
 				_numberOfpairs,
+				_enableTriangles,
 				_evenPattern,
 				_oddPattern,
 				_showStrokes,
@@ -40,7 +42,6 @@ export default class BookMark {
 				_chamferRb,
 				_chamferLt,
 				_chamferLb) {
-
 
 		// Work with textures.
 		this.uniqueId = _uniqueId;
@@ -58,6 +59,8 @@ export default class BookMark {
 			this.backgroundPattern = this.getRandomPattern('background');
 		else
 			this.backgroundPattern = _background;
+
+		this.enableTriangles = _enableTriangles;
 
 		if (!_evenPattern)
 			this.triangleEvenPattern = this.getRandomPattern('triangles');
@@ -94,7 +97,15 @@ export default class BookMark {
 	 */
 	getRandomPattern(zone) {
 		let value = Math.floor(Math.random() * this.patterns[zone].length);
-		return this.patterns['path'] + this.patterns[zone][value];
+		return this.patterns['path'] + this.patterns[zone][value].data;
+	}
+
+	/**
+	 * Set unique id
+	 * @param uniqueId
+	 */
+	setUniqueId(uniqueId) {
+		this._uniqueId = uniqueId;
 	}
 
 	/**
@@ -280,11 +291,37 @@ export default class BookMark {
 		let path = this.patterns['path'];
 		let filteredFull = [];
 
-		let filtered = this.patterns[zone].filter(function (pattern) {
-			let condition = !Array.isArray(pattern);
-			if (condition)
-				filteredFull.push(path + pattern);
-			return condition;
+		this.patterns[zone].filter(function (pattern) {
+			if (pattern.data) {
+				if (Array.isArray(pattern.data))
+					filteredFull.push(path + pattern.data[0]);
+				else
+					filteredFull.push(path + pattern.data);
+			}
+			return true;
+		});
+
+		return filteredFull;
+	}
+
+
+	/**
+	 * Get filtered patterns object.
+	 * @param zone
+	 * @returns {{}}
+	 */
+	getFilteredPatternsObjects(zone) {
+		let path = this.patterns['path'];
+		let filteredFull = {};
+
+		this.patterns[zone].filter(function (pattern) {
+			if (pattern.data) {
+				if (Array.isArray(pattern.data))
+					filteredFull[pattern.title] = path + pattern.data[0];
+				else
+					filteredFull[pattern.title] = path + pattern.data;
+			}
+			return true;
 		});
 
 		return filteredFull;
@@ -307,6 +344,7 @@ export default class BookMark {
 			image.onload = function () {
 				_this.images[elpattern] = _this.el_ctx.createPattern(image, 'repeat');
 				--_imagesLoading;
+				console.log(_imagesLoading + ' pattern(s) still loading');
 				if (_imagesLoading === 0)
 					_this._onPatternsLoaded();
 			};
@@ -417,8 +455,12 @@ export default class BookMark {
 	 * Render the bookmark.
 	 */
 	render() {
+		console.log("render...");
 		this.drawBackground();
-		this.drawTriangles();
+
+		if (this.enableTriangles) {
+			this.drawTriangles();
+		}
 	}
 
 	/**
