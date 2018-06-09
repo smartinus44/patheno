@@ -3,8 +3,6 @@ import '../scss/_custom.scss';
 import dat from 'dat.gui'
 import BookMark from '../src/Bookmark.class'
 
-const NUMBER_OF_LAYERS = 3;
-
 // When the page is loaded, the initialization function is called.
 window.onload = function () {
 	let init = function () {
@@ -29,12 +27,31 @@ window.onload = function () {
 		 */
 		function _process(_dataset) {
 
-			for (let i = 1; i <= NUMBER_OF_LAYERS; i++) {
+			for (let i = 1; i <= _dataset.length; i++) {
 
 				// Initial arbitrary width value.
 				let width = 295;
-				let _bookMark = new BookMark(i, 1063, width, _dataset[i - 1].background[0], _.random(1, 30), null, null,
-					false, _.random(1, 5), true, _dataset[i - 1], _.random(1, (width / 2)), true, false, false, false);
+				let collection = _dataset[i - 1];
+
+				let _bookMark = new BookMark(
+					i,
+					1063,
+					width,
+					collection.path + collection.background[0],
+					_.random(1, 30),
+					null,
+					null,
+					false,
+					_.random(1, 5),
+					true,
+					collection,
+					_.random(1, (width / 2)),
+					true,
+					false,
+					false,
+					false
+				);
+
 				let _folder = _gui.addFolder('Example with dataset ' + i);
 
 				/**
@@ -44,8 +61,7 @@ window.onload = function () {
 				function redrawNumberOfTriangles(el) {
 					_bookMark.clearCanvasLayers();
 					_bookMark.numberOfPairOfTriangles = el;
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
+					_bookMark.render();
 				}
 
 				/**
@@ -55,8 +71,7 @@ window.onload = function () {
 				function redrawColumnsPerWidth(el) {
 					_bookMark.columnsPerWidth = el;
 					_bookMark.clearCanvasLayers();
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
+					_bookMark.render();
 				}
 
 				/**
@@ -65,8 +80,7 @@ window.onload = function () {
 				 */
 				function redrawHeight(el) {
 					_bookMark.el_canvas.height = el;
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
+					_bookMark.render();
 				}
 
 
@@ -77,8 +91,7 @@ window.onload = function () {
 				function redrawChamfer(el) {
 					_bookMark.el_canvas.chamfer = el;
 					_bookMark.el_canvas.width = _bookMark.width;
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
+					_bookMark.render();
 				}
 
 				/**
@@ -88,8 +101,7 @@ window.onload = function () {
 				function redrawStrokes(el) {
 					_bookMark.el_canvas.showStrokes = el;
 					_bookMark.clearCanvasLayers();
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
+					_bookMark.render();
 				}
 
 				/**
@@ -98,8 +110,7 @@ window.onload = function () {
 				 */
 				function redrawTriangleEvenPattern(el) {
 					_bookMark.el_canvas.backgroundPatternTriangleEven = el;
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
+					_bookMark.render();
 				}
 
 				/**
@@ -108,8 +119,7 @@ window.onload = function () {
 				 */
 				function redrawTriangleOddPattern(el) {
 					_bookMark.el_canvas.backgroundPatternTriangleOdd = el;
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
+					_bookMark.render();
 				}
 
 				/**
@@ -118,8 +128,7 @@ window.onload = function () {
 				 */
 				function redrawWidth(el) {
 					_bookMark.el_canvas.width = el;
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
+					_bookMark.render();
 				}
 
 				/**
@@ -127,8 +136,8 @@ window.onload = function () {
 				 * @param el
 				 */
 				function redrawBackgroundPattern(el) {
-					_bookMark.el_ctx.fillStyle = _bookMark.images[_bookMark.patterns['path'] + el];
-					_bookMark.el_ctx.fillRect(0, 0, _bookMark.el_canvas.width, _bookMark.el_canvas.height);
+					_bookMark.backgroundPattern = el;
+					_bookMark.render();
 					redrawWidth(_bookMark.el_canvas.width);
 				}
 
@@ -138,9 +147,8 @@ window.onload = function () {
 				 */
 				function redrawChamferRt(el) {
 					_bookMark.el_canvas.chamferRt = el;
-					_bookMark.el_canvas.width = _bookMark.width;
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
+					redrawWidth(_bookMark.el_canvas.width);
+					_bookMark.render();
 				}
 
 				/**
@@ -150,8 +158,7 @@ window.onload = function () {
 				function redrawChamferRb(el) {
 					_bookMark.el_canvas.chamferRb = el;
 					_bookMark.el_canvas.width = _bookMark.width;
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
+					_bookMark.render();
 				}
 
 				/**
@@ -161,8 +168,7 @@ window.onload = function () {
 				function redrawChamferLt(el) {
 					_bookMark.el_canvas.chamferLt = el;
 					_bookMark.el_canvas.width = _bookMark.width;
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
+					_bookMark.render();
 				}
 
 				/**
@@ -172,23 +178,21 @@ window.onload = function () {
 				function redrawChamferLb(el) {
 					_bookMark.el_canvas.chamferLb = el;
 					_bookMark.el_canvas.width = _bookMark.width;
-					_bookMark.setBackgroundPattern(_bookMark.backgroundPattern);
-					_bookMark.drawTriangles();
+					_bookMark.render();
 				}
 
 				// Specific patterns are excluded.
-				let filtered = _bookMark.patterns['background'].filter(function (pattern) {
-					return !Array.isArray(pattern);
-				});
+				let filteredBackgroundFull = _bookMark.getFiltered('background');
+				let filteredTrianglesFull = _bookMark.getFiltered('triangles');
 
 				// Attach param instance to the bookmark.
 				_folder.add(_bookMark, 'numberOfPairOfTriangles', 1, 30, 1).onFinishChange(redrawNumberOfTriangles);
 				_folder.add(_bookMark, 'columnsPerWidth', 1, 5, 1).onFinishChange(redrawColumnsPerWidth);
-				_folder.add(_bookMark, 'height', 100, 1200, 0.5).onFinishChange(redrawHeight);
-				_folder.add(_bookMark, 'width', 150, 300, 0.5).onFinishChange(redrawWidth);
-				_folder.add(_bookMark, 'backgroundPattern', filtered).onFinishChange(redrawBackgroundPattern);
-				_folder.add(_bookMark, 'triangleEvenPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleEvenPattern);
-				_folder.add(_bookMark, 'triangleOddPattern', _bookMark.patterns['triangles']).onFinishChange(redrawTriangleOddPattern);
+				_folder.add(_bookMark, 'height', 150, 1200, 0.5).onFinishChange(redrawHeight);
+				_folder.add(_bookMark, 'width', 150, 1200, 0.5).onFinishChange(redrawWidth);
+				_folder.add(_bookMark, 'backgroundPattern', filteredBackgroundFull).onFinishChange(redrawBackgroundPattern);
+				_folder.add(_bookMark, 'triangleEvenPattern', filteredTrianglesFull).onFinishChange(redrawTriangleEvenPattern);
+				_folder.add(_bookMark, 'triangleOddPattern', filteredTrianglesFull).onFinishChange(redrawTriangleOddPattern);
 				_folder.add(_bookMark, 'showStrokes').onFinishChange(redrawStrokes);
 				_folder.add(_bookMark, 'chamfer', 0, (_bookMark.el_canvas.width / 2), 1).onFinishChange(redrawChamfer);
 				_folder.add(_bookMark, 'chamferRt').onFinishChange(redrawChamferRt);
@@ -204,7 +208,7 @@ window.onload = function () {
 			let demo = new BookMark('demo',
 				300,
 				300,
-				"Frene",
+				"/images/dataset/1/etre.jpg",
 				3,
 				"Citronnier",
 				"Cypres",

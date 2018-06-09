@@ -24,8 +24,24 @@ export default class BookMark {
 	 * @param _chamferLt
 	 * @param _chamferLb
 	 */
-	constructor(_uniqueId, _height, _width, _background, _numberOfpairs, _evenPattern, _oddPattern, _showStrokes,
-				_columns_per_width, _can_download, _patterns, _chamfer, _chamferRt, _chamferRb, _chamferLt, _chamferLb) {
+	constructor(_uniqueId,
+				_height,
+				_width,
+				_background,
+				_numberOfpairs,
+				_evenPattern,
+				_oddPattern,
+				_showStrokes,
+				_columns_per_width,
+				_can_download,
+				_patterns,
+				_chamfer,
+				_chamferRt,
+				_chamferRb,
+				_chamferLt,
+				_chamferLb) {
+
+
 		// Work with textures.
 		this.uniqueId = _uniqueId;
 		this.images = [];
@@ -66,8 +82,9 @@ export default class BookMark {
 			this.createDownloadLink(_uniqueId);
 
 		this.el_ctx = this.el_canvas.getContext('2d');
-		this.initPatterns('triangles');
+
 		this.initPatterns('background');
+		this.initPatterns('triangles');
 	}
 
 	/**
@@ -85,7 +102,7 @@ export default class BookMark {
 	 * @param el
 	 */
 	setBackgroundPattern(el) {
-		this.el_ctx.fillStyle = this.images[el];
+		this.el_ctx.fillStyle = this.images[btoa(el)];
 		if (this.chamfer > 0) {
 			this.chamferedRect(
 				0,
@@ -255,28 +272,45 @@ export default class BookMark {
 	}
 
 	/**
+	 * Get filtered patterns.
+	 * @param zone
+	 * @returns {Array}
+	 */
+	getFiltered(zone) {
+		let path = this.patterns['path'];
+		let filteredFull = [];
+
+		let filtered = this.patterns[zone].filter(function (pattern) {
+			let condition = !Array.isArray(pattern);
+			if (condition)
+				filteredFull.push(path + pattern);
+			return condition;
+		});
+
+		return filteredFull;
+	}
+
+	/**
 	 * Initialize the patterns, we decrement a variable. When it is zero we continue the loading script of the canvas.
 	 * @param zone
 	 */
 	initPatterns(zone) {
-		let _imagesLoading = this.patterns[zone].length;
+
+		let filteredPatterns = this.getFiltered(zone);
+		let _imagesLoading = filteredPatterns.length;
+
 		let _this = this;
-		let path = this.patterns['path'];
-		this.patterns[zone].forEach(function (pattern) {
+		filteredPatterns.forEach(function (pattern) {
 
-			if (Array.isArray(pattern)) {
-
-			} else {
-				let elpattern = encodeURI(path + pattern);
-				let image = new Image();
-				image.onload = function () {
-					_this.images[elpattern] = _this.el_ctx.createPattern(image, 'repeat');
-					--_imagesLoading;
-					if (_imagesLoading === 0)
-						_this._onPatternsLoaded();
-				};
-				image.src = elpattern;
-			}
+			let elpattern = btoa(pattern);
+			let image = new Image();
+			image.onload = function () {
+				_this.images[elpattern] = _this.el_ctx.createPattern(image, 'repeat');
+				--_imagesLoading;
+				if (_imagesLoading === 0)
+					_this._onPatternsLoaded();
+			};
+			image.src = atob(elpattern);
 		});
 	}
 
@@ -309,6 +343,13 @@ export default class BookMark {
 
 		//_zone.insertBefore(params, _zone.firstChild);
 		_zone.insertBefore(_link, _zone.firstChild);
+	}
+
+	/**
+	 * Draw Background.
+	 */
+	drawBackground() {
+		this.setBackgroundPattern(this.backgroundPattern);
 	}
 
 	/**
@@ -346,11 +387,11 @@ export default class BookMark {
 
 					// Draw a triangle with the base at the top or at the bottom.
 					if (k % 2 === 1) {
-						this.el_ctx.fillStyle = this.images[this.el_canvas.backgroundPatternTriangleEven];
+						this.el_ctx.fillStyle = this.images[btoa(this.el_canvas.backgroundPatternTriangleEven)];
 						this.el_ctx.lineTo(_column_width + _offset, _first_coef);
 						this.el_ctx.lineTo(_offset, _first_coef);
 					} else {
-						this.el_ctx.fillStyle = this.images[this.el_canvas.backgroundPatternTriangleOdd];
+						this.el_ctx.fillStyle = this.images[btoa(this.el_canvas.backgroundPatternTriangleOdd)];
 						this.el_ctx.lineTo(_column_width + _offset, _second_coef);
 						this.el_ctx.lineTo(_offset, _second_coef);
 					}
@@ -373,14 +414,19 @@ export default class BookMark {
 	}
 
 	/**
+	 * Render the bookmark.
+	 */
+	render() {
+		this.drawBackground();
+		this.drawTriangles();
+	}
+
+	/**
 	 * Function called when all images are loaded.
+	 * @private
 	 */
 	_onPatternsLoaded() {
-
 		this.clearCanvasLayers();
-
-		// Draw the triangles.
-		this.setBackgroundPattern(this.backgroundPattern);
-		this.drawTriangles();
+		this.render();
 	}
 }

@@ -2,10 +2,9 @@
   {
     "path": "images/dataset/1/",
     "background": [
-      "bubimga.jpg",
-      "teck.jpg",
       "sycomore.jpg",
       "etre.jpg",
+      "noyer.jpg",
       [
         {
           "aniegré": [
@@ -19,9 +18,10 @@
     ],
     "triangles": [
       "eucalyptus.jpg",
+      "bubimga.jpg",
+      "teck.jpg",
       "chene.jpg",
-      "merisier.jpg",
-      "noyer.jpg"
+      "merisier.jpg"
     ]
   },
   {
