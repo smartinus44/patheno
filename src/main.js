@@ -36,7 +36,7 @@ window.onload = function () {
 					i,
 					1063,
 					width,
-					collection.path + collection.background[0].data,
+					collection.background[0].data,
 					_.random(1, 30),
 					true,
 					null,
@@ -46,7 +46,7 @@ window.onload = function () {
 					true,
 					collection,
 					_.random(1, (width / 2)),
-					true,
+					false,
 					false,
 					false,
 					false

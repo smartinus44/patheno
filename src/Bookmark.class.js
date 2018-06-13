@@ -55,10 +55,7 @@ export default class BookMark {
 		this.chamferLt = _chamferLt;
 		this.chamferLb = _chamferLb;
 
-		if (!_background)
-			this.backgroundPattern = this.getRandomPattern('background');
-		else
-			this.backgroundPattern = _background;
+		this.initBackgroundPattern(_background);
 
 		this.enableTriangles = _enableTriangles;
 
@@ -88,6 +85,26 @@ export default class BookMark {
 
 		this.initPatterns('background');
 		this.initPatterns('triangles');
+		console.log('Instance of a Bookmark constructed.');
+		return this;
+	}
+
+	/**
+	 * @param background
+	 */
+	initBackgroundPattern(background) {
+
+		let _this = this;
+
+		if (!background) {
+			_this.backgroundPattern = _this.getRandomPattern('background');
+		} else {
+			let patterns = background;
+			patterns.map(function (pattern, index) {
+				patterns[index] = pattern;
+			});
+			_this.backgroundPattern = patterns;
+		}
 	}
 
 	/**
@@ -96,8 +113,13 @@ export default class BookMark {
 	 * @returns {*}
 	 */
 	getRandomPattern(zone) {
-		let value = Math.floor(Math.random() * this.patterns[zone].length);
-		return this.patterns['path'] + this.patterns[zone][value].data;
+		let _this = this;
+		let result = null;
+		if (typeof _this.patterns[zone] !== 'undefined') {
+			let value = Math.floor(Math.random() * _this.patterns[zone].length);
+			result = _this.getFullPath(_this.patterns[zone][value].data)
+		}
+		return result;
 	}
 
 	/**
@@ -109,12 +131,31 @@ export default class BookMark {
 	}
 
 	/**
+	 * Return true if only one chamfer is enabled.
+	 * @returns {*}
+	 */
+	hasChamfer() {
+		return (this.chamferRt ||
+			this.chamferRb ||
+			this.chamferLt ||
+			this.chamferLb)
+	}
+
+	/**
+	 * @param path
+	 * @returns {*}
+	 */
+	getFullPath(path) {
+		return btoa(this.patterns['path'] + path);
+	}
+
+	/**
 	 * Initialize the background.
 	 * @param el
 	 */
 	setBackgroundPattern(el) {
-		this.el_ctx.fillStyle = this.images[btoa(el)];
-		if (this.chamfer > 0) {
+		let _this = this;
+		if (this.hasChamfer()) {
 			this.chamferedRect(
 				0,
 				0,
@@ -125,9 +166,42 @@ export default class BookMark {
 				this.chamferRb,
 				this.chamferLt,
 				this.chamferLb);
+			this.el_ctx.fillStyle = _this.images[el];
 			this.el_ctx.fill();
 		} else {
-			this.el_ctx.fillRect(0, 0, this.el_canvas.width, this.el_canvas.height);
+			if (Array.isArray(el)) {
+
+				_this.el_ctx.fillRect(0, 0, _this.el_canvas.width, _this.el_canvas.height);
+
+				el.forEach(function (pattern, index) {
+
+					let currentImage = _this.images[_this.getFullPath(pattern)];
+					let pow = parseFloat(_this.el_canvas.width / 2);
+
+					if (currentImage) {
+						let width = _this.width / _this.numberOfPairOfTriangles;
+						let height = _this.height / _this.columnsPerWidth;
+						_this.el_ctx.drawImage(currentImage, 0, 0, width, height);
+
+						if (index > 0) {
+							if (index === 1)
+								_this.el_ctx.drawImage(currentImage, pow, 0, width, height);
+							if (index === 2)
+								_this.el_ctx.drawImage(currentImage, 0, 200, width, height);
+							if (index === 3)
+								_this.el_ctx.drawImage(currentImage, pow, 200, width, height);
+						}
+					}
+
+				});
+
+				this.el_ctx.fill();
+
+			} else {
+				this.el_ctx.fillStyle = _this.images[el];
+				this.el_ctx.fillRect(0, 0, this.el_canvas.width, this.el_canvas.height);
+			}
+
 		}
 	}
 
@@ -266,7 +340,10 @@ export default class BookMark {
 		_canvas.chamferLb = this.chamferLb;
 		_canvas.backgroundPatternTriangleEven = this.triangleEvenPattern;
 		_canvas.backgroundPatternTriangleOdd = this.triangleOddPattern;
-		zone.appendChild(_canvas);
+
+		if (zone)
+			zone.appendChild(_canvas);
+
 		this.clearCanvasLayers();
 		return _canvas;
 	}
@@ -288,19 +365,19 @@ export default class BookMark {
 	 * @returns {Array}
 	 */
 	getFiltered(zone) {
-		let path = this.patterns['path'];
 		let filteredFull = [];
 
-		this.patterns[zone].filter(function (pattern) {
-			if (pattern.data) {
-				if (Array.isArray(pattern.data))
-					filteredFull.push(path + pattern.data[0]);
-				else
-					filteredFull.push(path + pattern.data);
-			}
-			return true;
-		});
-
+		if (typeof this.patterns[zone] !== 'undefined') {
+			this.patterns[zone].filter(function (pattern) {
+				if (pattern.data) {
+					//if (Array.isArray(pattern.data))
+					//	filteredFull.push(path + pattern.data[0]);
+					//else
+					filteredFull.push(pattern.data);
+				}
+				return true;
+			});
+		}
 		return filteredFull;
 	}
 
@@ -311,15 +388,15 @@ export default class BookMark {
 	 * @returns {{}}
 	 */
 	getFilteredPatternsObjects(zone) {
-		let path = this.patterns['path'];
 		let filteredFull = {};
+		let _this = this;
 
 		this.patterns[zone].filter(function (pattern) {
 			if (pattern.data) {
 				if (Array.isArray(pattern.data))
-					filteredFull[pattern.title] = path + pattern.data[0];
+					filteredFull[pattern.title] = _this.getFullPath(pattern.data[0]);
 				else
-					filteredFull[pattern.title] = path + pattern.data;
+					filteredFull[pattern.title] = _this.getFullPath(pattern.data);
 			}
 			return true;
 		});
@@ -339,16 +416,35 @@ export default class BookMark {
 		let _this = this;
 		filteredPatterns.forEach(function (pattern) {
 
-			let elpattern = btoa(pattern);
-			let image = new Image();
-			image.onload = function () {
-				_this.images[elpattern] = _this.el_ctx.createPattern(image, 'repeat');
+			if (Array.isArray(pattern)) {
+
+				pattern.forEach(function (ss_pattern) {
+					let ss_image = new Image();
+					let ss_elpattern = _this.getFullPath(ss_pattern);
+					ss_image.onload = function () {
+						_this.images[ss_elpattern] = ss_image;
+					};
+					ss_image.src = atob(ss_elpattern);
+				});
+
 				--_imagesLoading;
-				console.log(_imagesLoading + ' pattern(s) still loading');
+				console.log(_imagesLoading + ' ' + zone + ' pattern(s) still loading');
 				if (_imagesLoading === 0)
 					_this._onPatternsLoaded();
-			};
-			image.src = atob(elpattern);
+
+			}
+			else {
+				let image = new Image();
+				let elpattern = _this.getFullPath(pattern);
+				image.onload = function () {
+					_this.images[elpattern] = _this.el_ctx.createPattern(image, 'repeat');
+					--_imagesLoading;
+					console.log(_imagesLoading + ' ' + zone + ' pattern(s) still loading');
+					if (_imagesLoading === 0)
+						_this._onPatternsLoaded();
+				};
+				image.src = atob(elpattern);
+			}
 		});
 	}
 
@@ -370,17 +466,18 @@ export default class BookMark {
 			_link.href = _this.el_canvas.toDataURL();
 			_link.download = "bookmark.jpg";
 		}, false);
-		_zone.insertBefore(document.createElement('br'), _zone.firstChild);
-		_zone.insertBefore(document.createElement('br'), _zone.firstChild);
+
+		if (_zone) {
+			_zone.insertBefore(document.createElement('br'), _zone.firstChild);
+			_zone.insertBefore(document.createElement('br'), _zone.firstChild);
+			_zone.insertBefore(_link, _zone.firstChild);
+		}
 
 		let params = document.createElement('textarea');
 		params.cols = 80;
 		params.rows = 10;
 		params.readOnly = true;
 		params.innerHTML = JSON.stringify(_this);
-
-		//_zone.insertBefore(params, _zone.firstChild);
-		_zone.insertBefore(_link, _zone.firstChild);
 	}
 
 	/**
@@ -425,11 +522,11 @@ export default class BookMark {
 
 					// Draw a triangle with the base at the top or at the bottom.
 					if (k % 2 === 1) {
-						this.el_ctx.fillStyle = this.images[btoa(this.el_canvas.backgroundPatternTriangleEven)];
+						this.el_ctx.fillStyle = this.images[this.el_canvas.backgroundPatternTriangleEven];
 						this.el_ctx.lineTo(_column_width + _offset, _first_coef);
 						this.el_ctx.lineTo(_offset, _first_coef);
 					} else {
-						this.el_ctx.fillStyle = this.images[btoa(this.el_canvas.backgroundPatternTriangleOdd)];
+						this.el_ctx.fillStyle = this.images[this.el_canvas.backgroundPatternTriangleOdd];
 						this.el_ctx.lineTo(_column_width + _offset, _second_coef);
 						this.el_ctx.lineTo(_offset, _second_coef);
 					}
@@ -455,12 +552,16 @@ export default class BookMark {
 	 * Render the bookmark.
 	 */
 	render() {
-		console.log("render...");
-		this.drawBackground();
+		let _this = this;
 
-		if (this.enableTriangles) {
-			this.drawTriangles();
-		}
+		setTimeout(function () {
+			console.log("render...");
+			_this.drawBackground();
+
+			if (_this.enableTriangles) {
+				_this.drawTriangles();
+			}
+		}, 100);
 	}
 
 	/**
@@ -468,7 +569,8 @@ export default class BookMark {
 	 * @private
 	 */
 	_onPatternsLoaded() {
-		this.clearCanvasLayers();
-		this.render();
+		let _this = this;
+		_this.clearCanvasLayers();
+		_this.render();
 	}
 }

@@ -1,0 +1,44 @@
+[
+  {
+    "uniqueId": 1,
+    "images": [],
+    "numberOfPairOfTriangles": 23,
+    "patterns": [],
+    "height": 1063,
+    "width": 100,
+    "chamferRt": false,
+    "chamferRb": false,
+    "chamferLt": false,
+    "chamferLb": false,
+    "backgroundPattern": [],
+    "enableTriangles": true,
+    "triangleEvenPattern": null,
+    "triangleOddPattern": null,
+    "showStrokes": false,
+    "columnsPerWidth": 3,
+    "canDownload": true,
+    "chamfer": 12,
+    "el_canvas": {
+      "showStrokes": false,
+      "chamfer": 12,
+      "chamferRt": false,
+      "chamferRb": false,
+      "chamferLt": false,
+      "chamferLb": false,
+      "backgroundPatternTriangleEven": null,
+      "backgroundPatternTriangleOdd": null
+    },
+    "el_ctx": {
+      "canvas": {
+        "showStrokes": false,
+        "chamfer": 12,
+        "chamferRt": false,
+        "chamferRb": false,
+        "chamferLt": false,
+        "chamferLb": false,
+        "backgroundPatternTriangleEven": null,
+        "backgroundPatternTriangleOdd": null
+      }
+    }
+  }
+]
