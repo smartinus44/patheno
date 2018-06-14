@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.44",
-    "@babel/preset-env": "^7.0.0-beta.44",
+    "@babel/preset-env": "^7.0.0-beta.51",
     "@babel/register": "^7.0.0-beta.44",
     "approvals": "^2.1.2",
     "autoprefixer": "^7.2.5",
@@ -42,18 +42,13 @@
     "webpack-cli": "^2.0.14",
     "webpack-dev-server": "^3.1.3"
   },
-  "babel": {
-    "presets": [
-      "env"
-    ]
-  },
   "scripts": {
     "start": "node server.js",
     "server": "pm2 start server.js --watch --name server",
     "devclient": "cross-env NODE_ENV=development pm2 start webpack-dev-server -f --name devclient -- --open --hot",
     "dev": "npm run server | npm run devclient",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "test": "mocha test/**/*.spec.js --require babel-core/register --verbose -i"
+    "test": "mocha test/**/*.spec.js --require @babel/register --verbose -i"
   },
   "repository": {
     "type": "git",
