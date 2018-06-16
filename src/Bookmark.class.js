@@ -5,6 +5,14 @@ const LINE_WIDTH = 1;
 
 // Initialization of a bookmark.
 export default class BookMark {
+
+	/**
+	 * @param uniqueId
+	 */
+	setUniqueId(uniqueId) {
+		this._uniqueId = uniqueId;
+	}
+
 	/**
 	 * Constructor.
 	 * @param _uniqueId
@@ -25,8 +33,7 @@ export default class BookMark {
 	 * @param _chamferLt
 	 * @param _chamferLb
 	 */
-	constructor(_uniqueId,
-				_height,
+	constructor(_height,
 				_width,
 				_background,
 				_numberOfpairs,
@@ -55,17 +62,17 @@ export default class BookMark {
 		this.chamferLt = _chamferLt;
 		this.chamferLb = _chamferLb;
 
-		this.initBackgroundPattern(_background);
+		this._setBackgroundPattern(_background);
 
 		this.enableTriangles = _enableTriangles;
 
 		if (!_evenPattern)
-			this.triangleEvenPattern = this.getRandomPattern('triangles');
+			this.triangleEvenPattern = this._getRandomPattern('triangles');
 		else
 			this.triangleEvenPattern = _evenPattern;
 
 		if (!_oddPattern)
-			this.triangleOddPattern = this.getRandomPattern('triangles');
+			this.triangleOddPattern = this._getRandomPattern('triangles');
 		else
 			this.triangleOddPattern = _oddPattern;
 
@@ -75,29 +82,31 @@ export default class BookMark {
 		this.canDownload = _can_download;
 		this.chamfer = _chamfer;
 
-		this.el_canvas = this.createCanvas('canva-' + _uniqueId, 'zone-' + _uniqueId);
+		this.el_canvas = this._createCanvas('canva-' + _uniqueId, 'zone-' + _uniqueId);
 
 		// Show download link if can download picture is set to true.
 		if (this.canDownload === true)
-			this.createDownloadLink(_uniqueId);
+			this._createDownloadLink(_uniqueId);
 
 		this.el_ctx = this.el_canvas.getContext('2d');
 
-		this.initPatterns('background');
-		this.initPatterns('triangles');
+		this._initPatterns('background');
+		this._initPatterns('triangles');
 		console.log('Instance of a Bookmark constructed.');
 		return this;
 	}
 
 	/**
+	 *
 	 * @param background
+	 * @private
 	 */
-	initBackgroundPattern(background) {
+	_setBackgroundPattern(background) {
 
 		let _this = this;
 
 		if (!background) {
-			_this.backgroundPattern = _this.getRandomPattern('background');
+			_this.backgroundPattern = _this._getRandomPattern('background');
 		} else {
 			let patterns = background;
 			patterns.map(function (pattern, index) {
@@ -111,8 +120,9 @@ export default class BookMark {
 	 * Randomly returns a pattern.
 	 * @param zone
 	 * @returns {*}
+	 * @private
 	 */
-	getRandomPattern(zone) {
+	_getRandomPattern(zone) {
 		let _this = this;
 		let result = null;
 		if (typeof _this.patterns[zone] !== 'undefined') {
@@ -133,8 +143,9 @@ export default class BookMark {
 	/**
 	 * Return true if only one chamfer is enabled.
 	 * @returns {*}
+	 * @private
 	 */
-	hasChamfer() {
+	_hasChamfer() {
 		return (this.chamferRt ||
 			this.chamferRb ||
 			this.chamferLt ||
@@ -152,11 +163,12 @@ export default class BookMark {
 	/**
 	 * Initialize the background.
 	 * @param el
+	 * @private
 	 */
-	setBackgroundPattern(el) {
+	_setBackgroundPattern(el) {
 		let _this = this;
-		if (this.hasChamfer()) {
-			this.chamferedRect(
+		if (this._hasChamfer()) {
+			this._chamferedRect(
 				0,
 				0,
 				this.el_canvas.width,
@@ -168,10 +180,12 @@ export default class BookMark {
 				this.chamferLb);
 			this.el_ctx.fillStyle = _this.images[el];
 			this.el_ctx.fill();
-		} else {
+		}
+		else {
 			if (Array.isArray(el)) {
 
-				_this.el_ctx.fillRect(0, 0, _this.el_canvas.width, _this.el_canvas.height);
+				// Black background
+				this.el_ctx.strokeRect(0, 0, _this.el_canvas.width, _this.el_canvas.height);
 
 				el.forEach(function (pattern, index) {
 
@@ -179,29 +193,33 @@ export default class BookMark {
 					let pow = parseFloat(_this.el_canvas.width / 2);
 
 					if (currentImage) {
-						let width = _this.width / _this.numberOfPairOfTriangles;
-						let height = _this.height / _this.columnsPerWidth;
-						_this.el_ctx.drawImage(currentImage, 0, 0, width, height);
 
+						let width = _this.width;
+						let height = _this.height;
+
+						// Top left.
+						_this.el_ctx.drawImage(currentImage, 0, 0, width, height);
+						console.log("height: " + height);
 						if (index > 0) {
+							// Top right.
 							if (index === 1)
 								_this.el_ctx.drawImage(currentImage, pow, 0, width, height);
+							// Bottom left.
 							if (index === 2)
 								_this.el_ctx.drawImage(currentImage, 0, 200, width, height);
+							// Bottom right.
 							if (index === 3)
 								_this.el_ctx.drawImage(currentImage, pow, 200, width, height);
 						}
 					}
-
 				});
-
 				this.el_ctx.fill();
+			}
 
-			} else {
+			else {
 				this.el_ctx.fillStyle = _this.images[el];
 				this.el_ctx.fillRect(0, 0, this.el_canvas.width, this.el_canvas.height);
 			}
-
 		}
 	}
 
@@ -216,8 +234,9 @@ export default class BookMark {
 	 * @param lt
 	 * @param rb
 	 * @param lb
+	 * @private
 	 */
-	roundRect(x, y, w, h, radius, rt, lt, rb, lb) {
+	_roundRect(x, y, w, h, radius, rt, lt, rb, lb) {
 		let r = x + w;
 		let b = y + h;
 		this.el_ctx.beginPath();
@@ -280,8 +299,9 @@ export default class BookMark {
 	 * @param lt
 	 * @param rb
 	 * @param lb
+	 * @private
 	 */
-	chamferedRect(x, y, w, h, radius, rt, lt, rb, lb) {
+	_chamferedRect(x, y, w, h, radius, rt, lt, rb, lb) {
 
 		let r = x + w;
 		let b = y + h;
@@ -323,8 +343,9 @@ export default class BookMark {
 	 * @param elementId
 	 * @param zoneId
 	 * @returns {Element}
+	 * @private
 	 */
-	createCanvas(elementId, zoneId) {
+	_createCanvas(elementId, zoneId) {
 
 		let _canvas = document.createElement('canvas');
 		_canvas.innerHTML = "Votre navigateur ne supporte pas canvas.<br>Essayez avec Firefox, Safari, Chrome ou Opera.";
@@ -363,8 +384,9 @@ export default class BookMark {
 	 * Get filtered patterns.
 	 * @param zone
 	 * @returns {Array}
+	 * @private
 	 */
-	getFiltered(zone) {
+	_getFiltered(zone) {
 		let filteredFull = [];
 
 		if (typeof this.patterns[zone] !== 'undefined') {
@@ -407,10 +429,11 @@ export default class BookMark {
 	/**
 	 * Initialize the patterns, we decrement a variable. When it is zero we continue the loading script of the canvas.
 	 * @param zone
+	 * @private
 	 */
-	initPatterns(zone) {
+	_initPatterns(zone) {
 
-		let filteredPatterns = this.getFiltered(zone);
+		let filteredPatterns = this._getFiltered(zone);
 		let _imagesLoading = filteredPatterns.length;
 
 		let _this = this;
@@ -423,6 +446,8 @@ export default class BookMark {
 					let ss_elpattern = _this.getFullPath(ss_pattern);
 					ss_image.onload = function () {
 						_this.images[ss_elpattern] = ss_image;
+						_this.repeatBackgroundWidth = _this.width / ss_image.width;
+						_this.repeatBackgroundHeight = _this.height / ss_image.height;
 					};
 					ss_image.src = atob(ss_elpattern);
 				});
@@ -451,8 +476,9 @@ export default class BookMark {
 	/**
 	 * Create a link to download an image of the canvas.
 	 * @param uniqueId
+	 * @private
 	 */
-	createDownloadLink(uniqueId) {
+	_createDownloadLink(uniqueId) {
 
 		let _zone = document.getElementById("zone-" + uniqueId);
 		let _link = document.createElement('a');
@@ -482,15 +508,18 @@ export default class BookMark {
 
 	/**
 	 * Draw Background.
+	 * @private
 	 */
-	drawBackground() {
-		this.setBackgroundPattern(this.backgroundPattern);
+	_drawBackground() {
+		this._setBackgroundPattern(this.backgroundPattern);
 	}
 
 	/**
 	 * Draw the pairs of triangles.
+	 * @private
 	 */
-	drawTriangles() {
+	_drawTriangles() {
+
 		if (this.el_canvas.chamfer > 0) {
 			this.el_ctx.clip();
 		}
@@ -502,6 +531,7 @@ export default class BookMark {
 		// Draw each triangle pair.
 		for (let j = 1; j <= this.numberOfPairOfTriangles; j++) {
 
+			// Draw each column.
 			for (let l = 0; l < this.columnsPerWidth; l++) {
 
 				_triangle_height = this.el_canvas.height / (this.numberOfPairOfTriangles * 2);
@@ -543,6 +573,7 @@ export default class BookMark {
 				}
 			}
 		}
+
 		if (this.el_canvas.chamfer > 0) {
 			this.el_ctx.restore();
 		}
@@ -556,10 +587,10 @@ export default class BookMark {
 
 		setTimeout(function () {
 			console.log("render...");
-			_this.drawBackground();
+			_this._drawBackground();
 
 			if (_this.enableTriangles) {
-				_this.drawTriangles();
+				_this._drawTriangles();
 			}
 		}, 100);
 	}

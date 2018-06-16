@@ -33,7 +33,6 @@ window.onload = function () {
 				let width = 295;
 				let collection = _dataset[i - 1];
 				let _bookMark = new BookMark(
-					i,
 					1063,
 					width,
 					collection.background[0].data,
@@ -51,6 +50,7 @@ window.onload = function () {
 					false,
 					false
 				);
+				_bookMark.setUniqueId(i);
 
 				let _folder = _gui.addFolder('Example with dataset ' + i);
 

@@ -40,5 +40,6 @@
         "backgroundPatternTriangleOdd": null
       }
     }
-  }
+  },
+  "dW5kZWZpbmVkcmFuZG9tLmpwZw=="
 ]
