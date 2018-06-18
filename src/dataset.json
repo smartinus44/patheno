@@ -3,6 +3,18 @@
     "path": "images/dataset/1/",
     "background": [
       {
+        "title": "Sycomore",
+        "data": "sycomore.jpg"
+      },
+      {
+        "title": "Etre",
+        "data": "etre.jpg"
+      },
+      {
+        "title": "Noyer",
+        "data": "noyer.jpg"
+      },
+      {
         "title": "Aniegré",
         "data": [
           "aniegré_top_left.jpg",
@@ -32,6 +44,92 @@
       {
         "title": "Merisier",
         "data": "merisier.jpg"
+      }
+    ]
+  },
+  {
+    "path": "images/dataset/2/",
+    "background": [
+      {
+        "title": "Frene du Japon",
+        "data": "FreneJapon.jpg"
+      },
+      {
+        "title": "Erable US",
+        "data": "ErableUS.jpg"
+      },
+      {
+        "title": "Sycomore",
+        "data": "Sycomore.jpg"
+      },
+      {
+        "title": "Chene Vanille",
+        "data": "cheneLargeVanille.jpg"
+      }
+    ],
+    "triangles": [
+      {
+        "title": "Poirier",
+        "data": "Poirier.jpg"
+      },
+      {
+        "title": "Citronnier",
+        "data": "Citronnier.jpg"
+      },
+      {
+        "title": "Cypres",
+        "data": "Cypres.jpg"
+      },
+      {
+        "title": "Etre blanc",
+        "data": "EtreBlanc.jpg"
+      },
+      {
+        "title": "Merisier de France",
+        "data": "MerisierDeFrance.jpg"
+      }
+    ]
+  },
+  {
+    "path": "images/dataset/3/",
+    "background": [
+      {
+        "title": "Frene",
+        "data": "Frene.jpg"
+      },
+      {
+        "title": "Erable",
+        "data": "Erable.jpg"
+      },
+      {
+        "title": "Sycomore",
+        "data": "Sycomore.jpg"
+      },
+      {
+        "title": "Chene",
+        "data": "Chene.jpg"
+      }
+    ],
+    "triangles": [
+      {
+        "title": "Poirier",
+        "data": "Poirier.jpg"
+      },
+      {
+        "title": "Citronnier",
+        "data": "Citronnier.jpg"
+      },
+      {
+        "title": "Cypres",
+        "data": "Cypres.jpg"
+      },
+      {
+        "title": "Etre",
+        "data": "Etre.jpg"
+      },
+      {
+        "title": "Merisier",
+        "data": "Merisier.jpg"
       }
     ]
   }

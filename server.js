@@ -3,6 +3,7 @@ console.log('Initializing Express...');
 const express = require('express');
 const path = require('path');
 const app = express();
+
 app.disable('x-powered-by');
 
 app.use(function (err, req, res, next) {
@@ -36,6 +37,14 @@ app.get('/patterns/:id', function (req, res, next) {
 });
 
 //---Start listening
-var port = process.env.PORT || 8081;
+const port = process.env.PORT || 8081;
 app.listen(port);
+
+const routes = app._router.stack
+	.filter((middleware) => middleware.route)
+	.map((middleware) => `${Object.keys(middleware.route.methods).join(', ').toUpperCase()} -> ${middleware.route.path}`);
+
+console.log(JSON.stringify(routes, null, 4));
+
+//  ${Object.keys(ret.methods).join(', ')} ${ret.path}
 console.log('Partheno server  started on port: '+port);

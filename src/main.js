@@ -33,6 +33,7 @@ window.onload = function () {
 				let width = 295;
 				let collection = _dataset[i - 1];
 				let _bookMark = new BookMark(
+					i,
 					1063,
 					width,
 					collection.background[0].data,
@@ -44,13 +45,12 @@ window.onload = function () {
 					_.random(1, 5),
 					true,
 					collection,
-					_.random(1, (width / 2)),
+					0,
 					false,
 					false,
 					false,
 					false
 				);
-				_bookMark.setUniqueId(i);
 
 				let _folder = _gui.addFolder('Example with dataset ' + i);
 
@@ -89,7 +89,7 @@ window.onload = function () {
 				 */
 				function redrawChamfer(el) {
 					_bookMark.el_canvas.chamfer = el;
-					_bookMark.el_canvas.width = _bookMark.width;
+					redrawWidth(_bookMark.el_canvas.width);
 					_bookMark.render();
 				}
 
@@ -126,6 +126,7 @@ window.onload = function () {
 				 * @param el
 				 */
 				function redrawWidth(el) {
+					_bookMark.clearCanvasLayers();
 					_bookMark.el_canvas.width = el;
 					_bookMark.render();
 				}
@@ -156,7 +157,7 @@ window.onload = function () {
 				 */
 				function redrawChamferRb(el) {
 					_bookMark.el_canvas.chamferRb = el;
-					_bookMark.el_canvas.width = _bookMark.width;
+					redrawWidth(_bookMark.el_canvas.width);
 					_bookMark.render();
 				}
 
@@ -166,7 +167,7 @@ window.onload = function () {
 				 */
 				function redrawChamferLt(el) {
 					_bookMark.el_canvas.chamferLt = el;
-					_bookMark.el_canvas.width = _bookMark.width;
+					redrawWidth(_bookMark.el_canvas.width);
 					_bookMark.render();
 				}
 
@@ -176,7 +177,7 @@ window.onload = function () {
 				 */
 				function redrawChamferLb(el) {
 					_bookMark.el_canvas.chamferLb = el;
-					_bookMark.el_canvas.width = _bookMark.width;
+					redrawWidth(_bookMark.el_canvas.width);
 					_bookMark.render();
 				}
 
