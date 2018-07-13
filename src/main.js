@@ -104,24 +104,6 @@ window.onload = function () {
 				}
 
 				/**
-				 * Change the pattern of the even triangle.
-				 * @param el
-				 */
-				function redrawTriangleEvenPattern(el) {
-					_bookMark.el_canvas.backgroundPatternTriangleEven = el;
-					_bookMark.render();
-				}
-
-				/**
-				 * Change the pattern of the odd triangle.
-				 * @param el
-				 */
-				function redrawTriangleOddPattern(el) {
-					_bookMark.el_canvas.backgroundPatternTriangleOdd = el;
-					_bookMark.render();
-				}
-
-				/**
 				 * Change the width of the canvas.
 				 * @param el
 				 */
@@ -139,6 +121,24 @@ window.onload = function () {
 					_bookMark.backgroundPattern = el;
 					_bookMark.render();
 					redrawWidth(_bookMark.el_canvas.width);
+				}
+
+				/**
+				 * Change the pattern of the even triangle.
+				 * @param el
+				 */
+				function redrawTriangleEvenPattern(el) {
+					_bookMark.backgroundPatternTriangleEven = el;
+					_bookMark.render();
+				}
+
+				/**
+				 * Change the pattern of the odd triangle.
+				 * @param el
+				 */
+				function redrawTriangleOddPattern(el) {
+					_bookMark.backgroundPatternTriangleOdd = el;
+					_bookMark.render();
 				}
 
 				/**

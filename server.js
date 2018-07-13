@@ -1,4 +1,4 @@
-//---ExpressJS
+// ExpressJS
 console.log('Initializing Express...');
 const express = require('express');
 const path = require('path');
@@ -11,10 +11,13 @@ app.use(function (err, req, res, next) {
 	res.status(500).send('Something broke!');
 });
 
-app.use(express.static(__dirname + '/dist' ));
-
-
+// Demo pattern dataset
 let _patterns_dataset = require('./src/dataset.json');
+
+/**
+ * ROUTING
+ */
+app.use(express.static(__dirname + '/dist'));
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/dist/index.html')));
 
@@ -29,7 +32,7 @@ app.get('/patterns/:id', function (req, res, next) {
 	let val = _patterns_dataset[req.params.id];
 	if (req.params.id !== '') {
 		if (val !== null) {
-			res.json(val); 
+			res.json(val);
 		}
 		res.sendStatus(404)
 	}
@@ -37,7 +40,7 @@ app.get('/patterns/:id', function (req, res, next) {
 });
 
 //---Start listening
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 8080;
 app.listen(port);
 
 const routes = app._router.stack
@@ -47,4 +50,4 @@ const routes = app._router.stack
 console.log(JSON.stringify(routes, null, 4));
 
 //  ${Object.keys(ret.methods).join(', ')} ${ret.path}
-console.log('Partheno server  started on port: '+port);
+console.log('Partheno server has started on port: ' + port + '!');

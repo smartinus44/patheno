@@ -10,7 +10,6 @@
     "chamferRb": false,
     "chamferLt": false,
     "chamferLb": false,
-    "backgroundPattern": [],
     "enableTriangles": true,
     "triangleEvenPattern": null,
     "triangleOddPattern": null,
@@ -18,6 +17,7 @@
     "columnsPerWidth": 3,
     "canDownload": true,
     "chamfer": 12,
+    "backgroundPattern": [],
     "el_canvas": {
       "showStrokes": false,
       "chamfer": 12,

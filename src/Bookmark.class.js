@@ -143,13 +143,13 @@ export default class BookMark {
 
 	/**
 	 * Initialize the background.
-	 * @param el
+	 * @param backgroundPattern
 	 * @private
 	 */
-	_setBackgroundPatterns(el) {
+	_setBackgroundPatterns(backgroundPattern) {
 		let _this = this;
 		if (this._hasChamfer()) {
-			console.log('setBackgroundPatterns with chamfer - ' + el);
+			console.log('setBackgroundPatterns with chamfer - ' + backgroundPattern);
 			this._chamferedRect(
 				0,
 				0,
@@ -162,35 +162,42 @@ export default class BookMark {
 				this.chamferLb
 			);
 
-			if (Array.isArray(el)) {
-				_this._buidMirroredPattern(el);
+			// If the pattern is compouned of a couple of faces.
+			if (Array.isArray(backgroundPattern)) {
+				_this._buidMirroredPattern(backgroundPattern);
 			} else {
-				this.el_ctx.fillStyle = _this.images[el];
+				this.el_ctx.fillStyle = _this.images[backgroundPattern];
 			}
 			this.el_ctx.fill();
 		}
 		else {
-			console.log('setBackgroundPatterns without chamfer - ' + el);
-			if (Array.isArray(el)) {
-				// Black background
-				_this._buidMirroredPattern(el);
+			console.log('setBackgroundPatterns without chamfer - ' + backgroundPattern);
+			let pattern;
+			_this.patterns['background'].map(function (b) {
+				if(b.title === backgroundPattern)
+					pattern = b.data
+			});
 
+			// Patterns could be stored in an array or in a single string because of mirrored patterns.
+			if (Array.isArray(pattern)) {
+				_this._buidMirroredPattern(pattern);
 				this.el_ctx.fill();
 			} else {
-				this.el_ctx.fillStyle = _this.images[el];
+				this.el_ctx.fillStyle = _this.images[_this._getFullPath(pattern)];
 				this.el_ctx.fillRect(0, 0, this.el_canvas.width, this.el_canvas.height);
 			}
 		}
 	}
 
 	/**
-	 * Buil a mirrored background pattern.
+	 * Build a mirrored background pattern.
 	 * @param patterns
 	 * @private
 	 */
 	_buidMirroredPattern(patterns) {
 		let _this = this;
 
+		// Black background
 		_this.el_ctx.strokeRect(0, 0, _this.el_canvas.width, _this.el_canvas.height);
 
 		patterns.forEach(function (pattern, index) {
@@ -205,7 +212,7 @@ export default class BookMark {
 
 				// Top left.
 				_this.el_ctx.drawImage(currentImage, 0, 0, width, height);
-				console.log("height: " + height);
+
 				if (index > 0) {
 					// Top right.
 					if (index === 1)
@@ -222,7 +229,7 @@ export default class BookMark {
 	}
 
 	/**
-	 *
+	 * Build a rounded background pattern.
 	 * @param x
 	 * @param y
 	 * @param w
@@ -287,7 +294,7 @@ export default class BookMark {
 	}
 
 	/**
-	 *
+	 * Build a chamfered background pattern.
 	 * @param x
 	 * @param y
 	 * @param w
@@ -390,9 +397,6 @@ export default class BookMark {
 		if (typeof this.patterns[zone] !== 'undefined') {
 			this.patterns[zone].filter(function (pattern) {
 				if (pattern.data) {
-					//if (Array.isArray(pattern.data))
-					//	filteredFull.push(path + pattern.data[0]);
-					//else
 					filteredFull.push(pattern.data);
 				}
 				return true;
@@ -409,15 +413,10 @@ export default class BookMark {
 	 */
 	getFilteredPatternsObjects(zone) {
 		let filteredFull = {};
-		let _this = this;
 
 		this.patterns[zone].filter(function (pattern) {
-			if (pattern.data) {
-				if (Array.isArray(pattern.data))
-					filteredFull[pattern.title] = _this._getFullPath(pattern.data[0]);
-				else
-					filteredFull[pattern.title] = _this._getFullPath(pattern.data);
-			}
+			if (pattern.data)
+				filteredFull[pattern.title] = pattern.title;
 			return true;
 		});
 

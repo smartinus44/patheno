@@ -45,8 +45,7 @@ describe("Bookmark", function () {
 		};
 
 		console.log(bookmark);
-		console.log(bookmark.getFullPath('random.jpg'));
-		console.log(bookmark.setBackgroundPattern('random.jpg'));
+		console.log(bookmark._getFullPath('random.jpg'));
 
 		console.log = oldLog;
 
