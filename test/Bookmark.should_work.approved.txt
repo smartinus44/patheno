@@ -11,13 +11,13 @@
     "chamferLt": false,
     "chamferLb": false,
     "enableTriangles": true,
-    "triangleEvenPattern": null,
-    "triangleOddPattern": null,
+    "triangleEvenPattern": "Bubimga",
+    "triangleOddPattern": "Eucalyptus",
     "showStrokes": false,
     "columnsPerWidth": 3,
     "canDownload": true,
     "chamfer": 12,
-    "backgroundPattern": [],
+    "backgroundPattern": "Sycomore",
     "el_canvas": {
       "showStrokes": false,
       "chamfer": 12,
@@ -25,8 +25,8 @@
       "chamferRb": false,
       "chamferLt": false,
       "chamferLb": false,
-      "backgroundPatternTriangleEven": null,
-      "backgroundPatternTriangleOdd": null
+      "backgroundPatternTriangleEven": "Bubimga",
+      "backgroundPatternTriangleOdd": "Eucalyptus"
     },
     "el_ctx": {
       "canvas": {
@@ -36,8 +36,8 @@
         "chamferRb": false,
         "chamferLt": false,
         "chamferLb": false,
-        "backgroundPatternTriangleEven": null,
-        "backgroundPatternTriangleOdd": null
+        "backgroundPatternTriangleEven": "Bubimga",
+        "backgroundPatternTriangleOdd": "Eucalyptus"
       }
     }
   },

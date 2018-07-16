@@ -142,6 +142,22 @@ export default class BookMark {
 	}
 
 	/**
+	 * Find a pattern in a list of patterns.
+	 * @param searchedPattern
+	 * @return {string}
+	 * @private
+	 */
+	_findPattern(searchedPattern) {
+		let pattern;
+		this.patterns['background'].map(function (b) {
+			if (b.title === searchedPattern)
+				pattern = b.data;
+		});
+
+		return pattern;
+	}
+
+	/**
 	 * Initialize the background.
 	 * @param backgroundPattern
 	 * @private
@@ -163,27 +179,24 @@ export default class BookMark {
 			);
 
 			// If the pattern is compouned of a couple of faces.
-			if (Array.isArray(backgroundPattern)) {
+			if (Array.isArray(backgroundPattern))
 				_this._buidMirroredPattern(backgroundPattern);
-			} else {
-				this.el_ctx.fillStyle = _this.images[backgroundPattern];
-			}
+			else
+				this._applyStyle(_this.images[backgroundPattern]);
+
 			this.el_ctx.fill();
 		}
 		else {
 			console.log('setBackgroundPatterns without chamfer - ' + backgroundPattern);
-			let pattern;
-			_this.patterns['background'].map(function (b) {
-				if(b.title === backgroundPattern)
-					pattern = b.data
-			});
+
+			let pattern = _this._findPattern(backgroundPattern);
 
 			// Patterns could be stored in an array or in a single string because of mirrored patterns.
 			if (Array.isArray(pattern)) {
 				_this._buidMirroredPattern(pattern);
 				this.el_ctx.fill();
 			} else {
-				this.el_ctx.fillStyle = _this.images[_this._getFullPath(pattern)];
+				this._applyStyle(_this.images[_this._getFullPath(pattern)]);
 				this.el_ctx.fillRect(0, 0, this.el_canvas.width, this.el_canvas.height);
 			}
 		}
@@ -200,15 +213,14 @@ export default class BookMark {
 		// Black background
 		_this.el_ctx.strokeRect(0, 0, _this.el_canvas.width, _this.el_canvas.height);
 
-		patterns.forEach(function (pattern, index) {
+		let pow = parseFloat(_this.el_canvas.width / 2);
+		let width = _this.width;
+		let height = _this.height;
 
+		patterns.forEach(function (pattern, index) {
 			let currentImage = _this.images[_this._getFullPath(pattern)];
-			let pow = parseFloat(_this.el_canvas.width / 2);
 
 			if (currentImage) {
-
-				let width = _this.width;
-				let height = _this.height;
 
 				// Top left.
 				_this.el_ctx.drawImage(currentImage, 0, 0, width, height);
@@ -447,13 +459,14 @@ export default class BookMark {
 						_this.repeatBackgroundHeight = _this.height / ss_image.height;
 					};
 					ss_image.src = atob(ss_elpattern);
+
+					if (_imagesLoading === 0)
+						_this._triggeredOnPatternsLoaded(atob(ss_elpattern));
 				});
 
 				--_imagesLoading;
 				console.log(_imagesLoading + ' ' + zone + ' pattern(s) still loading');
 
-				if (_imagesLoading === 0)
-					_this._triggeredOnPatternsLoaded();
 			}
 			else {
 				let image = new Image();
@@ -463,7 +476,7 @@ export default class BookMark {
 					--_imagesLoading;
 					console.log(_imagesLoading + ' ' + zone + ' pattern(s) still loading');
 					if (_imagesLoading === 0)
-						_this._triggeredOnPatternsLoaded();
+						_this._triggeredOnPatternsLoaded(atob(elpattern));
 				};
 				image.src = atob(elpattern);
 			}
@@ -512,18 +525,53 @@ export default class BookMark {
 	}
 
 	/**
+	 * Apply a pattern to a context of a canvas.
+	 * @param style
+	 * @private
+	 */
+	_applyStyle(style) {
+		this.el_ctx.fillStyle = style;
+	}
+
+	/**
+	 * Draw a single even or odd triangle.
+	 * @param isEven
+	 * @private
+	 */
+	_drawSingleTriangle(isEven) {
+
+		let pattern;
+
+		this.patterns['triangles'].map(function (b) {
+			if (b.title === ((isEven === true) ? this.el_canvas.backgroundPatternTriangleEven : this.el_canvas.backgroundPatternTriangleOdd))
+				pattern = b.data;
+		}.bind(this));
+
+		this._applyStyle(this.images[this._getFullPath(pattern)]);
+
+		console.log('Render a ' + (isEven ? 'even' : 'odd') + ' triangle with ' + pattern);
+
+		if (isEven) {
+			this.el_ctx.lineTo(this._column_width + this._offset, this._first_coef);
+			this.el_ctx.lineTo(this._offset, this._first_coef);
+		} else {
+			this.el_ctx.lineTo(this._column_width + this._offset, this._second_coef);
+			this.el_ctx.lineTo(this._offset, this._second_coef);
+		}
+	}
+
+	/**
 	 * Draw the pairs of triangles.
 	 * @private
 	 */
 	_drawTriangles() {
 
-		if (this.el_canvas.chamfer > 0) {
+		if (this._hasChamfer())
 			this.el_ctx.clip();
-		}
 
 		let _triangle_height;
-		let _column_width = this.el_canvas.width / this.columnsPerWidth;
-		let _half_width = _column_width / 2;
+		this._column_width = this.el_canvas.width / this.columnsPerWidth;
+		let _half_width = this._column_width / 2;
 
 		// Draw each triangle pair.
 		for (let j = 1; j <= this.numberOfPairOfTriangles; j++) {
@@ -537,42 +585,46 @@ export default class BookMark {
 				this.el_ctx.lineWidth = LINE_WIDTH;
 
 				// The offset between each column.
-				let _offset = l * _column_width;
-				let _first_coef = 2 * (_triangle_height * j - _triangle_height);
-				let _second_coef = _first_coef + (2 * _triangle_height);
-				let _third_coef = ((_second_coef - _triangle_height) / j) * j;
+				this._offset = l * this._column_width;
+				this._first_coef = 2 * (_triangle_height * j - _triangle_height);
+				this._second_coef = this._first_coef + (2 * _triangle_height);
+				this._third_coef = ((this._second_coef - _triangle_height) / j) * j;
 
 				// Draw a pair of triangles.
 				for (let k = 1; k <= 2; k++) {
 					this.el_ctx.beginPath();
-					this.el_ctx.moveTo(_half_width + _offset, _third_coef);
+
+					this.el_ctx.moveTo(_half_width + this._offset, this._third_coef);
 
 					// Draw a triangle with the base at the top or at the bottom.
 					if (k % 2 === 1) {
-						this.el_ctx.fillStyle = this.images[this.el_canvas.backgroundPatternTriangleEven];
-						this.el_ctx.lineTo(_column_width + _offset, _first_coef);
-						this.el_ctx.lineTo(_offset, _first_coef);
+						this._drawSingleTriangle(true);
 					} else {
-						this.el_ctx.fillStyle = this.images[this.el_canvas.backgroundPatternTriangleOdd];
-						this.el_ctx.lineTo(_column_width + _offset, _second_coef);
-						this.el_ctx.lineTo(_offset, _second_coef);
+						this._drawSingleTriangle(false);
 					}
 
 					this.el_ctx.closePath();
 
-					// If show strokes flag is on.
-					if (this.el_canvas.showStrokes === true) {
-						this.el_ctx.strokeStyle = STROKE_COLOR;
-						this.el_ctx.stroke();
-					}
+					this._drawStrokes();
 
 					this.el_ctx.fill();
 				}
 			}
 		}
 
-		if (this.el_canvas.chamfer > 0) {
+		if (this._hasChamfer())
 			this.el_ctx.restore();
+	}
+
+	/**
+	 * Draw strokes or not.
+	 * @private
+	 */
+	_drawStrokes() {
+		// If show strokes flag is on.
+		if (this.el_canvas.showStrokes === true) {
+			this.el_ctx.strokeStyle = STROKE_COLOR;
+			this.el_ctx.stroke();
 		}
 	}
 
@@ -583,22 +635,20 @@ export default class BookMark {
 		let _this = this;
 
 		setTimeout(function () {
-			console.log('render...');
 			_this._drawBackground();
 
-			if (_this.enableTriangles) {
+			if (_this.enableTriangles)
 				_this._drawTriangles();
-			}
 		}, 100);
 	}
 
 	/**
 	 * Function called when all images are loaded.
+	 * @param loadedPattern
 	 * @private
 	 */
-	_triggeredOnPatternsLoaded() {
-		let _this = this;
-		_this.clearCanvasLayers();
-		_this.render();
+	_triggeredOnPatternsLoaded(loadedPattern) {
+		this.clearCanvasLayers();
+		this.render();
 	}
 }

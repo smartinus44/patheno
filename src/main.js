@@ -36,11 +36,11 @@ window.onload = function () {
 					i,
 					1063,
 					width,
-					collection.background[0].data,
+					collection.background[0].title,
 					_.random(1, 30),
 					true,
-					null,
-					null,
+					collection.triangles[0].title,
+					collection.triangles[1].title,
 					false,
 					_.random(1, 5),
 					true,
@@ -52,7 +52,7 @@ window.onload = function () {
 					false
 				);
 
-				let _folder = _gui.addFolder('Example with dataset ' + i);
+				let _folder = _gui.addFolder('Example ' + i);
 
 				/**
 				 * Draw the canvas with the desired number of triangle pairs.
@@ -214,27 +214,6 @@ window.onload = function () {
 				_gui.remember(_bookMark);
 			}
 
-			// Let's construct a non editable canvas without link.
-			/*
-			let demo = new BookMark(
-				'demo'
-				300,
-				300,
-				"/images/dataset/1/etre.jpg",
-				3,
-				true,
-				"Citronnier",
-				"Cypres",
-				false,
-				1,
-				true,
-				_dataset[0],
-				10,
-				false,
-				false,
-				false,
-				false
-			);*/
 		}
 	};
 	init();
