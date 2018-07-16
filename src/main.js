@@ -128,7 +128,7 @@ window.onload = function () {
 				 * @param el
 				 */
 				function redrawTriangleEvenPattern(el) {
-					_bookMark.backgroundPatternTriangleEven = el;
+					_bookMark.el_canvas.backgroundPatternTriangleEven = el;
 					_bookMark.render();
 				}
 
@@ -137,7 +137,7 @@ window.onload = function () {
 				 * @param el
 				 */
 				function redrawTriangleOddPattern(el) {
-					_bookMark.backgroundPatternTriangleOdd = el;
+					_bookMark.el_canvas.backgroundPatternTriangleOdd = el;
 					_bookMark.render();
 				}
 

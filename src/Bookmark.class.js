@@ -530,6 +530,7 @@ export default class BookMark {
 	 * @private
 	 */
 	_applyStyle(style) {
+		console.log('Apply style: ' + style);
 		this.el_ctx.fillStyle = style;
 	}
 
