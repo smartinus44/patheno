@@ -1,0 +1,45 @@
+[
+  {
+    "uniqueId": 1,
+    "images": [],
+    "numberOfPairOfTriangles": 23,
+    "patterns": [],
+    "height": 1063,
+    "width": 100,
+    "chamferRt": false,
+    "chamferRb": false,
+    "chamferLt": false,
+    "chamferLb": false,
+    "enableTriangles": true,
+    "triangleEvenPattern": "Bubimga",
+    "triangleOddPattern": "Eucalyptus",
+    "showStrokes": false,
+    "columnsPerWidth": 3,
+    "canDownload": true,
+    "chamfer": 12,
+    "backgroundPattern": "Sycomore",
+    "el_canvas": {
+      "showStrokes": false,
+      "chamfer": 12,
+      "chamferRt": false,
+      "chamferRb": false,
+      "chamferLt": false,
+      "chamferLb": false,
+      "backgroundPatternTriangleEven": "Bubimga",
+      "backgroundPatternTriangleOdd": "Eucalyptus"
+    },
+    "el_ctx": {
+      "canvas": {
+        "showStrokes": false,
+        "chamfer": 12,
+        "chamferRt": false,
+        "chamferRb": false,
+        "chamferLt": false,
+        "chamferLb": false,
+        "backgroundPatternTriangleEven": "Bubimga",
+        "backgroundPatternTriangleOdd": "Eucalyptus"
+      }
+    }
+  },
+  "dW5kZWZpbmVkcmFuZG9tLmpwZw=="
+]

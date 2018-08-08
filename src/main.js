@@ -36,23 +36,23 @@ window.onload = function () {
 					i,
 					1063,
 					width,
-					collection.path + collection.background[0].data,
+					collection.background[0].title,
 					_.random(1, 30),
 					true,
-					null,
-					null,
+					collection.triangles[0].title,
+					collection.triangles[1].title,
 					false,
 					_.random(1, 5),
 					true,
 					collection,
-					_.random(1, (width / 2)),
-					true,
+					0,
+					false,
 					false,
 					false,
 					false
 				);
 
-				let _folder = _gui.addFolder('Example with dataset ' + i);
+				let _folder = _gui.addFolder('Example ' + i);
 
 				/**
 				 * Draw the canvas with the desired number of triangle pairs.
@@ -89,7 +89,7 @@ window.onload = function () {
 				 */
 				function redrawChamfer(el) {
 					_bookMark.el_canvas.chamfer = el;
-					_bookMark.el_canvas.width = _bookMark.width;
+					redrawWidth(_bookMark.el_canvas.width);
 					_bookMark.render();
 				}
 
@@ -101,6 +101,26 @@ window.onload = function () {
 					_bookMark.el_canvas.showStrokes = el;
 					_bookMark.clearCanvasLayers();
 					_bookMark.render();
+				}
+
+				/**
+				 * Change the width of the canvas.
+				 * @param el
+				 */
+				function redrawWidth(el) {
+					_bookMark.clearCanvasLayers();
+					_bookMark.el_canvas.width = el;
+					_bookMark.render();
+				}
+
+				/**
+				 * Draw the background pattern.
+				 * @param el
+				 */
+				function redrawBackgroundPattern(el) {
+					_bookMark.backgroundPattern = el;
+					_bookMark.render();
+					redrawWidth(_bookMark.el_canvas.width);
 				}
 
 				/**
@@ -122,25 +142,6 @@ window.onload = function () {
 				}
 
 				/**
-				 * Change the width of the canvas.
-				 * @param el
-				 */
-				function redrawWidth(el) {
-					_bookMark.el_canvas.width = el;
-					_bookMark.render();
-				}
-
-				/**
-				 * Draw the background pattern.
-				 * @param el
-				 */
-				function redrawBackgroundPattern(el) {
-					_bookMark.backgroundPattern = el;
-					_bookMark.render();
-					redrawWidth(_bookMark.el_canvas.width);
-				}
-
-				/**
 				 * Enable the right top chamfer.
 				 * @param el
 				 */
@@ -156,7 +157,7 @@ window.onload = function () {
 				 */
 				function redrawChamferRb(el) {
 					_bookMark.el_canvas.chamferRb = el;
-					_bookMark.el_canvas.width = _bookMark.width;
+					redrawWidth(_bookMark.el_canvas.width);
 					_bookMark.render();
 				}
 
@@ -166,7 +167,7 @@ window.onload = function () {
 				 */
 				function redrawChamferLt(el) {
 					_bookMark.el_canvas.chamferLt = el;
-					_bookMark.el_canvas.width = _bookMark.width;
+					redrawWidth(_bookMark.el_canvas.width);
 					_bookMark.render();
 				}
 
@@ -176,7 +177,7 @@ window.onload = function () {
 				 */
 				function redrawChamferLb(el) {
 					_bookMark.el_canvas.chamferLb = el;
-					_bookMark.el_canvas.width = _bookMark.width;
+					redrawWidth(_bookMark.el_canvas.width);
 					_bookMark.render();
 				}
 
@@ -213,27 +214,6 @@ window.onload = function () {
 				_gui.remember(_bookMark);
 			}
 
-			// Let's construct a non editable canvas without link.
-			/*
-			let demo = new BookMark(
-				'demo'
-				300,
-				300,
-				"/images/dataset/1/etre.jpg",
-				3,
-				true,
-				"Citronnier",
-				"Cypres",
-				false,
-				1,
-				true,
-				_dataset[0],
-				10,
-				false,
-				false,
-				false,
-				false
-			);*/
 		}
 	};
 	init();
