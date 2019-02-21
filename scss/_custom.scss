@@ -3,326 +3,297 @@ $secondary-color: #999999;
 $third-color: #666666;
 
 /* For mobile phones: */
+
 [class*="col-"] {
-  width: 100%;
+    width: 100%;
 }
 
 .col-1 {
-  width: 8.33%;
+    width: 8.33%;
 }
 
 .col-2 {
-  width: 16.66%;
+    width: 16.66%;
 }
 
 .col-3 {
-  width: 25%;
+    width: 25%;
 }
 
 .col-4 {
-  width: 33.33%;
+    width: 33.33%;
 }
 
 .col-5 {
-  width: 41.66%;
+    width: 41.66%;
 }
 
 .col-6 {
-  width: 50%;
+    width: 50%;
 }
 
 .col-7 {
-  width: 58.33%;
+    width: 58.33%;
 }
 
 .col-8 {
-  width: 66.66%;
+    width: 66.66%;
 }
 
 .col-9 {
-  width: 75%;
+    width: 75%;
 }
 
 .col-10 {
-  width: 83.33%;
+    width: 83.33%;
 }
 
 .col-11 {
-  width: 91.66%;
+    width: 91.66%;
 }
 
 .col-12 {
-  width: 100%;
+    width: 100%;
 }
+
 
 /* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
 
-}
+@media only screen and (max-width: 600px) {}
 
 @media only screen and (max-width: 768px) {
-  /* For mobile phones: */
-  [class*="col-"] {
-    width: 100%;
-  }
-
-  body {
-    .main {
-      flex-wrap: wrap;
+    /* For mobile phones: */
+    [class*="col-"] {
+        width: 100%;
     }
-
-    h1, h2 {
-      margin-left: 10px;
+    body {
+        .main {
+            flex-wrap: wrap;
+        }
+        h1,
+        h2 {
+            margin-left: 10px;
+        }
     }
-  }
 }
+
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
+
 @media only screen and (min-width: 600px) {
-
-  body {
-
-    .container {
-      margin-left: 10px;
+    body {
+        .container {
+            margin-left: 10px;
+        }
+        .main {
+            flex-wrap: wrap;
+        }
+        h1,
+        h2 {
+            margin-left: 10px;
+        }
     }
-
-    .main {
-      flex-wrap: wrap;
+    /* For tablets: */
+    .col-s-1 {
+        width: 8.33%;
     }
-
-    h1, h2 {
-      margin-left: 10px;
+    .col-s-2 {
+        width: 16.66%;
     }
-  }
-
-  /* For tablets: */
-  .col-s-1 {
-    width: 8.33%;
-  }
-  .col-s-2 {
-    width: 16.66%;
-  }
-  .col-s-3 {
-    width: 25%;
-  }
-  .col-s-4 {
-    width: 33.33%;
-  }
-  .col-s-5 {
-    width: 41.66%;
-  }
-  .col-s-6 {
-    width: 50%;
-  }
-  .col-s-7 {
-    width: 58.33%;
-  }
-  .col-s-8 {
-    width: 66.66%;
-  }
-  .col-s-9 {
-    width: 75%;
-  }
-  .col-s-10 {
-    width: 83.33%;
-  }
-  .col-s-11 {
-    width: 91.66%;
-  }
-  .col-s-12 {
-    width: 100%;
-  }
+    .col-s-3 {
+        width: 25%;
+    }
+    .col-s-4 {
+        width: 33.33%;
+    }
+    .col-s-5 {
+        width: 41.66%;
+    }
+    .col-s-6 {
+        width: 50%;
+    }
+    .col-s-7 {
+        width: 58.33%;
+    }
+    .col-s-8 {
+        width: 66.66%;
+    }
+    .col-s-9 {
+        width: 75%;
+    }
+    .col-s-10 {
+        width: 83.33%;
+    }
+    .col-s-11 {
+        width: 91.66%;
+    }
+    .col-s-12 {
+        width: 100%;
+    }
 }
+
 
 /* Medium devices (landscape tablets, 768px and up) */
+
 @media only screen and (min-width: 768px) {
-
-  /* For desktop: */
-  .col-1 {
-    width: 8.33%;
-  }
-  .col-2 {
-    width: 16.66%;
-  }
-  .col-3 {
-    width: 25%;
-  }
-  .col-4 {
-    width: 33.33%;
-  }
-  .col-5 {
-    width: 41.66%;
-  }
-  .col-6 {
-    width: 50%;
-  }
-  .col-7 {
-    width: 58.33%;
-  }
-  .col-8 {
-    width: 66.66%;
-  }
-  .col-9 {
-    width: 75%;
-  }
-  .col-10 {
-    width: 83.33%;
-  }
-  .col-11 {
-    width: 91.66%;
-  }
-  .col-12 {
-    width: 100%;
-  }
-
-  body {
-
-    .main {
-      flex-wrap: initial;
+    /* For desktop: */
+    .col-1 {
+        width: 8.33%;
     }
-
-    h1, h2 {
-      margin: 3px 10px;
+    .col-2 {
+        width: 16.66%;
     }
-
-    aside {
-      width: 300px !important;
+    .col-3 {
+        width: 25%;
     }
-  }
+    .col-4 {
+        width: 33.33%;
+    }
+    .col-5 {
+        width: 41.66%;
+    }
+    .col-6 {
+        width: 50%;
+    }
+    .col-7 {
+        width: 58.33%;
+    }
+    .col-8 {
+        width: 66.66%;
+    }
+    .col-9 {
+        width: 75%;
+    }
+    .col-10 {
+        width: 83.33%;
+    }
+    .col-11 {
+        width: 91.66%;
+    }
+    .col-12 {
+        width: 100%;
+    }
+    body {
+        .main {
+            flex-wrap: initial;
+        }
+        h1,
+        h2 {
+            margin: 3px 10px;
+        }
+    }
 }
+
 
 /* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
 
-  .container {
-    margin-left: 0;
-  }
+@media only screen and (min-width: 992px) {
+    .container {
+        margin-left: 0;
+    }
 }
+
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
-}
+
+@media only screen and (min-width: 1200px) {}
 
 body {
-
-  background-color: $primary-color;
-  color: whitesmoke;
-  margin: 10px 0;
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas,
-  "Liberation Mono",
-  "Courier New",
-  monospace;
-
-  h1 {
-    text-transform: uppercase;
-    font-size: 3em;
-  }
-
-  h1, h2 {
-    text-align: center;
-    width: 100%;
-  }
-
-  h3 {
-    font-size: 1.2em;
-  }
-
-  a {
-
-    text-decoration: none;
-    color: white;
-
-    &.btn {
-      &.btn-dark {
-        background: black;
-        padding: 10px;
-        font-size: 11px;
-      }
-    }
-  }
-
-  .container {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-  }
-
-  section {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    background: #333;
-    padding: 10px;
-    min-height: 462px;
-    width: 100%;
-    align-items: center;
-  }
-
-  aside {
-    text-align: left;
-    padding: 10px;
-    top: 10px;
-    background-color: firebrick;
-    font-size: 14px;
-    border-left: 10px solid black;
-    width: 300px;
-  }
-
-  .main {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-    width: 100%;
-  }
-
-  textarea {
-    width: calc(100% - 30px);
-    margin: 15px 15px 0 15px;
-    font-family: SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono",
-    "Courier New",
-    monospace;
-  }
-
-  .row {
-    margin: 0 10px 0 0;
-  }
-
-  .canvas-container {
-    display: flex;
-    background-color: $secondary-color;
-    overflow: hidden;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-
-  .panel {
-    text-align: center;
-    background: $third-color;
-    min-width: 320px;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    border: 2px dashed $secondary-color;
-    border-right: none;
-    &:last-child {
-      border-right: 2px dashed $secondary-color;
-    }
-  }
-
-  .footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 60px;
-    line-height: 60px; /* Vertically center the text there */
     background-color: $primary-color;
-  }
+    color: whitesmoke;
+    margin: 10px 0;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    h1 {
+        text-transform: uppercase;
+        font-size: 3em;
+    }
+    h1,
+    h2 {
+        text-align: center;
+        width: 100%;
+    }
+    h3 {
+        font-size: 1.2em;
+    }
+    a {
+        text-decoration: none;
+        color: white;
+        &.btn {
+            &.btn-dark {
+                background: black;
+                padding: 10px;
+                font-size: 11px;
+            }
+        }
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+    section {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        background: #333;
+        padding: 10px;
+        min-height: 462px;
+        width: 100%;
+        align-items: center;
+    }
+    aside {
+        text-align: left;
+        padding: 10px;
+        top: 10px;
+        background-color: firebrick;
+        font-size: 14px;
+        border-left: 10px solid black;
+    }
+    .main {
+        display: flex;
+        margin: 10px 0;
+        width: 100%;
+    }
+    textarea {
+        width: calc(100% - 30px);
+        margin: 15px 15px 0 15px;
+        font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    .row {
+        margin: 0 10px 0 0;
+    }
+    .canvas-container {
+        display: flex;
+        background-color: $secondary-color;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    .panel {
+        text-align: center;
+        background: $third-color;
+        min-width: 320px;
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        border: 2px dashed $secondary-color;
+        border-right: none;
+        &:last-child {
+            border-right: 2px dashed $secondary-color;
+        }
+    }
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        /* Set the fixed height of the footer here */
+        height: 60px;
+        line-height: 60px;
+        /* Vertically center the text there */
+        background-color: $primary-color;
+    }
 }
 
 .dg.a .save-row {
-  margin: 20px 0 0 0;
+    margin: 20px 0 0 0;
 }
