@@ -8,49 +8,53 @@ approvals.mocha();
 
 require('jsdom-global')();
 
-describe("Bookmark", function () {
+HTMLCanvasElement.prototype.getContext = () => {
+    // return whatever getContext has to return
+};
 
-	let bookmark;
 
-	beforeEach(() => {
+describe("Bookmark", function() {
 
-		// Create a new Rectangle object before every test.
-		bookmark = new BookMark(
-			1,
-			1063,
-			100,
-			'Sycomore',
-			23,
-			true,
-			'Bubimga',
-			'Eucalyptus',
-			false,
-			3,
-			true,
-			[],
-			12,
-			false,
-			false,
-			false,
-			false
-		);
-	});
+    let bookmark;
 
-	it("should work", function () {
+    beforeEach(() => {
 
-		const loggedLines = [];
-		const oldLog = console.log;
-		console.log = function (arg) {
-			loggedLines.push(arg);
-		};
+        // Create a new Rectangle object before every test.
+        bookmark = new BookMark(
+            1,
+            1063,
+            100,
+            'Sycomore',
+            23,
+            true,
+            'Bubimga',
+            'Eucalyptus',
+            false,
+            3,
+            true, [],
+            12,
+            false,
+            false,
+            false,
+            false
+        );
+    });
 
-		console.log(bookmark);
-		console.log(bookmark._getFullPath('random.jpg'));
+    it("should work", function() {
 
-		console.log = oldLog;
+        const loggedLines = [];
+        const oldLog = console.log;
+        console.log = function(arg) {
+            loggedLines.push(arg);
+        };
 
-		this.verifyAsJSON(loggedLines)
+        console.log(bookmark);
+        console.log(bookmark._getFullPath('random.jpg'));
 
-	});
+        console.log = oldLog;
+
+        this.verifyAsJSON(loggedLines)
+
+    });
 
 });

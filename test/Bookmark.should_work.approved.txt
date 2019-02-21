@@ -27,18 +27,6 @@
       "chamferLb": false,
       "backgroundPatternTriangleEven": "Bubimga",
       "backgroundPatternTriangleOdd": "Eucalyptus"
-    },
-    "el_ctx": {
-      "canvas": {
-        "showStrokes": false,
-        "chamfer": 12,
-        "chamferRt": false,
-        "chamferRb": false,
-        "chamferLt": false,
-        "chamferLb": false,
-        "backgroundPatternTriangleEven": "Bubimga",
-        "backgroundPatternTriangleOdd": "Eucalyptus"
-      }
     }
   },
   "dW5kZWZpbmVkcmFuZG9tLmpwZw=="
