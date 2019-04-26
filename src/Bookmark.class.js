@@ -8,23 +8,23 @@ export default class BookMark {
 
 	/**
 	 * Constructor.
-	 * @param _uniqueId
-	 * @param _height
-	 * @param _width
-	 * @param _background
-	 * @param _numberOfpairs
-	 * @param _enableTriangles
-	 * @param _evenPattern
-	 * @param _oddPattern
-	 * @param _showStrokes
-	 * @param _columns_per_width
-	 * @param _can_download
-	 * @param _patterns
-	 * @param _chamfer
-	 * @param _chamferRt
-	 * @param _chamferRb
-	 * @param _chamferLt
-	 * @param _chamferLb
+	 * @param {number} _uniqueId
+	 * @param {number} _height
+	 * @param {number} _width
+	 * @param {string}_background
+	 * @param {number} _numberOfpairs
+	 * @param {boolean} _enableTriangles
+	 * @param {string} _evenPattern
+	 * @param {string}_oddPattern
+	 * @param {boolean} _showStrokes
+	 * @param {number} _columns_per_width
+	 * @param {boolean} _can_download
+	 * @param {Object} _patterns
+	 * @param {number} _chamfer
+	 * @param {boolean} _chamferRt
+	 * @param {boolean}  _chamferRb
+	 * @param {boolean}  _chamferLt
+	 * @param {boolean}  _chamferLb
 	 * @returns {BookMark}
 	 */
 	constructor(_uniqueId, _height, _width, _background, _numberOfpairs, _enableTriangles, _evenPattern,
@@ -86,70 +86,51 @@ export default class BookMark {
 	}
 
 	/**
-	 * Set background pattern.
-	 * @param background
-	 * @private
-	 */
-	_setBackground(background) {
-
-		if (!background) {
-			this.backgroundPattern = this._getRandomPattern('background');
-		} else {
-			let patterns = background;
-			patterns.map(function (pattern, index) {
-				patterns[index] = pattern;
-			});
-			this.backgroundPattern = patterns;
-		}
-	}
-
-	/**
 	 * Randomly returns a pattern.
-	 * @param zone
-	 * @returns {*}
+	 * @param {string} zone
+	 * @returns {string|null}
 	 * @private
 	 */
 	_getRandomPattern(zone) {
-		let _this = this;
 		let result = null;
-		if (typeof _this.patterns[zone] !== 'undefined') {
-			let value = Math.floor(Math.random() * _this.patterns[zone].length);
-			result = _this._getFullPath(_this.patterns[zone][value].data)
+		if (typeof this.patterns[zone] !== 'undefined') {
+			let value = Math.floor(Math.random() * this.patterns[zone].length);
+			result = this._getFullPath(this.patterns[zone][value].data);
 		}
 		return result;
 	}
 
 	/**
 	 * Return true if only one chamfer is enabled.
-	 * @returns {*}
+	 * @returns {boolean}
 	 * @private
 	 */
 	_hasChamfer() {
 		return (this.chamferRt ||
 			this.chamferRb ||
 			this.chamferLt ||
-			this.chamferLb)
+			this.chamferLb);
 	}
 
 	/**
 	 * Return clean full path of a pattern.
-	 * @param path
+	 * @param {string} path
 	 * @returns {string}
 	 * @private
 	 */
 	_getFullPath(path) {
-		return btoa(this.patterns['path'] + path);
+		return btoa(this.patterns.path + path);
 	}
 
 	/**
 	 * Find a pattern in a list of patterns.
-	 * @param searchedPattern
+	 * @param {string} searchedPattern
 	 * @return {string}
 	 * @private
 	 */
 	_findPattern(searchedPattern) {
 		let pattern;
-		this.patterns['background'].map(function (b) {
+		this.patterns.background.map((b) => {
 			if (b.title === searchedPattern)
 				pattern = b.data;
 		});
@@ -159,11 +140,11 @@ export default class BookMark {
 
 	/**
 	 * Initialize the background.
-	 * @param backgroundPattern
+	 * @param {string|Array} backgroundPattern
 	 * @private
 	 */
 	_setBackgroundPatterns(backgroundPattern) {
-		let _this = this;
+		console.log(this.images);
 		if (this._hasChamfer()) {
 			console.log('setBackgroundPatterns with chamfer - ' + backgroundPattern);
 			this._chamferedRect(
@@ -180,23 +161,23 @@ export default class BookMark {
 
 			// If the pattern is compouned of a couple of faces.
 			if (Array.isArray(backgroundPattern))
-				_this._buidMirroredPattern(backgroundPattern);
+				this._buidMirroredPattern(backgroundPattern);
 			else
-				this._applyStyle(_this.images[backgroundPattern]);
+				this._applyStyle(this.images[backgroundPattern]);
 
 			this.el_ctx.fill();
 		}
 		else {
 			console.log('setBackgroundPatterns without chamfer - ' + backgroundPattern);
 
-			let pattern = _this._findPattern(backgroundPattern);
+			let pattern = this._findPattern(backgroundPattern);
 
 			// Patterns could be stored in an array or in a single string because of mirrored patterns.
 			if (Array.isArray(pattern)) {
-				_this._buidMirroredPattern(pattern);
+				this._buidMirroredPattern(pattern);
 				this.el_ctx.fill();
 			} else {
-				this._applyStyle(_this.images[_this._getFullPath(pattern)]);
+				this._applyStyle(this.images[this._getFullPath(pattern)]);
 				this.el_ctx.fillRect(0, 0, this.el_canvas.width, this.el_canvas.height);
 			}
 		}
@@ -204,37 +185,36 @@ export default class BookMark {
 
 	/**
 	 * Build a mirrored background pattern.
-	 * @param patterns
+	 * @param {Object} patterns
 	 * @private
 	 */
 	_buidMirroredPattern(patterns) {
-		let _this = this;
-
+	
 		// Black background
-		_this.el_ctx.strokeRect(0, 0, _this.el_canvas.width, _this.el_canvas.height);
+		this.el_ctx.strokeRect(0, 0, this.el_canvas.width, this.el_canvas.height);
 
-		let pow = parseFloat(_this.el_canvas.width / 2);
-		let width = _this.width;
-		let height = _this.height;
+		let pow = parseFloat(this.el_canvas.width / 2);
+		let width = this.width;
+		let height = this.height;
 
-		patterns.forEach(function (pattern, index) {
-			let currentImage = _this.images[_this._getFullPath(pattern)];
+		patterns.forEach((pattern, index) => {
+			let currentImage = this.images[this._getFullPath(pattern)];
 
 			if (currentImage) {
 
 				// Top left.
-				_this.el_ctx.drawImage(currentImage, 0, 0, width, height);
+				this.el_ctx.drawImage(currentImage, 0, 0, width, height);
 
 				if (index > 0) {
 					// Top right.
 					if (index === 1)
-						_this.el_ctx.drawImage(currentImage, pow, 0, width, height);
+						this.el_ctx.drawImage(currentImage, pow, 0, width, height);
 					// Bottom left.
 					if (index === 2)
-						_this.el_ctx.drawImage(currentImage, 0, 200, width, height);
+						this.el_ctx.drawImage(currentImage, 0, 200, width, height);
 					// Bottom right.
 					if (index === 3)
-						_this.el_ctx.drawImage(currentImage, pow, 200, width, height);
+						this.el_ctx.drawImage(currentImage, pow, 200, width, height);
 				}
 			}
 		});
@@ -242,15 +222,15 @@ export default class BookMark {
 
 	/**
 	 * Build a rounded background pattern.
-	 * @param x
-	 * @param y
-	 * @param w
-	 * @param h
-	 * @param radius
-	 * @param rt
-	 * @param lt
-	 * @param rb
-	 * @param lb
+	 * @param {number} x
+	 * @param {number} y
+	 * @param {number} w
+	 * @param {number} h
+	 * @param {number} radius
+	 * @param {boolean} rt
+	 * @param {boolean} lt
+	 * @param {boolean} rb
+	 * @param {boolean} lb
 	 * @private
 	 */
 	_roundRect(x, y, w, h, radius, rt, lt, rb, lb) {
@@ -261,7 +241,6 @@ export default class BookMark {
 		this.el_ctx.lineWidth = "2";
 
 		if (rt) {
-
 			if (lt) {
 				this.el_ctx.moveTo(x, y);
 			} else {
@@ -307,15 +286,15 @@ export default class BookMark {
 
 	/**
 	 * Build a chamfered background pattern.
-	 * @param x
+	 * @param {number} x
 	 * @param y
 	 * @param w
 	 * @param h
 	 * @param radius
-	 * @param rt
-	 * @param lt
-	 * @param rb
-	 * @param lb
+	 * @param {boolean} rt
+	 * @param {boolean} lt
+	 * @param {boolean} rb
+	 * @param {boolean} lb
 	 * @private
 	 */
 	_chamferedRect(x, y, w, h, radius, rt, lt, rb, lb) {
@@ -357,8 +336,8 @@ export default class BookMark {
 
 	/**
 	 * Draw a canvas.
-	 * @param elementId
-	 * @param zoneId
+	 * @param {string} elementId
+	 * @param {string} zoneId
 	 * @returns {Element}
 	 * @private
 	 */
@@ -399,7 +378,7 @@ export default class BookMark {
 
 	/**
 	 * Get filtered patterns.
-	 * @param zone
+	 * @param {string} zone
 	 * @returns {Array}
 	 * @private
 	 */
@@ -407,7 +386,7 @@ export default class BookMark {
 		let filteredFull = [];
 
 		if (typeof this.patterns[zone] !== 'undefined') {
-			this.patterns[zone].filter(function (pattern) {
+			this.patterns[zone].filter((pattern) => {
 				if (pattern.data) {
 					filteredFull.push(pattern.data);
 				}
@@ -420,13 +399,13 @@ export default class BookMark {
 
 	/**
 	 * Get filtered patterns object.
-	 * @param zone
-	 * @returns {{}}
+	 * @param {string} zone
+	 * @returns {Array}
 	 */
 	getFilteredPatternsObjects(zone) {
 		let filteredFull = {};
 
-		this.patterns[zone].filter(function (pattern) {
+		this.patterns[zone].filter((pattern) => {
 			if (pattern.data)
 				filteredFull[pattern.title] = pattern.title;
 			return true;
@@ -437,7 +416,7 @@ export default class BookMark {
 
 	/**
 	 * Initialize the patterns, we decrement a variable. When it is zero we continue the loading script of the canvas.
-	 * @param zone
+	 * @param {string} zone
 	 * @private
 	 */
 	_initPatterns(zone) {
@@ -445,23 +424,22 @@ export default class BookMark {
 		let filteredPatterns = this._getFiltered(zone);
 		let _imagesLoading = filteredPatterns.length;
 
-		let _this = this;
-		filteredPatterns.forEach(function (pattern) {
+		filteredPatterns.forEach((pattern) => {
 
 			if (Array.isArray(pattern)) {
 
-				pattern.forEach(function (ss_pattern) {
+				pattern.forEach((ss_pattern) => {
 					let ss_image = new Image();
-					let ss_elpattern = _this._getFullPath(ss_pattern);
-					ss_image.onload = function () {
-						_this.images[ss_elpattern] = ss_image;
-						_this.repeatBackgroundWidth = _this.width / ss_image.width;
-						_this.repeatBackgroundHeight = _this.height / ss_image.height;
+					let ss_elpattern = this._getFullPath(ss_pattern);
+					ss_image.onload = () => {
+						this.images[ss_elpattern] = ss_image;
+						this.repeatBackgroundWidth = this.width / ss_image.width;
+						this.repeatBackgroundHeight = this.height / ss_image.height;
 					};
 					ss_image.src = atob(ss_elpattern);
 
 					if (_imagesLoading === 0)
-						_this._triggeredOnPatternsLoaded(atob(ss_elpattern));
+						this._triggeredOnPatternsLoaded(atob(ss_elpattern));
 				});
 
 				--_imagesLoading;
@@ -470,13 +448,13 @@ export default class BookMark {
 			}
 			else {
 				let image = new Image();
-				let elpattern = _this._getFullPath(pattern);
-				image.onload = function () {
-					_this.images[elpattern] = _this.el_ctx.createPattern(image, 'repeat');
+				let elpattern = this._getFullPath(pattern);
+				image.onload = () => {
+					this.images[elpattern] = this.el_ctx.createPattern(image, 'repeat');
 					--_imagesLoading;
 					console.log(_imagesLoading + ' ' + zone + ' pattern(s) still loading');
 					if (_imagesLoading === 0)
-						_this._triggeredOnPatternsLoaded(atob(elpattern));
+						this._triggeredOnPatternsLoaded(atob(elpattern));
 				};
 				image.src = atob(elpattern);
 			}
@@ -485,21 +463,20 @@ export default class BookMark {
 
 	/**
 	 * Create a link to download an image of the canvas.
-	 * @param uniqueId
+	 * @param {number} uniqueId
 	 * @private
 	 */
 	_createDownloadLink(uniqueId) {
 
 		let _zone = document.getElementById("zone-" + uniqueId);
 		let _link = document.createElement('a');
-		let _this = this;
 
 		_link.innerHTML = 'Download the picture';
 		_link.className = "btn btn-dark";
 		_link.href = "#";
 		_link.role = "button";
-		_link.addEventListener('click', function () {
-			_link.href = _this.el_canvas.toDataURL();
+		_link.addEventListener('click', () => {
+			_link.href = this.el_canvas.toDataURL();
 			_link.download = "bookmark.jpg";
 		}, false);
 
@@ -513,7 +490,7 @@ export default class BookMark {
 		params.cols = 80;
 		params.rows = 10;
 		params.readOnly = true;
-		params.innerHTML = JSON.stringify(_this);
+		params.innerHTML = JSON.stringify(this);
 	}
 
 	/**
@@ -526,7 +503,7 @@ export default class BookMark {
 
 	/**
 	 * Apply a pattern to a context of a canvas.
-	 * @param style
+	 * @param {Object.<CanvasPattern>} style
 	 * @private
 	 */
 	_applyStyle(style) {
@@ -536,17 +513,17 @@ export default class BookMark {
 
 	/**
 	 * Draw a single even or odd triangle.
-	 * @param isEven
+	 * @param {boolean} isEven
 	 * @private
 	 */
 	_drawSingleTriangle(isEven) {
 
 		let pattern;
 
-		this.patterns['triangles'].map(function (b) {
+		this.patterns.triangles.map((b) => {
 			if (b.title === ((isEven === true) ? this.el_canvas.backgroundPatternTriangleEven : this.el_canvas.backgroundPatternTriangleOdd))
 				pattern = b.data;
-		}.bind(this));
+		});
 
 		this._applyStyle(this.images[this._getFullPath(pattern)]);
 
@@ -633,19 +610,17 @@ export default class BookMark {
 	 * Render the bookmark.
 	 */
 	render() {
-		let _this = this;
+		setTimeout(() => {
+			this._drawBackground();
 
-		setTimeout(function () {
-			_this._drawBackground();
-
-			if (_this.enableTriangles)
-				_this._drawTriangles();
+			if (this.enableTriangles)
+				this._drawTriangles();
 		}, 100);
 	}
 
 	/**
 	 * Function called when all images are loaded.
-	 * @param loadedPattern
+	 * @param {string} loadedPattern
 	 * @private
 	 */
 	_triggeredOnPatternsLoaded(loadedPattern) {

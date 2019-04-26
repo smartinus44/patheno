@@ -4,7 +4,7 @@ module.exports = {
 
 	entry: {
 		main: './src/main.js',
-		parthenon: './src/Bookmark.class.js',
+		partheno: './src/Bookmark.class.js',
 	},
 	output: {
 		filename: '[name].min.js',

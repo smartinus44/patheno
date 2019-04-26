@@ -4,8 +4,8 @@ import dat from 'dat.gui'
 import BookMark from '../src/Bookmark.class'
 
 // When the page is loaded, the initialization function is called.
-window.onload = function () {
-	let init = function () {
+window.onload = () => {
+	let init = () => {
 		let _gui = new dat.GUI({load: JSON});
 		_gui.useLocalStorage = true;
 		_gui.width = 380;
@@ -14,7 +14,7 @@ window.onload = function () {
 		fetch('/patterns')
 			.then(dataset => dataset.json())
 			.then(json => _process(json)
-			).catch(function (ex) {
+			).catch((ex) => {
 			console.log('parsing failed', ex);
 			let _results_zone = document.getElementById("results");
 			_results_zone.innerText = "Unable to fetch data.";
@@ -25,15 +25,15 @@ window.onload = function () {
 		 * @param _dataset
 		 * @private
 		 */
-		function _process(_dataset) {
+		const _process = (_dataset) => {
 
-			for (let i = 1; i <= _dataset.length; i++) {
-
+			_dataset.forEach((element, index) => {
+		
 				// Initial arbitrary width value.
 				let width = 295;
-				let collection = _dataset[i - 1];
+				let collection = element;
 				let _bookMark = new BookMark(
-					i,
+					index,
 					1063,
 					width,
 					collection.background[0].title,
@@ -52,13 +52,13 @@ window.onload = function () {
 					false
 				);
 
-				let _folder = _gui.addFolder('Example ' + i);
+				let _folder = _gui.addFolder('Example ' + index);
 
 				/**
 				 * Draw the canvas with the desired number of triangle pairs.
 				 * @param el
 				 */
-				function redrawNumberOfTriangles(el) {
+				const redrawNumberOfTriangles = (el) => {
 					_bookMark.clearCanvasLayers();
 					_bookMark.numberOfPairOfTriangles = el;
 					_bookMark.render();
@@ -68,7 +68,7 @@ window.onload = function () {
 				 * Number of columns.
 				 * @param el
 				 */
-				function redrawColumnsPerWidth(el) {
+				const redrawColumnsPerWidth = (el) => {
 					_bookMark.columnsPerWidth = el;
 					_bookMark.clearCanvasLayers();
 					_bookMark.render();
@@ -78,7 +78,7 @@ window.onload = function () {
 				 * Change the height of the canvas.
 				 * @param el
 				 */
-				function redrawHeight(el) {
+				const redrawHeight = (el) => {
 					_bookMark.el_canvas.height = el;
 					_bookMark.render();
 				}
@@ -87,7 +87,7 @@ window.onload = function () {
 				 * Draw bookmark with chamfer or not.
 				 * @param el
 				 */
-				function redrawChamfer(el) {
+				const redrawChamfer = (el) => {
 					_bookMark.el_canvas.chamfer = el;
 					redrawWidth(_bookMark.el_canvas.width);
 					_bookMark.render();
@@ -97,7 +97,7 @@ window.onload = function () {
 				 * Draw the cut lines.
 				 * @param el
 				 */
-				function redrawStrokes(el) {
+				const redrawStrokes = (el) => {
 					_bookMark.el_canvas.showStrokes = el;
 					_bookMark.clearCanvasLayers();
 					_bookMark.render();
@@ -107,7 +107,7 @@ window.onload = function () {
 				 * Change the width of the canvas.
 				 * @param el
 				 */
-				function redrawWidth(el) {
+				const redrawWidth = (el) => {
 					_bookMark.clearCanvasLayers();
 					_bookMark.el_canvas.width = el;
 					_bookMark.render();
@@ -117,7 +117,7 @@ window.onload = function () {
 				 * Draw the background pattern.
 				 * @param el
 				 */
-				function redrawBackgroundPattern(el) {
+				const redrawBackgroundPattern = (el) => {
 					_bookMark.backgroundPattern = el;
 					_bookMark.render();
 					redrawWidth(_bookMark.el_canvas.width);
@@ -127,7 +127,7 @@ window.onload = function () {
 				 * Change the pattern of the even triangle.
 				 * @param el
 				 */
-				function redrawTriangleEvenPattern(el) {
+				const redrawTriangleEvenPattern = (el) => {
 					_bookMark.el_canvas.backgroundPatternTriangleEven = el;
 					_bookMark.render();
 				}
@@ -136,7 +136,7 @@ window.onload = function () {
 				 * Change the pattern of the odd triangle.
 				 * @param el
 				 */
-				function redrawTriangleOddPattern(el) {
+				const redrawTriangleOddPattern = (el) => {
 					_bookMark.el_canvas.backgroundPatternTriangleOdd = el;
 					_bookMark.render();
 				}
@@ -145,7 +145,7 @@ window.onload = function () {
 				 * Enable the right top chamfer.
 				 * @param el
 				 */
-				function redrawChamferRt(el) {
+				const redrawChamferRt = (el) => {
 					_bookMark.el_canvas.chamferRt = el;
 					redrawWidth(_bookMark.el_canvas.width);
 					_bookMark.render();
@@ -155,7 +155,7 @@ window.onload = function () {
 				 * Enable the right bottom chamfer.
 				 * @param el
 				 */
-				function redrawChamferRb(el) {
+				const redrawChamferRb = (el) => {
 					_bookMark.el_canvas.chamferRb = el;
 					redrawWidth(_bookMark.el_canvas.width);
 					_bookMark.render();
@@ -165,7 +165,7 @@ window.onload = function () {
 				 * Enable the left top chamfer.
 				 * @param el
 				 */
-				function redrawChamferLt(el) {
+				const redrawChamferLt = (el) => {
 					_bookMark.el_canvas.chamferLt = el;
 					redrawWidth(_bookMark.el_canvas.width);
 					_bookMark.render();
@@ -175,7 +175,7 @@ window.onload = function () {
 				 * Enable the left bottom chamfer.
 				 * @param el
 				 */
-				function redrawChamferLb(el) {
+				const redrawChamferLb = (el) => {
 					_bookMark.el_canvas.chamferLb = el;
 					redrawWidth(_bookMark.el_canvas.width);
 					_bookMark.render();
@@ -194,7 +194,7 @@ window.onload = function () {
 
 				_folder.add(_bookMark, 'backgroundPattern', filteredBackgroundFull).onFinishChange(redrawBackgroundPattern);
 
-				_folder.add(_bookMark, 'enableTriangles', true, false).onFinishChange(function (el) {
+				_folder.add(_bookMark, 'enableTriangles', true, false).onFinishChange((el) => {
 					_bookMark.enableTriangles = el;
 					_bookMark.render();
 				});
@@ -212,8 +212,7 @@ window.onload = function () {
 
 				// Enables you to save the settings in the localstorage.
 				_gui.remember(_bookMark);
-			}
-
+			});
 		}
 	};
 	init();
