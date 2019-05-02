@@ -1,11 +1,13 @@
+$primary-color: #b22222;
 body {
     background: #333;
     color: white;
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-.jumbotron {
-    background: #b22222;
+.jumbotron,
+footer {
+    background: $primary-color;
 }
 
 h1 {
@@ -13,15 +15,34 @@ h1 {
     font-size: 3em;
 }
 
-#results {
-    display: flex;
-    flex-wrap: wrap;
-    canvas {
-        padding: 6px;
-    }
+hr {
+    background-color: white;
 }
 
-.row {
-    max-height: 620px;
-    overflow-y: scroll;
+.modal-content {
+    background: black;
+}
+
+.modal-header {
+    background: $primary-color;
+}
+
+.results {
+    display: flex;
+    flex-wrap: wrap;
+    .zone {
+        position: relative;
+        &--canvas {
+            padding: 6px;
+            opacity: 1;
+            display: block;
+            width: 100%;
+            height: auto;
+            transition: .5s ease;
+            backface-visibility: hidden;
+            &:hover {
+                opacity: 0.3;
+            }
+        }
+    }
 }

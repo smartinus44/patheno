@@ -4,9 +4,9 @@ const STROKE_COLOR = "#FF0000";
 const LINE_WIDTH = 1;
 const DEBUG = true; // Enable logging
 
-const log = () => {
+const log = (elem) => {
     if (DEBUG) {
-        console.log.apply(console, arguments);
+        console.log(elem);
     }
 };
 
@@ -16,59 +16,155 @@ export default class BookMark {
     /**
      * Constructor.
      * @param {number} _uniqueId
-     * @param {number} _height
-     * @param {number} _width
-     * @param {string}_background
-     * @param {number} _numberOfpairs
-     * @param {boolean} _enableTriangles
-     * @param {string} _evenPattern
-     * @param {string}_oddPattern
-     * @param {boolean} _showStrokes
-     * @param {number} _columns_per_width
-     * @param {boolean} _can_download
-     * @param {Object} _patterns
-     * @param {number} _chamfer
-     * @param {boolean} _chamferRt
-     * @param {boolean}  _chamferRb
-     * @param {boolean}  _chamferLt
-     * @param {boolean}  _chamferLb
      * @returns {BookMark}
      */
-    constructor(_uniqueId, _height, _width, _background, _numberOfpairs, _enableTriangles, _evenPattern,
-        _oddPattern, _showStrokes, _columns_per_width, _can_download, _patterns, _chamfer, _chamferRt,
-        _chamferRb, _chamferLt, _chamferLb) {
+    constructor(build) {
 
-        // Work with textures.
-        this.uniqueId = _uniqueId;
-        this.images = [];
-        this.numberOfPairOfTriangles = 3;
-        this.patterns = _patterns;
-        this.height = _height;
-        this.width = _width;
-        this.chamferRt = _chamferRt;
-        this.chamferRb = _chamferRb;
-        this.chamferLt = _chamferLt;
-        this.chamferLb = _chamferLb;
-        this.enableTriangles = _enableTriangles;
+        this.uniqueId = build.uniqueId;
+        this.patterns = build.patterns;
+        this.height = build.height;
+        this.width = build.width;
+        this.chamfer = build.chamferWidth;
+        this.chamferRt = build.chamferRt;
+        this.chamferRb = build.chamferRb;
+        this.chamferLt = build.chamferLt;
+        this.chamferLb = build.chamferLb;
+        this.roundBorder = build.roundBorderWidth;
+        this.roundBorderRt = build.roundBorderRt;
+        this.roundBorderRb = build.roundBorderRb;
+        this.roundBorderLt = build.roundBorderLt;
+        this.roundBorderLb = build.roundBorderLb;
+        this.enableTriangles = build.enableTriangles;
+        this.numberOfPairOfTriangles = build.numberOfpairs;
+        this.showStrokes = build.showStrokes;
+        this.columnsPerWidth = build.columnsPerWidth;
+        this.canDownload = build.canDownload;
+        this.backgroundPattern = build.background;
 
-        if (!_evenPattern) {
+        if (!build.evenPattern) {
             this.triangleEvenPattern = this._getRandomPattern('triangles');
         } else {
-            this.triangleEvenPattern = _evenPattern;
+            this.triangleEvenPattern = build.evenPattern;
         }
-        if (!_oddPattern) {
+
+        if (!build.oddPattern) {
             this.triangleOddPattern = this._getRandomPattern('triangles');
         } else {
-            this.triangleOddPattern = _oddPattern;
+            this.triangleOddPattern = build.oddPattern;
         }
-        this.numberOfPairOfTriangles = _numberOfpairs;
-        this.showStrokes = _showStrokes;
-        this.columnsPerWidth = _columns_per_width;
-        this.canDownload = _can_download;
-        this.chamfer = _chamfer;
-        this.backgroundPattern = _background;
+
+        this.images = [];
+        this.wrapper = null;
 
         this._init();
+    }
+
+    static get Builder() {
+        class Builder {
+            /**
+             * @param {number} uniqueId 
+             */
+            constructor(uniqueId) {
+                    this.uniqueId = uniqueId;
+                }
+                /**
+                 * @param {number} height 
+                 * @param {number} width 
+                 */
+            sized(height, width) {
+                    this.height = height;
+                    this.width = width;
+                    return this;
+                }
+                /**
+                 * @param {number} columnsPerWidth 
+                 */
+            columnsPerWidth(columnsPerWidth) {
+                    this.columnsPerWidth = columnsPerWidth;
+                    return this;
+                }
+                /**
+                 * @param {boolean} canDownload 
+                 */
+            downloadable(canDownload) {
+                    this.canDownload = canDownload;
+                    return this;
+                }
+                /**
+                 * @param {boolean} canDownload 
+                 */
+            withStrokes(showStrokes) {
+                    this.showStrokes = showStrokes;
+                    return this;
+                }
+                /**
+                 * @param {string} background 
+                 */
+            withBackground(background) {
+                    this.background = background;
+                    return this;
+                }
+                /**
+                 * @param {number} numberOfpairs 
+                 */
+            withNumberOfPairs(numberOfpairs) {
+                    this.numberOfpairs = numberOfpairs;
+                    return this;
+                }
+                /**
+                 * @param {number} numberOfpairs 
+                 */
+            withTriangles(enableTriangles) {
+                    this.enableTriangles = enableTriangles;
+                    return this;
+                }
+                /**
+                 * @param {Object} patterns 
+                 * @param {string} evenPattern 
+                 * @param {string} oddPattern 
+                 */
+            withPatterns(patterns, evenPattern, oddPattern) {
+                    this.patterns = patterns;
+                    this.evenPattern = evenPattern;
+                    this.oddPattern = oddPattern;
+                    return this;
+                }
+                /**
+                 * @param {number} chamferWidth 
+                 * @param {boolean} chamferRt 
+                 * @param {boolean} chamferRb 
+                 * @param {boolean} chamferLt 
+                 * @param {boolean} chamferLb 
+                 */
+            withChamfers(chamferWidth, chamferRt, chamferRb, chamferLt, chamferLb) {
+                    this.chamferWidth = chamferWidth;
+                    this.chamferRt = chamferRt;
+                    this.chamferRb = chamferRb;
+                    this.chamferLt = chamferLt;
+                    this.chamferLb = chamferLb;
+                    return this;
+                }
+                /**
+                 * @param {number} roundBorderWidth 
+                 * @param {boolean} roundBorderRt 
+                 * @param {boolean} roundBorderRb 
+                 * @param {boolean} roundBorderLt 
+                 * @param {boolean} roundBorderLb 
+                 */
+            withRoundBorder(roundBorderWidth, roundBorderRt, roundBorderRb, roundBorderLt, roundBorderLb) {
+                this.roundBorderWidth = roundBorderWidth;
+                this.roundBorderRt = roundBorderRt;
+                this.roundBorderRb = roundBorderRb;
+                this.roundBorderLt = roundBorderLt;
+                this.roundBorderLb = roundBorderLb;
+                return this;
+            }
+
+            build() {
+                return new BookMark(this);
+            }
+        }
+        return Builder;
     }
 
     /**
@@ -76,14 +172,7 @@ export default class BookMark {
      * @private
      */
     _init() {
-        this._createCanvas('canva-' + this.uniqueId, 'zone-' + this.uniqueId);
-        this.el_ctx = this.el_canvas.getContext('2d');
-
-        // Show download link if can download picture is set to true.
-        if (this.canDownload === true) {
-            this._createDownloadLink(this.uniqueId);
-        }
-
+        this._createCanvasWrapper('canva-' + this.uniqueId, 'zone-' + this.uniqueId);
         this.zone = 'background';
         this._initPatterns();
         this.zone = 'triangles';
@@ -100,13 +189,13 @@ export default class BookMark {
         let result, value;
         if (typeof this.patterns[zone] !== 'undefined') {
             value = Math.floor(Math.random() * this.patterns[zone].length);
-            result = this._getFullPath(this.patterns[zone][value].data);
+            result = this._getFullDecodedPath(this.patterns[zone][value].data);
         }
         return result;
     }
 
     /**
-     * Return true if only one chamfer is enabled.
+     * Return true if at least one chamfer is enabled.
      * @returns {boolean}
      * @private
      */
@@ -115,13 +204,30 @@ export default class BookMark {
     }
 
     /**
+     * Return true if at least one round border is enabled.
+     * @returns {boolean}
+     * @private
+     */
+    _hasRoundBorder() {
+        return (this._roundBorderRt || this._roundBorderRb || this._roundBorderLt || this._roundBorderLb);
+    }
+
+    /**
      * Return clean full path of a pattern.
      * @param {string} path
      * @returns {string}
      * @private
      */
-    _getFullPath(path) {
+    _getFullDecodedPath(path) {
         return btoa(this.patterns.path + path);
+    }
+
+    /**
+     * Encode a string.
+     * @param {string} stringPattern 
+     */
+    _encode(stringPattern) {
+        return atob(stringPattern);
     }
 
     /**
@@ -132,9 +238,9 @@ export default class BookMark {
      */
     _findPattern(searchedPattern) {
         let pattern;
-        this.patterns.background.map((b) => {
-            if (b.title === searchedPattern) {
-                pattern = b.data;
+        this.patterns.background.map((elem) => {
+            if (elem.title === searchedPattern) {
+                pattern = elem.data;
             }
         });
         return pattern;
@@ -147,7 +253,7 @@ export default class BookMark {
      */
     _setBackgroundPatterns(backgroundPattern) {
         if (this._hasChamfer()) {
-            this._chamferedRect(
+            this._drawChamferedRect(
                 0,
                 0,
                 this.el_canvas.width,
@@ -174,7 +280,7 @@ export default class BookMark {
                 this._buidMirroredPattern(pattern);
                 this.el_ctx.fill();
             } else {
-                this._applyStyle(this.images[this._getFullPath(pattern)]);
+                this._applyStyle(this.images[this._getFullDecodedPath(pattern)]);
                 this.el_ctx.fillRect(0, 0, this.el_canvas.width, this.el_canvas.height);
             }
         }
@@ -194,7 +300,7 @@ export default class BookMark {
         let height = this.height;
 
         patterns.forEach((pattern, index) => {
-            let currentImage = this.images[this._getFullPath(pattern)];
+            let currentImage = this.images[this._getFullDecodedPath(pattern)];
             if (currentImage) {
                 // Top left.
                 if (index === 0) {
@@ -229,7 +335,7 @@ export default class BookMark {
      * @param {boolean} lb
      * @private
      */
-    _roundRect(x, y, w, h, radius, rt, lt, rb, lb) {
+    _drawRoundedRect(x, y, w, h, radius, rt, lt, rb, lb) {
         let r = x + w;
         let b = y + h;
         this.el_ctx.beginPath();
@@ -242,12 +348,10 @@ export default class BookMark {
             } else {
                 this.el_ctx.moveTo(x + radius, y);
             }
-
             this.el_ctx.lineTo(r - radius, y);
             this.el_ctx.quadraticCurveTo(r, y, r, y + radius);
         } else {
             if (lb) {
-
                 this.el_ctx.moveTo(x + radius, y);
             } else {
                 this.el_ctx.moveTo(x, y);
@@ -292,12 +396,10 @@ export default class BookMark {
      * @param {boolean} lb
      * @private
      */
-    _chamferedRect(x, y, w, h, radius, rt, lt, rb, lb) {
+    _drawChamferedRect(x, y, w, h, radius, rt, lt, rb, lb) {
         let r = x + w;
         let b = y + h;
-
         this.el_ctx.moveTo(x + radius, y);
-
         if (rt) {
             this.el_ctx.lineTo(r - radius, y);
             this.el_ctx.lineTo(r, y + radius);
@@ -334,30 +436,55 @@ export default class BookMark {
      * @param {string} zoneId
      * @private
      */
-    _createCanvas(elementId, zoneId) {
-        let zone = document.getElementById(zoneId);
+    _createCanvasWrapper(elementId, zoneId) {
+
+        let _zone = document.createElement('div');
+        _zone.id = zoneId;
+        _zone.className = "zone";
+
         let _canvas = document.createElement('canvas');
-        let wrapper = document.createElement('div');
-        wrapper.id = elementId;
+        _canvas.id = elementId;
+        _canvas.className = "zone--canvas";
         _canvas.width = this.width;
         _canvas.height = this.height;
         _canvas.showStrokes = this.showStrokes;
+
         _canvas.chamfer = this.chamfer;
         _canvas.chamferRt = this.chamferRt;
         _canvas.chamferRb = this.chamferRb;
         _canvas.chamferLt = this.chamferLt;
         _canvas.chamferLb = this.chamferLb;
+
+        _canvas.roundBorder = this._roundBorder;
+        _canvas.roundBorderRt = this.roundBorderRt;
+        _canvas.roundBorderRb = this.roundBorderRb;
+        _canvas.roundBorderLt = this.roundBorderLt;
+        _canvas.roundBorderLb = this.roundBorderLb;
+
         _canvas.backgroundPatternTriangleEven = this.triangleEvenPattern;
         _canvas.backgroundPatternTriangleOdd = this.triangleOddPattern;
         _canvas.innerHTML = "Votre navigateur ne supporte pas canvas.<br>Essayez avec Firefox, Safari, Chrome ou Opera.";
+
         setTimeout(() => {
             this.clearCanvasLayers();
-            if (zone) {
-                wrapper.appendChild(_canvas);
-                zone.appendChild(wrapper);
+            if (_zone) {
+                _zone.appendChild(_canvas);
             }
         });
+
+        this.wrapper = _zone;
         this.el_canvas = _canvas;
+        this.el_ctx = this.el_canvas.getContext('2d');
+
+        setTimeout(() => {
+            // Show download link if can download picture is set to true.
+            if (this._canDownload()) {
+                this._createDownloadLink('link-' + this.uniqueId, 'zone-' + this.uniqueId);
+            }
+
+            this._createDetailLink('modal-' + this.uniqueId, 'zone-' + this.uniqueId);
+        });
+
     }
 
     /**
@@ -417,36 +544,54 @@ export default class BookMark {
                 if (Array.isArray(pattern)) {
                     pattern.forEach((ss_pattern) => {
                         let ss_image = new Image();
-                        let ss_elpattern = this._getFullPath(ss_pattern);
+                        let ss_elpattern = this._getFullDecodedPath(ss_pattern);
                         ss_image.onload = () => {
                             this.images[ss_elpattern] = ss_image;
                             this.repeatBackgroundWidth = this.width / ss_image.width;
                             this.repeatBackgroundHeight = this.height / ss_image.height;
                         };
-                        ss_image.src = atob(ss_elpattern);
+                        ss_image.src = this._encode(ss_elpattern);
 
                         if (_imagesLoading === 0) {
-                            this._triggeredOnPattersLoaded(atob(ss_elpattern));
+                            this._triggeredOnPattersLoaded(this._encode(ss_elpattern));
                         }
                     });
 
                     --_imagesLoading;
-                    //log(_imagesLoading + ' ' + this.zone + ' pattern(s) still loading');
                 } else {
                     let image = new Image();
-                    let elpattern = this._getFullPath(pattern);
+                    let elpattern = this._getFullDecodedPath(pattern);
                     image.onload = () => {
                         this.images[elpattern] = this.el_ctx.createPattern(image, 'repeat');
                         --_imagesLoading;
-                        //log(_imagesLoading + ' ' + this.zone + ' pattern(s) still loading');
                         if (_imagesLoading === 0) {
-                            this._triggeredOnPatternsLoaded(atob(elpattern));
+                            this._triggeredOnPatternsLoaded(this._encode(elpattern));
                         }
                     };
-                    image.src = atob(elpattern);
+                    image.src = this._encode(elpattern);
                 }
 
             });
+        }
+    }
+
+    /**
+     * Create a link to show detail.
+     * @param {number} uniqueId
+     * @private
+     */
+    _createDetailLink(uniqueId, zoneId) {
+
+        let _zone = document.getElementById(zoneId);
+        let _link = document.createElement('button');
+        _link.type = "button";
+        _link.className = "btn btn-primary btn-sm";
+        _link.innerText = 'Modify';
+        _link.addEventListener('click', () => {
+            $('#' + uniqueId).modal('toggle');
+        }, false);
+        if (_zone) {
+            _zone.insertBefore(_link, _zone.firstChild);
         }
     }
 
@@ -455,24 +600,29 @@ export default class BookMark {
      * @param {number} uniqueId
      * @private
      */
-    _createDownloadLink(uniqueId) {
-        let _zone = document.getElementById("canva-" + uniqueId);
+    _createDownloadLink(uniqueId, zoneId) {
+        let _zone = document.getElementById(zoneId);
         let _link = document.createElement('a');
 
-        _link.innerHTML = 'Download this picture';
-        _link.className = "btn btn-dark";
+        _link.innerHTML = 'Download';
+        _link.classList = "btn btn-dark btn-sm";
+        _link.id = uniqueId;
         _link.href = "#";
         _link.role = "button";
-        _link.style.position = "absolute";
         _link.addEventListener('click', () => {
-            _link.href = this.el_canvas.toDataURL();
+            _link.href = this.el_canvas.toDataURL('image/jpeg');
             _link.download = "bookmark.jpg";
         }, false);
 
         if (_zone) {
             _zone.insertBefore(_link, _zone.firstChild);
         }
+    }
 
+    /**
+     * Create a textarea that expose the json content related to this.
+     */
+    _createParamDebugZone() {
         let params = document.createElement('textarea');
         params.cols = 80;
         params.rows = 10;
@@ -484,7 +634,7 @@ export default class BookMark {
      * Draw Background.
      * @private
      */
-    _drawBackground() {
+    _drawBackgroundPattern() {
         this._setBackgroundPatterns(this.backgroundPattern);
     }
 
@@ -510,7 +660,7 @@ export default class BookMark {
             }
         });
 
-        this._applyStyle(this.images[this._getFullPath(pattern)]);
+        this._applyStyle(this.images[this._getFullDecodedPath(pattern)]);
 
         //log('Render a ' + (isEven ? 'even' : 'odd') + ' triangle with ' + pattern);
 
@@ -542,13 +692,15 @@ export default class BookMark {
             // Draw each column.
             for (let l = 0; l < this.columnsPerWidth; l++) {
 
-                _triangle_height = this.el_canvas.height / (this.numberOfPairOfTriangles * 2);
-
                 // Thickness of cut lines.
                 this.el_ctx.lineWidth = LINE_WIDTH;
 
                 // The offset between each column.
                 this._offset = l * this._column_width;
+
+                _triangle_height = this.el_canvas.height / (this.numberOfPairOfTriangles * 2);
+
+                // Move these coef might glitch everything.
                 this._first_coef = 2 * (_triangle_height * j - _triangle_height);
                 this._second_coef = this._first_coef + (2 * _triangle_height);
                 this._third_coef = ((this._second_coef - _triangle_height) / j) * j;
@@ -556,7 +708,6 @@ export default class BookMark {
                 // Draw a pair of triangles.
                 for (let k = 1; k <= 2; k++) {
                     this.el_ctx.beginPath();
-
                     this.el_ctx.moveTo(_half_width + this._offset, this._third_coef);
 
                     // Draw a triangle with the base at the top or at the bottom.
@@ -567,9 +718,7 @@ export default class BookMark {
                     }
 
                     this.el_ctx.closePath();
-
                     this._drawStrokes();
-
                     this.el_ctx.fill();
                 }
             }
@@ -581,12 +730,33 @@ export default class BookMark {
     }
 
     /**
+     * @returns {boolean}
+     */
+    _canDownload() {
+        return this.canDownload === true;
+    }
+
+    /**
+     * @returns {boolean}
+     */
+    _canDrawTriangle() {
+        return this.enableTriangles === true;
+    }
+
+    /**
+     * @returns {boolean}
+     */
+    _canDisplayStrokes() {
+        return this.el_canvas.showStrokes === true;
+    }
+
+    /**
      * Draw strokes or not.
      * @private
      */
     _drawStrokes() {
         // If show strokes flag is on.
-        if (this.el_canvas.showStrokes === true) {
+        if (this._canDisplayStrokes()) {
             this.el_ctx.strokeStyle = STROKE_COLOR;
             this.el_ctx.stroke();
         }
@@ -597,9 +767,8 @@ export default class BookMark {
      */
     render() {
         setTimeout(() => {
-            this._drawBackground();
-
-            if (this.enableTriangles) {
+            this._drawBackgroundPattern();
+            if (this._canDrawTriangle()) {
                 this._drawTriangles();
             }
         }, 100);
@@ -611,7 +780,6 @@ export default class BookMark {
      * @private
      */
     _triggeredOnPatternsLoaded(loadedPattern) {
-
         this.clearCanvasLayers();
         this.render();
     }

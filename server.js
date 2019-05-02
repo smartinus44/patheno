@@ -23,7 +23,8 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
-let bookmarkPath = './src/bookmarks.json';
+let bookmarkPath = './data/store/bookmarks.json';
+let patternPath = './data/store/patterns.json';
 
 /**
  * ROUTING
@@ -35,7 +36,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/patterns', (req, res, next) => {
-    let _patterns_dataset = fs.readFile('./src/dataset.json', 'utf8', (err, contents) => {
+    let _patterns_dataset = fs.readFile(patternPath, 'utf8', (err, contents) => {
         let json = JSON.parse(contents);
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -65,22 +66,30 @@ app.get('/bookmarks', (req, res, next) => {
 });
 
 
+app.post('/bookmarks-deletes', (req, res) => {
+
+    fs.readFile(bookmarkPath, (err, data) => {
+        fs.writeFile(bookmarkPath, '[]', (err) => {
+            if (err) throw err;
+            res.status(200).json({ status: "ok" })
+                //           res.redirect('/');
+        });
+    });
+});
+
+
 // POST method route
 app.post('/bookmarks', bodyParser.json(), (req, res) => {
 
     fs.readFile(bookmarkPath, (err, data) => {
         let json = JSON.parse(data);
 
-        if (json.length > 18) {
-            json = [];
-        }
-
         json.push(req.body);
 
         fs.writeFile(bookmarkPath, JSON.stringify(json), (err) => {
             if (err) throw err;
-            console.log('The "data to append" was appended to file!');
-            res.redirect('/');
+            res.status(200).json({ status: "ok" })
+                //           res.redirect('/');
         });
     });
 });
