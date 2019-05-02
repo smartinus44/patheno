@@ -6,3 +6,4 @@ node_modules/
 .vscode/launch.json
 .DS_Store
 test/Bookmark.should_work.received.txt
+.history
