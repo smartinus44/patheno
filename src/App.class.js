@@ -216,9 +216,7 @@ export default class App {
                     let _gui = new dat.GUI({
                         load: JSON,
                         autoPlace: false,
-                        closed: false,
-                        width: '100%',
-                        closeOnTop: true,
+                        closed: false
                     });
                     _gui.useLocalStorage = true;
                     _gui.width = 498;
@@ -418,3 +416,4 @@ export default class App {
             }
         });
     }
+}
