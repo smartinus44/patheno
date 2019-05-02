@@ -33,7 +33,11 @@ You are free to adjust:
 
 | Dataset | Value | Show |
 | --- | --- | --- |
+<<<<<<< HEAD
 | 1 | Aniegré | ![alt text](dist/images/dataset/1/aniegré_bottom_left.jpg) |
+=======
+| 1 | Aniegré | ![alt text](dist/images/dataset/1/aniegré.jpg) |
+>>>>>>> 7b33d4588310a5a9de51650ecdae7f4d8480b28c
 | 1 | Bubimga | ![alt text](dist/images/dataset/1/bubimga.jpg) |
 | 1 | Chene | ![alt text](dist/images/dataset/1/chene.jpg) |
 | 1 | Etre | ![alt text](dist/images/dataset/1/etre.jpg) |
