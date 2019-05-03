@@ -55,7 +55,6 @@ app.get('/patterns/:id', (req, res, next) => {
     }
 });
 
-
 app.get('/bookmarks', (req, res, next) => {
     let _bookmarks_dataset = fs.readFile(bookmarkPath, 'utf8', (err, contents) => {
         let json = JSON.parse(contents);
@@ -64,7 +63,6 @@ app.get('/bookmarks', (req, res, next) => {
         res.json(json);
     });
 });
-
 
 app.post('/bookmarks-deletes', (req, res) => {
 
@@ -75,7 +73,6 @@ app.post('/bookmarks-deletes', (req, res) => {
         });
     });
 });
-
 
 // POST method route
 app.post('/bookmarks', bodyParser.json(), (req, res) => {

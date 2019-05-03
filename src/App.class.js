@@ -35,6 +35,8 @@ export default class App {
 
     _resetBookmarks() {
         this._bookmarks = new Array();
+        let _modalsContainer = document.querySelector('.modalsContainer');
+        let _results_zone = document.querySelector('.results');
 
         try {
             (async() => {
@@ -46,7 +48,8 @@ export default class App {
                     },
                     body: JSON.stringify(this._bookmarks)
                 });
-                const content = await rawResponse.json();
+                _modalsContainer.innerHTML = "";
+                _results_zone.innerHTML = "";
             })();
         } catch (e) {
             console.log(e);
@@ -72,10 +75,10 @@ export default class App {
             .columnsPerWidth(_.random(1, 5))
             .downloadable(true)
             .withStrokes(false)
-            .withBackground(patterns.background[_.random(0, patterns.background.length - 1)].title)
+            .withBackground(patterns.background[_.random(0, patterns.background.length - 1)].data)
             .withNumberOfPairs(_.random(1, 30))
             .withTriangles(true)
-            .withPatterns(patterns, patterns.triangles[_.random(0, patterns.triangles.length - 1)].title, patterns.triangles[_.random(0, patterns.triangles.length - 1)].title)
+            .withPatterns(patterns, patterns.triangles[_.random(0, patterns.triangles.length - 1)].data, patterns.triangles[_.random(0, patterns.triangles.length - 1)].data)
             .withChamfers(
                 _.random(1, 30),
                 Boolean(_.random(0, 1)),
@@ -284,15 +287,6 @@ export default class App {
         };
 
         /**
-         * Change the height of the canvas.
-         * @param el
-         */
-        const redrawHeight = (el) => {
-            _bookMark.el_canvas.height = el;
-            _bookMark.render();
-        };
-
-        /**
          * Draw bookmark with chamfer or not.
          * @param el
          */
@@ -317,8 +311,20 @@ export default class App {
          * @param el
          */
         const redrawWidth = (el) => {
-            _bookMark.clearCanvasLayers();
             _bookMark.el_canvas.width = el;
+            _bookMark.clearCanvasLayers();
+            redrawBackgroundPattern(_bookMark.backgroundPattern, false);
+            _bookMark.render();
+        };
+
+        /**
+         * Change the height of the canvas.
+         * @param el
+         */
+        const redrawHeight = (el) => {
+            _bookMark.el_canvas.height = el;
+            _bookMark.clearCanvasLayers();
+            redrawBackgroundPattern(_bookMark.backgroundPattern, false);
             _bookMark.render();
         };
 
@@ -326,10 +332,12 @@ export default class App {
          * Draw the background pattern.
          * @param el
          */
-        const redrawBackgroundPattern = (el) => {
+        const redrawBackgroundPattern = (el, changeWidth = true) => {
             _bookMark.backgroundPattern = el;
             _bookMark.render();
-            redrawWidth(_bookMark.el_canvas.width);
+            if (changeWidth === true) {
+                redrawWidth(_bookMark.width);
+            }
         };
 
         /**
@@ -421,7 +429,9 @@ export default class App {
 
         setTimeout(() => {
             let customContainer = document.getElementById('modal-content-' + _bookMark.uniqueId);
-            customContainer.appendChild(_gui.domElement);
+            if (customContainer) {
+                customContainer.appendChild(_gui.domElement);
+            }
         }, TIMEOUT);
 
         // Enables you to save the settings in the localstorage.

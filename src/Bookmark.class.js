@@ -238,7 +238,7 @@ export default class BookMark {
     _findPattern(searchedPattern) {
         let pattern;
         this.patterns.background.map((elem) => {
-            if (elem.title === searchedPattern) {
+            if (elem.data === searchedPattern) {
                 pattern = elem.data;
             }
         });
@@ -255,8 +255,8 @@ export default class BookMark {
             this._drawChamferedRect(
                 0,
                 0,
-                this.el_canvas.width,
-                this.el_canvas.height,
+                this.width,
+                this.height,
                 this.chamfer,
                 this.chamferRt,
                 this.chamferRb,
@@ -268,7 +268,7 @@ export default class BookMark {
             if (Array.isArray(backgroundPattern)) {
                 this._buidMirroredPattern(backgroundPattern);
             } else {
-                this._applyStyle(this.images[backgroundPattern]);
+                this._applyStyle(this.images[this._getFullDecodedPath(backgroundPattern)]);
             }
             this.elCtx.fill();
         } else {
@@ -280,7 +280,7 @@ export default class BookMark {
                 this.elCtx.fill();
             } else {
                 this._applyStyle(this.images[this._getFullDecodedPath(pattern)]);
-                this.elCtx.fillRect(0, 0, this.el_canvas.width, this.el_canvas.height);
+                this.elCtx.fillRect(0, 0, this.width, this.height);
             }
         }
     }
@@ -292,9 +292,9 @@ export default class BookMark {
      */
     _buidMirroredPattern(patterns) {
         // Black background
-        this.elCtx.strokeRect(0, 0, this.el_canvas.width, this.el_canvas.height);
+        this.elCtx.strokeRect(0, 0, this.width, this.height);
 
-        let pow = parseFloat(this.el_canvas.width / 2);
+        let pow = parseFloat(this.width / 2);
         let width = this.width;
         let height = this.height;
 
@@ -520,7 +520,7 @@ export default class BookMark {
 
         this.patterns[zone].filter((pattern) => {
             if (pattern.data) {
-                filteredFull[pattern.title] = pattern.title;
+                filteredFull[pattern.title] = pattern.data;
             }
             return true;
         });
@@ -623,14 +623,12 @@ export default class BookMark {
     _drawSingleTriangle(isEven) {
         let pattern;
         this.patterns.triangles.map((b) => {
-            if (b.title === ((isEven === true) ? this.el_canvas.backgroundPatternTriangleEven : this.el_canvas.backgroundPatternTriangleOdd)) {
+            if (b.data === ((isEven === true) ? this.el_canvas.backgroundPatternTriangleEven : this.el_canvas.backgroundPatternTriangleOdd)) {
                 pattern = b.data;
             }
         });
 
         this._applyStyle(this.images[this._getFullDecodedPath(pattern)]);
-
-        //log('Render a ' + (isEven ? 'even' : 'odd') + ' triangle with ' + pattern);
 
         if (isEven) {
             this.elCtx.lineTo(this._column_width + this._offset, this._first_coef);
@@ -651,7 +649,7 @@ export default class BookMark {
         }
 
         let _triangle_height;
-        this._column_width = this.el_canvas.width / this.columnsPerWidth;
+        this._column_width = this.width / this.columnsPerWidth;
         let _half_width = this._column_width / 2;
 
         // Draw each triangle pair.
@@ -666,7 +664,7 @@ export default class BookMark {
                 // The offset between each column.
                 this._offset = l * this._column_width;
 
-                _triangle_height = this.el_canvas.height / (this.numberOfPairOfTriangles * 2);
+                _triangle_height = this.height / (this.numberOfPairOfTriangles * 2);
 
                 // Move these coef might glitch everything.
                 this._first_coef = 2 * (_triangle_height * j - _triangle_height);
