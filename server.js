@@ -51,7 +51,7 @@ app.get('/patterns/:id', (req, res, next) => {
         if (val !== null) {
             res.json(val);
         }
-        res.sendStatus(404)
+        res.sendStatus(404);
     }
 });
 
@@ -71,8 +71,7 @@ app.post('/bookmarks-deletes', (req, res) => {
     fs.readFile(bookmarkPath, (err, data) => {
         fs.writeFile(bookmarkPath, '[]', (err) => {
             if (err) throw err;
-            res.status(200).json({ status: "ok" })
-                //           res.redirect('/');
+            res.status(200).json({ status: "ok" });
         });
     });
 });
@@ -88,8 +87,7 @@ app.post('/bookmarks', bodyParser.json(), (req, res) => {
 
         fs.writeFile(bookmarkPath, JSON.stringify(json), (err) => {
             if (err) throw err;
-            res.status(200).json({ status: "ok" })
-                //           res.redirect('/');
+            res.status(200).json({ status: "ok" });
         });
     });
 });

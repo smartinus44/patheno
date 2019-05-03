@@ -1,4 +1,4 @@
-'use strict';
+/*global window */
 
 import App from './App.class';
 
