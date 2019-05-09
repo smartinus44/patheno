@@ -1,13 +1,19 @@
 const STROKE_COLOR = "#FF0000";
 const LINE_WIDTH = 1;
-const DEBUG = true; // Enable logging
 const TIMEOUT = 100;
 
-const log = (elem) => {
-    if (DEBUG) {
-        console.log(elem);
-    }
-};
+CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+    if (w < 2 * r) r = w / 2;
+    if (h < 2 * r) r = h / 2;
+    this.beginPath();
+    this.moveTo(x + r, y);
+    this.arcTo(x + w, y, x + w, y + h, r);
+    this.arcTo(x + w, y + h, x, y + h, r);
+    this.arcTo(x, y + h, x, y, r);
+    this.arcTo(x, y, x + w, y, r);
+    this.closePath();
+    return this;
+}
 
 // Initialization of a bookmark.
 export default class BookMark {
@@ -251,6 +257,22 @@ export default class BookMark {
      * @private
      */
     _setBackgroundPatterns(backgroundPattern) {
+
+        if (this._hasRoundBorder()) {
+
+            this._drawRoundedRect(
+                0,
+                0,
+                this.width,
+                this.height,
+                this.roundBorder,
+                this.roundBorderRt,
+                this.roundBorderRb,
+                this.roundBorderLt,
+                this.roundBorderLb
+            );
+        }
+
         if (this._hasChamfer()) {
             this._drawChamferedRect(
                 0,
@@ -264,24 +286,15 @@ export default class BookMark {
                 this.chamferLb
             );
 
-            // If the pattern is compouned of a couple of faces.
-            if (Array.isArray(backgroundPattern)) {
-                this._buidMirroredPattern(backgroundPattern);
-            } else {
-                this._applyStyle(this.images[this._getFullDecodedPath(backgroundPattern)]);
-            }
+        }
+
+        // Patterns could be stored in an array or in a single string because of mirrored patterns.
+        if (Array.isArray(backgroundPattern)) {
+            this._buidMirroredPattern(backgroundPattern);
             this.elCtx.fill();
         } else {
-            let pattern = this._findPattern(backgroundPattern);
-
-            // Patterns could be stored in an array or in a single string because of mirrored patterns.
-            if (Array.isArray(pattern)) {
-                this._buidMirroredPattern(pattern);
-                this.elCtx.fill();
-            } else {
-                this._applyStyle(this.images[this._getFullDecodedPath(pattern)]);
-                this.elCtx.fillRect(0, 0, this.width, this.height);
-            }
+            this._applyStyle(this.images[this._getFullDecodedPath(backgroundPattern)]);
+            this.elCtx.fillRect(0, 0, this.width, this.height);
         }
     }
 
@@ -321,6 +334,9 @@ export default class BookMark {
         });
     }
 
+
+
+
     /**
      * Build a rounded background pattern.
      * @param {number} x
@@ -335,7 +351,9 @@ export default class BookMark {
      * @private
      */
     _drawRoundedRect(x, y, w, h, radius, rt, lt, rb, lb) {
-        let r = x + w;
+        //   this.elCtx.roundRect(x, y, w, h, radius).stroke(); //or .fill() for a filled rect
+
+        /*let r = x + w;
         let b = y + h;
         this.elCtx.beginPath();
         this.elCtx.strokeStyle = "green";
@@ -379,7 +397,7 @@ export default class BookMark {
         } else {
             this.elCtx.lineTo(x, y);
         }
-        this.elCtx.stroke();
+        this.elCtx.stroke();*/
     }
 
     /**

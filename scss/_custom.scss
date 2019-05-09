@@ -5,9 +5,17 @@ body {
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-.jumbotron,
+.header,
 footer {
     background: $primary-color;
+}
+
+.card {
+    background: $primary-color;
+}
+
+.carousel-caption {
+    background: #333;
 }
 
 h1 {
@@ -45,4 +53,12 @@ hr {
             }
         }
     }
+}
+
+.card-img-top {
+    height: 120px;
+}
+
+.card-body {
+    min-height: 180px;
 }

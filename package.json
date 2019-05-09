@@ -1,21 +1,20 @@
 {
     "name": "partheno",
     "version": "1.0.0",
-    "description": "Lets's play with geometric patterns to make bookmarks.",
-    "dependencies": {
+    "description": "Lets's play with geometric patterns to make friezes.",
+    "main": "partheno.min.js",
+    "devDependencies": {
+        "lodash": "^4.17.5",
+        "node-fetch": "^2.1.2",
+        "path": "^0.12.7",
         "@babel/runtime": "^7.4.4",
         "dat.gui": "^0.7.0",
         "express": "^4.16.3",
         "file-system": "^2.2.2",
         "hogan-express": "^0.5.2",
         "jquery": "^3.3.1",
-        "lodash": "^4.17.5",
-        "node-fetch": "^2.1.2",
-        "path": "^0.12.7",
         "popper.js": "^1.12.9",
-        "tether": "^1.4.3"
-    },
-    "devDependencies": {
+        "tether": "^1.4.3",
         "@babel/core": "^7.3.3",
         "@babel/plugin-transform-runtime": "^7.4.4",
         "@babel/polyfill": "^7.4.4",
@@ -64,8 +63,8 @@
         "type": "git",
         "url": "git+ssh://git@github.com:smartinus44/partheno.git"
     },
-    "keywords": [],
-    "author": "Sylvain MARTIN",
+    "keywords": ["digital art", "marquetry", "frieze", "canvas"],
+    "author": "Sylvain MARTIN <sylvain.martin-44@laposte.net>",
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/smartinus44/partheno/issues"

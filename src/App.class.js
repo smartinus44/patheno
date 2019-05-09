@@ -96,7 +96,7 @@ export default class App {
         this._bookmarks.push(bookmark);
 
         if (this._bookmarks.length > 18) {
-            this._resetBookmarks();
+            //this._resetBookmarks();
         }
         _results_zone.prepend(bookmark.wrapper);
 
@@ -398,6 +398,55 @@ export default class App {
             _bookMark.render();
         };
 
+        /**
+         * Draw bookmark with round border or not.
+         * @param el
+         */
+        const redrawRoundBorder = (el) => {
+            _bookMark.el_canvas.roundBorder = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+
+        /**
+         * Enable the right top round border.
+         * @param el
+         */
+        const redrawRoundBorderRt = (el) => {
+            _bookMark.el_canvas.roundBorderRt = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+
+        /**
+         * Enable the right bottom round border.
+         * @param el
+         */
+        const redrawRoundBorderRb = (el) => {
+            _bookMark.el_canvas.roundBorderRb = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+
+        /**
+         * Enable the left top round border.
+         * @param el
+         */
+        const redrawRoundBorderLt = (el) => {
+            _bookMark.el_canvas.roundBorderLt = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+
+        /**
+         * Enable the left bottom round border.
+         * @param el
+         */
+        const redrawRoundBorderLb = (el) => {
+            _bookMark.el_canvas.roundBorderLb = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
         // Specific patterns are excluded.
         let filteredBackgroundFull = _bookMark.getFilteredPatternsObjects('background');
         let filteredTrianglesFull = _bookMark.getFilteredPatternsObjects('triangles');
@@ -426,6 +475,13 @@ export default class App {
         _gui.add(_bookMark, 'chamferRb').onFinishChange(redrawChamferRb);
         _gui.add(_bookMark, 'chamferLt').onFinishChange(redrawChamferLt);
         _gui.add(_bookMark, 'chamferLb').onFinishChange(redrawChamferLb);
+
+
+        _gui.add(_bookMark, 'roundBorder', 0, (_bookMark.el_canvas.width / 2), 1).onFinishChange(redrawRoundBorder);
+        _gui.add(_bookMark, 'roundBorderRt').onFinishChange(redrawRoundBorderRt);
+        _gui.add(_bookMark, 'roundBorderRb').onFinishChange(redrawRoundBorderRb);
+        _gui.add(_bookMark, 'roundBorderLt').onFinishChange(redrawRoundBorderLt);
+        _gui.add(_bookMark, 'roundBorderLb').onFinishChange(redrawRoundBorderLb);
 
         setTimeout(() => {
             let customContainer = document.getElementById('modal-content-' + _bookMark.uniqueId);

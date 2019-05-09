@@ -11,70 +11,104 @@
 </head>
 
 <body>
+    <section class="header text-center py-3 px-3">
+        <h1>Partheno</h1>
+        <p>Lets' play with geometric patterns to make your own design to make fantastic geometric bookmark patterns.</p>
 
-    <section class="jumbotron text-center">
-        <div class="container">
-            <h1 class="jumbotron-heading">Partheno</h1>
-            <p>Lets' play with geometric patterns to make your own design to make fantastic geometric bookmark patterns.</p>
-            <!-- Place this tag where you want the button to render. -->
-            <a class="github-button" href="https://github.com/smartinus44/partheno/fork" data-size="large" aria-label="Fork smartinus44/partheno on GitHub">Fork</a>
+        <a class="github-button" href="https://github.com/smartinus44/partheno/fork" data-size="large" aria-label="Fork smartinus44/partheno on GitHub">Fork</a>
+        <div class="col-12">
+            <a class='btn btn-default' href="#try">Try it!</a>
         </div>
     </section>
-
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-4">
-                <h3>What is Partheno?</h3>
-                <p>This is a Javascript library you can use in any project to make pictures with patterns of your own.</p>
-                <h6>Why Partheno?</h6>
-                <p>Partheno has originally been thought to permit you to setup your own wooden bookmarks!<br/><br/>It comes from the ancient monument &laquo;The parthenon&raquo;. The building used to house a large frieze and was erected through ingenious
-                    mathematical procedures.</p>
-                <h6>What can I do with Partheno?</h6>
-                <p>Build inlay frieze with different wood species.
-                    <br/> You are free to adjust:</p>
-                <ul>
-                    <li>The number of pairs of triangles.
-                    </li>
-                    <li>The number of columns of triangles.
-                    </li>
-                    <li>The dimensions of the bookmark.</li>
-                    <li>The wood specie used for the background.
-                    </li>
-                    <li>Even and odd background wood species for triangles.</li>
-                    <li>Mind the cutting lines with show strokes option.</li>
-                    <li>Set if downloadable or not.</li>
-                    <li>Set if is chamfered or not.</li>
-                </ul>
-                <p>Use the button at the right to generate your own sample. <br /><em>Look at the right to see examples demonstrating the library &rightarrow;</em>
-                </p>
-                <h3>What are the uses?</h3>
-                <ul>
-                    <li>This library could help you to make digital art: you can randomly generate glitched patterns based upon triangle shapes.</li>
-                    <li>A tool helping you for marquetry work: add your own patterns to generate a specific assembly.</li>
-                    <li>Imagine bases of your own tapestry: this library has been thought like a frieze strips builder.</li>
-                    <li>You can visualize how geometrical shapes and colors work together with your own patterns.</li>
-                </ul>
-                <hr>
-                <div class="partheno">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^^<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^^
-                    <br> &nbsp;&nbsp;&nbsp;^__/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^^&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\__^
-                    <br> &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span>P</span><span>A</span><span>R</span><span>T</span><span>H</span><span>E</span><span>N</span><span>O</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\<br> &nbsp;&nbsp;&nbsp;==========================
-                    <br> &nbsp;&nbsp;&nbsp;##########################
-                    <br> &nbsp;&nbsp;&nbsp;==========================
-                    <br> &nbsp;&nbsp;&nbsp;||&nbsp;||&nbsp;||&nbsp;&nbsp;||&nbsp;&nbsp;||&nbsp;&nbsp;||&nbsp;||&nbsp;||
-                    <br> &nbsp;&nbsp;&nbsp;||&nbsp;||&nbsp;||&nbsp;&nbsp;||&nbsp;&nbsp;||&nbsp;&nbsp;||&nbsp;||&nbsp;||
-                    <br> &nbsp;&nbsp;&nbsp;||&nbsp;||&nbsp;||&nbsp;&nbsp;||&nbsp;&nbsp;||&nbsp;&nbsp;||&nbsp;||&nbsp;||
-                    <br> &nbsp;&nbsp;_||_||_||__||__||__||_||_||_
-                    <br> &nbsp;------------------------------
-                    <br> --------------------------------
-                    <br>
+            <div class="col-12 py-3 px-3">
+                <div id="carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel" data-slide-to="1"></li>
+                            <li data-target="#carousel" data-slide-to="2"></li>
+                            <li data-target="#carousel" data-slide-to="3"></li>
+                        </ol>
+                        <div class="carousel-item active">
+                            <img class="d-block mx-auto" src="sample.png" alt="banner">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h2>What is Partheno?</h2>
+                                <p>This is a Javascript library you can use in any project to make pictures with patterns of your own.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block mx-auto" src="sample.png" alt="banner">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h2>Why Partheno?</h2>
+                                <p>Partheno has originally been thought to permit you to setup your own wooden bookmarks!</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block mx-auto" src="sample.png" alt="banner">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h2>What is the origin of this name?</h2>
+                                <p>It comes from the ancient monument &laquo;The parthenon&raquo;. The building used to house a large frieze and was erected through ingenious mathematical procedures.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block mx-auto" src="sample.png" alt="banner">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h2>What can I do with Partheno?</h2>
+                                <p>Build inlay frieze with different wood species.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-8">
-                <h6>Wall of patterns</h6>
+            <div class="col-12 py-3 px-3 text-center">
+                <h3>What are the uses?</h3>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="card">
+                            <img class="card-img-top" src="digital-art.jpg" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">This library could help you to make digital art</h5>
+                                <p class="card-text">You can randomly generate glitched patterns based upon triangle shapes.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+
+                        <div class="card">
+                            <img class="card-img-top" src="marquetry.jpg" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">A tool helping you for marquetry work</h5>
+                                <p class="card-text">Add your own patterns to generate a specific assembly.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card">
+                            <img class="card-img-top" src="patchwork.png" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Imagine bases of your own tapestry</h5>
+                                <p class="card-text">This library has been thought like a frieze strips builder.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card">
+                            <img class="card-img-top" src="geometry.png" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Imagine geometric structure</h5>
+                                <p class="card-text">You can visualize how geometrical shapes and colors work together with your own patterns.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 py-3 px-3 text-center ">
+                <h3><a name="try" />Can I have examples?</h3>
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button id="generate" class="btn btn-primary">Generate another one</button>
+                    <button id="generate" class="btn btn-dark">Generate another one</button>
                 </div>
                 <hr />
                 <div class="results"></div>
@@ -82,15 +116,11 @@
             </div>
         </div>
     </div>
-
-    <footer class="footer mt-auto py-3 text-center">
+    <footer class="footer mt-auto py-3 text-center border-top">
         <div class="container">
-            <span>&copy; 2018 Partheno -
-                                alpha version this is a POC 🍕 - <a href="mailto:contact-AT-parthenojs.com?subject=Contact&body=Thank you for using partheno.js!">Contact-us</a></span>
+            <span>&copy; 2019 Partheno - alpha version this is a POC 🍕 - <a href="mailto:contact-AT-parthenojs.com?subject=Contact&body=Thank you for using partheno.js!">Contact-us</a></span>
         </div>
     </footer>
-
-    </div>
     </main>
     <script src="main.min.js"></script>
 
@@ -102,6 +132,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
 </body>
 
 </html>

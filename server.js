@@ -74,6 +74,16 @@ app.post('/bookmarks-deletes', (req, res) => {
     });
 });
 
+app.get('/bookmarks-deletes', (req, res) => {
+
+    fs.readFile(bookmarkPath, (err, data) => {
+        fs.writeFile(bookmarkPath, '[]', (err) => {
+            if (err) throw err;
+            res.status(200).json({ status: "ok" });
+        });
+    });
+});
+
 // POST method route
 app.post('/bookmarks', bodyParser.json(), (req, res) => {
 
@@ -98,6 +108,4 @@ const routes = app._router.stack
     .map((middleware) => `${Object.keys(middleware.route.methods).join(', ').toUpperCase()} -> ${middleware.route.path}`);
 
 console.log(JSON.stringify(routes, null, 4));
-
-//  ${Object.keys(ret.methods).join(', ')} ${ret.path}
 console.log('Partheno server has started on port: ' + port + '!');
