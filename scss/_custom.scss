@@ -38,13 +38,14 @@ hr {
 .results {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
     .zone {
-        position: relative;
         &--canvas {
             padding: 6px;
             opacity: 1;
             display: block;
             width: 100%;
+            min-width: 200px;
             height: auto;
             transition: .5s ease;
             backface-visibility: hidden;
@@ -60,5 +61,5 @@ hr {
 }
 
 .card-body {
-    min-height: 180px;
+    min-height: 200px;
 }
