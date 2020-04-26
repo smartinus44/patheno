@@ -222,9 +222,9 @@ app.post('/bookmarks', bodyParser.json(), (req, res) => {
     });
 });
 
-if(process.env.NODE_ENV !== "production"){
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-}
+//if(process.env.NODE_ENV !== "production"){
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+//}
 
 //---Start listening
 const port = process.env.PORT || 8080;
