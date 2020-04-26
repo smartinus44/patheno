@@ -4,7 +4,7 @@
     "description": "Lets's play with geometric patterns to make friezes.",
     "main": "partheno.min.js",
     "engines": {
-        "node": "8",
+        "node": "12",
         "npm": "*"
     },
     "dependencies": {
