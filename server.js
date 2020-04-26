@@ -37,7 +37,7 @@ const options = {
     },
   },
   // List of files to be processes. You can also set globs './routes/*.js'
-  apis: ['server.js'],
+  apis: ['./*.js'],
 };
 
 const specs = swaggerJsdoc(options);
@@ -222,9 +222,9 @@ app.post('/bookmarks', bodyParser.json(), (req, res) => {
     });
 });
 
-//if(process.env.NODE_ENV !== "production"){
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-//}
+if(process.env.NODE_ENV !== "production"){
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+}
 
 //---Start listening
 const port = process.env.PORT || 8080;
@@ -235,4 +235,4 @@ const routes = app._router.stack
     .map((middleware) => `${Object.keys(middleware.route.methods).join(', ').toUpperCase()} -> ${middleware.route.path}`);
 
 // console.log(JSON.stringify(routes, null, 4));
-console.log('Partheno server has started on port: ' + port + '!');
+console.log('Partheno server has started on port: ' + port + ' on ' + process.env.NODE_ENV +' env!');

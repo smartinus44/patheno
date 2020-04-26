@@ -5,7 +5,6 @@
     "main": "partheno.min.js",
     "dependencies": {
         "express": "4.17.1",
-        "file-system": "2.2.2",
         "hogan-express": "0.5.2",
         "path": "0.12.7",
         "swagger-jsdoc": "4.0.0",
