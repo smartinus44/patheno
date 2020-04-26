@@ -4,6 +4,7 @@ const express = require('express');
 const fs = require('fs');
 const app = express();
 const bodyParser = require('body-parser');
+const swaggerUi = require('swagger-ui-express');
 
 app.engine('html', require('hogan-express'));
 app.set('view engine', 'html');
@@ -23,6 +24,24 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
+const swaggerJsdoc = require('swagger-jsdoc');
+
+const options = {
+  swaggerDefinition: {
+    openapi: '3.0.0', // Specification (optional, defaults to swagger: '2.0')
+    // Like the one described here: https://swagger.io/specification/#infoObject
+    info: {
+      title: 'Partheno API',
+      version: '1.0.0',
+      description: 'Partheno API',
+    },
+  },
+  // List of files to be processes. You can also set globs './routes/*.js'
+  apis: ['server.js'],
+};
+
+const specs = swaggerJsdoc(options);
+
 let bookmarkPath = './data/store/bookmarks.json';
 let patternPath = './data/store/patterns.json';
 
@@ -31,10 +50,46 @@ let patternPath = './data/store/patterns.json';
  */
 app.use(express.static(__dirname + '/dist'));
 
+
+/**
+ * @swagger
+ * tags:
+ *   name: Patterns
+ *   description: patterns
+*/
+
+/**
+ * @swagger
+ * tags:
+ *   name: Bookmarks
+ *   description: bookmarks
+*/
+
+/**
+ * @swagger
+ * /:
+ *    get:
+ *      description: Render homepage.
+ *      responses:
+ *          '200':
+ *              description: homepage
+ */
 app.get('/', (req, res) => {
     res.render('index');
 });
 
+/**
+ * @swagger
+ * /patterns:
+ *    get:
+ *      description: Get patterns
+ *      tags: [Patterns]
+ *      produces:
+ *           - application/json
+ *      responses:
+ *          '200':
+ *              description: List of patterns.
+ */
 app.get('/patterns', (req, res, next) => {
     let _patterns_dataset = fs.readFile(patternPath, 'utf8', (err, contents) => {
         let json = JSON.parse(contents);
@@ -44,6 +99,25 @@ app.get('/patterns', (req, res, next) => {
     });
 });
 
+/**
+ * @swagger
+ * /patterns/{id}:
+ *    get:
+ *      description: Use to return your a pattern with an id.
+ *      tags: [Patterns]
+ *      parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        required: true
+ *      produces:
+ *           - application/json
+ *      responses:
+ *          '200':
+ *              description: A successful response pattern.
+ *     
+ */
 app.get('/patterns/:id', (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
     let val = _patterns_dataset[req.params.id];
@@ -55,6 +129,18 @@ app.get('/patterns/:id', (req, res, next) => {
     }
 });
 
+/**
+ * @swagger
+ * /bookmarks:
+ *    get:
+ *      description: Get bookmarks
+ *      tags: [Bookmarks]
+ *      produces:
+ *           - application/json
+ *      responses:
+ *          '200':
+ *              description: List of bookmarks.
+ */
 app.get('/bookmarks', (req, res, next) => {
     let _bookmarks_dataset = fs.readFile(bookmarkPath, 'utf8', (err, contents) => {
         let json = JSON.parse(contents);
@@ -64,6 +150,18 @@ app.get('/bookmarks', (req, res, next) => {
     });
 });
 
+/**
+ * @swagger
+ * /bookmarks-deletes:
+ *    post:
+ *      description: Delete bookmarks
+ *      tags: [Bookmarks]
+ *      produces:
+ *           - application/json
+ *      responses:
+ *          '200':
+ *              description: Ok or Nok.
+ */
 app.post('/bookmarks-deletes', (req, res) => {
 
     fs.readFile(bookmarkPath, (err, data) => {
@@ -74,6 +172,18 @@ app.post('/bookmarks-deletes', (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ * /bookmarks-deletes:
+ *    get:
+ *      description: Delete bookmarks
+ *      tags: [Bookmarks]
+ *      produces:
+ *           - application/json
+ *      responses:
+ *          '200':
+ *              description: Ok or Nok.
+ */
 app.get('/bookmarks-deletes', (req, res) => {
 
     fs.readFile(bookmarkPath, (err, data) => {
@@ -85,6 +195,19 @@ app.get('/bookmarks-deletes', (req, res) => {
 });
 
 // POST method route
+
+/**
+ * @swagger
+ * /bookmarks:
+ *    post:
+ *      description: Write bookmark
+ *      tags: [Bookmarks]
+ *      produces:
+ *           - application/json
+ *      responses:
+ *          '200':
+ *              description: Ok or Nok.
+ */
 app.post('/bookmarks', bodyParser.json(), (req, res) => {
 
     fs.readFile(bookmarkPath, (err, data) => {
@@ -99,6 +222,10 @@ app.post('/bookmarks', bodyParser.json(), (req, res) => {
     });
 });
 
+if(process.env.NODE_ENV !== "production"){
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+}
+
 //---Start listening
 const port = process.env.PORT || 8080;
 app.listen(port);
@@ -107,5 +234,5 @@ const routes = app._router.stack
     .filter((middleware) => middleware.route)
     .map((middleware) => `${Object.keys(middleware.route.methods).join(', ').toUpperCase()} -> ${middleware.route.path}`);
 
-console.log(JSON.stringify(routes, null, 4));
+// console.log(JSON.stringify(routes, null, 4));
 console.log('Partheno server has started on port: ' + port + '!');
