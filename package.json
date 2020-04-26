@@ -3,14 +3,18 @@
     "version": "1.0.0",
     "description": "Lets's play with geometric patterns to make friezes.",
     "main": "partheno.min.js",
+    "engines": {
+        "node": "8",
+        "npm": "*"
+    },
     "dependencies": {
         "express": "4.17.1",
         "hogan-express": "0.5.2",
-        "path": "0.12.7",
-        "swagger-jsdoc": "4.0.0",
-        "swagger-ui-express": "4.1.4"
+        "path": "0.12.7"
     },
     "devDependencies": {
+        "swagger-jsdoc": "3.0.0",
+        "swagger-ui-express": "4.1.4",
         "@babel/core": "7.9.0",
         "@babel/plugin-transform-runtime": "7.9.0",
         "@babel/polyfill": "7.8.7",
