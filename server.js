@@ -40,6 +40,7 @@ const options = {
   apis: ['./*.js'],
 };
 
+console.log('Build swagger api...');
 const specs = swaggerJsdoc(options);
 
 let bookmarkPath = './data/store/bookmarks.json';
@@ -50,6 +51,7 @@ let patternPath = './data/store/patterns.json';
  */
 app.use(express.static(__dirname + '/dist'));
 
+console.log('Expose routes...');
 
 /**
  * @swagger
@@ -222,17 +224,23 @@ app.post('/bookmarks', bodyParser.json(), (req, res) => {
     });
 });
 
-if(process.env.NODE_ENV !== "production"){
+
+const port = process.env.PORT || 8080;
+const env = process.env.NODE_ENV || "development";
+
+if(env === "development"){
+    console.log('Expose swagger api...');
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 }
 
 //---Start listening
-const port = process.env.PORT || 8080;
 app.listen(port);
 
-const routes = app._router.stack
-    .filter((middleware) => middleware.route)
-    .map((middleware) => `${Object.keys(middleware.route.methods).join(', ').toUpperCase()} -> ${middleware.route.path}`);
+/*
+    const routes = app._router.stack
+        .filter((middleware) => middleware.route)
+        .map((middleware) => `${Object.keys(middleware.route.methods).join(', ').toUpperCase()} -> ${middleware.route.path}`);
 
-// console.log(JSON.stringify(routes, null, 4));
-console.log('Partheno server has started on port: ' + port + ' on ' + process.env.NODE_ENV +' env!');
+    console.log(JSON.stringify(routes, null, 4));
+*/
+console.log('Partheno server has started on port: ' + port + ' on ' + env + ' env!');
