@@ -1,34 +1,37 @@
-// ExpressJS
-console.log('Initializing Express...');
-const express = require('express');
-const fs = require('fs');
-const app = express();
-const bodyParser = require('body-parser');
-const swaggerUi = require('swagger-ui-express');
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+import express from 'express';
+import fs from 'fs';
+import bodyParser from 'body-parser';
+import swaggerUi from 'swagger-ui-express';
 
+console.log('Initializing Express...');
+const app = express();
 app.engine('html', require('hogan-express'));
+
 app.set('view engine', 'html');
 
 app.use(bodyParser.urlencoded({
-    extended: true
+  extended: true,
 }));
 
 app.use(bodyParser.json({
-    type: 'application/*+json'
+  type: 'application/*+json',
 }));
 
 app.disable('x-powered-by');
 
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
 });
 
 const swaggerJsdoc = require('swagger-jsdoc');
 
 const options = {
   swaggerDefinition: {
-    openapi: '3.0.0', // Specification (optional, defaults to swagger: '2.0')
+    openapi: '3.0.0',
     // Like the one described here: https://swagger.io/specification/#infoObject
     info: {
       title: 'Partheno API',
@@ -43,13 +46,13 @@ const options = {
 console.log('Build swagger api...');
 const specs = swaggerJsdoc(options);
 
-let bookmarkPath = './data/store/bookmarks.json';
-let patternPath = './data/store/patterns.json';
+const bookmarkPath = './data/store/bookmarks.json';
+const patternPath = './data/store/patterns.json';
 
 /**
  * ROUTING
  */
-app.use(express.static(__dirname + '/dist'));
+app.use(express.static(`${__dirname}/dist`));
 
 console.log('Expose routes...');
 
@@ -77,7 +80,7 @@ console.log('Expose routes...');
  *              description: homepage
  */
 app.get('/', (req, res) => {
-    res.render('index');
+  res.render('index');
 });
 
 /**
@@ -92,13 +95,13 @@ app.get('/', (req, res) => {
  *          '200':
  *              description: List of patterns.
  */
-app.get('/patterns', (req, res, next) => {
-    let _patterns_dataset = fs.readFile(patternPath, 'utf8', (err, contents) => {
-        let json = JSON.parse(contents);
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "X-Requested-With");
-        res.json(json);
-    });
+app.get('/patterns', async (req, res, next) => {
+  const patternsDataset = fs.readFile(patternPath, 'utf8', (err, contents) => {
+    const json = JSON.parse(contents);
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+    res.json(json);
+  });
 });
 
 /**
@@ -118,17 +121,17 @@ app.get('/patterns', (req, res, next) => {
  *      responses:
  *          '200':
  *              description: A successful response pattern.
- *     
+ *
  */
 app.get('/patterns/:id', (req, res, next) => {
-    res.setHeader('Content-Type', 'application/json');
-    let val = _patterns_dataset[req.params.id];
-    if (req.params.id !== '') {
-        if (val !== null) {
-            res.json(val);
-        }
-        res.sendStatus(404);
+  res.setHeader('Content-Type', 'application/json');
+  const val = patternsDataset[req.params.id];
+  if (req.params.id !== '') {
+    if (val !== null) {
+      res.json(val);
     }
+    res.sendStatus(404);
+  }
 });
 
 /**
@@ -143,13 +146,13 @@ app.get('/patterns/:id', (req, res, next) => {
  *          '200':
  *              description: List of bookmarks.
  */
-app.get('/bookmarks', (req, res, next) => {
-    let _bookmarks_dataset = fs.readFile(bookmarkPath, 'utf8', (err, contents) => {
-        let json = JSON.parse(contents);
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "X-Requested-With");
-        res.json(json);
-    });
+app.get('/bookmarks', async (req, res, next) => {
+  const bookmarksDataset = fs.readFile(bookmarkPath, 'utf8', (err, contents) => {
+    const json = JSON.parse(contents);
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+    res.json(json);
+  });
 });
 
 /**
@@ -165,13 +168,12 @@ app.get('/bookmarks', (req, res, next) => {
  *              description: Ok or Nok.
  */
 app.post('/bookmarks-deletes', (req, res) => {
-
-    fs.readFile(bookmarkPath, (err, data) => {
-        fs.writeFile(bookmarkPath, '[]', (err) => {
-            if (err) throw err;
-            res.status(200).json({ status: "ok" });
-        });
+  fs.readFile(bookmarkPath, () => {
+    fs.writeFile(bookmarkPath, '[]', (err) => {
+      if (err) throw err;
+      res.status(200).json({ status: 'ok' });
     });
+  });
 });
 
 /**
@@ -187,13 +189,12 @@ app.post('/bookmarks-deletes', (req, res) => {
  *              description: Ok or Nok.
  */
 app.get('/bookmarks-deletes', (req, res) => {
-
-    fs.readFile(bookmarkPath, (err, data) => {
-        fs.writeFile(bookmarkPath, '[]', (err) => {
-            if (err) throw err;
-            res.status(200).json({ status: "ok" });
-        });
+  fs.readFile(bookmarkPath, (err) => {
+    fs.writeFile(bookmarkPath, '[]', () => {
+      if (err) throw err;
+      res.status(200).json({ status: 'ok' });
     });
+  });
 });
 
 // POST method route
@@ -211,36 +212,28 @@ app.get('/bookmarks-deletes', (req, res) => {
  *              description: Ok or Nok.
  */
 app.post('/bookmarks', bodyParser.json(), (req, res) => {
+  fs.readFile(bookmarkPath, (err, data) => {
+    const json = JSON.parse(data);
 
-    fs.readFile(bookmarkPath, (err, data) => {
-        let json = JSON.parse(data);
+    json.push(req.body);
 
-        json.push(req.body);
-
-        fs.writeFile(bookmarkPath, JSON.stringify(json), (err) => {
-            if (err) throw err;
-            res.status(200).json({ status: "ok" });
-        });
+    fs.writeFile(bookmarkPath, JSON.stringify(json), () => {
+      if (err) throw err;
+      res.status(200).json({ status: 'ok' });
     });
+  });
 });
 
 
 const port = process.env.PORT || 8080;
-const env = process.env.NODE_ENV || "development";
+const env = process.env.NODE_ENV || 'development';
 
-if(env === "development"){
-    console.log('Expose swagger api...');
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+if (env === 'development') {
+  console.log('Expose swagger api...');
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 }
 
-//---Start listening
+// ---Start listening
 app.listen(port);
 
-/*
-    const routes = app._router.stack
-        .filter((middleware) => middleware.route)
-        .map((middleware) => `${Object.keys(middleware.route.methods).join(', ').toUpperCase()} -> ${middleware.route.path}`);
-
-    console.log(JSON.stringify(routes, null, 4));
-*/
-console.log('Partheno server has started on port: ' + port + ' on ' + env + ' env!');
+console.log(`Partheno server has started on port: ${port} on ${env} env!`);

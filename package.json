@@ -3,19 +3,21 @@
     "version": "1.0.0",
     "description": "Lets's play with geometric patterns to make friezes.",
     "main": "partheno.min.js",
-    "engines": {
-        "node": "12",
-        "npm": "*"
-    },
     "dependencies": {
+        "body-parser": "1.19.0",
+        "eslint-config-airbnb-base": "14.1.0",
+        "eslint-plugin-import": "2.20.2",
         "express": "4.17.1",
         "hogan-express": "0.5.2",
+        "nodemon": "2.0.3",
         "path": "0.12.7",
         "swagger-jsdoc": "4.0.0",
         "swagger-ui-express": "4.1.4"
     },
     "devDependencies": {
+        "@babel/cli": "7.8.4",
         "@babel/core": "7.9.0",
+        "@babel/node": "7.8.7",
         "@babel/plugin-transform-runtime": "7.9.0",
         "@babel/polyfill": "7.8.7",
         "@babel/preset-env": "7.9.5",
@@ -24,17 +26,16 @@
         "@babel/types": "7.9.5",
         "approvals": "2.1.2",
         "autoprefixer": "9.7.6",
-        "babel-core": "6.26.3",
         "babel-loader": "8.1.0",
         "babel-preset-env": "1.7.0",
-        "body-parser": "1.19.0",
         "bootstrap": "4.4.1",
         "canvas": "2.6.1",
         "chai": "3.5.0",
         "cross-env": "5.2.1",
         "css-loader": "3.5.3",
         "dat.gui": "0.7.7",
-        "eslint": "4.19.1",
+        "eslint": "6.8.0",
+        "eslint-loader": "4.0.2",
         "file-system": "2.2.2",
         "fs": "0.0.1-security",
         "jquery": "3.5.0",
@@ -59,12 +60,13 @@
         "webpack-dev-server": "3.10.3"
     },
     "scripts": {
-        "start": "node server.js",
+        "start": "nodemon --exec babel-node server.js",
         "server": "pm2 start server.js --watch --name server",
         "devclient": "cross-env NODE_ENV=development pm2 start webpack-dev-server -f --name devclient -- --open --hot",
         "dev": "npm run server | npm run devclient",
         "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-        "test": "mocha test/**/*.spec.js --require @babel/register --verbose -i"
+        "test": "mocha test/**/*.spec.js --require @babel/register --verbose -i",
+        "lint": "eslint ."
     },
     "repository": {
         "type": "git",
