@@ -7,3 +7,4 @@ node_modules/
 .DS_Store
 test/Bookmark.should_work.received.txt
 .history
+deploy.sh

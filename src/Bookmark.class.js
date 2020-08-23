@@ -1,14 +1,19 @@
-'use strict';
-
-const STROKE_COLOR = "#FF0000";
+const STROKE_COLOR = '#FF0000';
 const LINE_WIDTH = 1;
-const DEBUG = true; // Enable logging
+const TIMEOUT = 100;
 
-const log = (elem) => {
-    if (DEBUG) {
-        console.log(elem);
-    }
-};
+CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+    if (w < 2 * r) r = w / 2;
+    if (h < 2 * r) r = h / 2;
+    this.beginPath();
+    this.moveTo(x + r, y);
+    this.arcTo(x + w, y, x + w, y + h, r);
+    this.arcTo(x + w, y + h, x, y + h, r);
+    this.arcTo(x, y + h, x, y, r);
+    this.arcTo(x, y, x + w, y, r);
+    this.closePath();
+    return this;
+}
 
 // Initialization of a bookmark.
 export default class BookMark {
@@ -219,7 +224,7 @@ export default class BookMark {
      * @private
      */
     _getFullDecodedPath(path) {
-        return btoa(this.patterns.path + path);
+        return Buffer.from(this.patterns.path + path, 'binary').toString('base64');
     }
 
     /**
@@ -227,7 +232,7 @@ export default class BookMark {
      * @param {string} stringPattern 
      */
     _encode(stringPattern) {
-        return atob(stringPattern);
+        return Buffer.from(stringPattern, 'base64').toString('binary');
     }
 
     /**
@@ -239,7 +244,7 @@ export default class BookMark {
     _findPattern(searchedPattern) {
         let pattern;
         this.patterns.background.map((elem) => {
-            if (elem.title === searchedPattern) {
+            if (elem.data === searchedPattern) {
                 pattern = elem.data;
             }
         });
@@ -252,12 +257,28 @@ export default class BookMark {
      * @private
      */
     _setBackgroundPatterns(backgroundPattern) {
+
+        if (this._hasRoundBorder()) {
+
+            this._drawRoundedRect(
+                0,
+                0,
+                this.width,
+                this.height,
+                this.roundBorder,
+                this.roundBorderRt,
+                this.roundBorderRb,
+                this.roundBorderLt,
+                this.roundBorderLb
+            );
+        }
+
         if (this._hasChamfer()) {
             this._drawChamferedRect(
                 0,
                 0,
-                this.el_canvas.width,
-                this.el_canvas.height,
+                this.width,
+                this.height,
                 this.chamfer,
                 this.chamferRt,
                 this.chamferRb,
@@ -265,24 +286,15 @@ export default class BookMark {
                 this.chamferLb
             );
 
-            // If the pattern is compouned of a couple of faces.
-            if (Array.isArray(backgroundPattern)) {
-                this._buidMirroredPattern(backgroundPattern);
-            } else {
-                this._applyStyle(this.images[backgroundPattern]);
-            }
-            this.el_ctx.fill();
-        } else {
-            let pattern = this._findPattern(backgroundPattern);
+        }
 
-            // Patterns could be stored in an array or in a single string because of mirrored patterns.
-            if (Array.isArray(pattern)) {
-                this._buidMirroredPattern(pattern);
-                this.el_ctx.fill();
-            } else {
-                this._applyStyle(this.images[this._getFullDecodedPath(pattern)]);
-                this.el_ctx.fillRect(0, 0, this.el_canvas.width, this.el_canvas.height);
-            }
+        // Patterns could be stored in an array or in a single string because of mirrored patterns.
+        if (Array.isArray(backgroundPattern)) {
+            this._buidMirroredPattern(backgroundPattern);
+            this.elCtx.fill();
+        } else {
+            this._applyStyle(this.images[this._getFullDecodedPath(backgroundPattern)]);
+            this.elCtx.fillRect(0, 0, this.width, this.height);
         }
     }
 
@@ -293,9 +305,9 @@ export default class BookMark {
      */
     _buidMirroredPattern(patterns) {
         // Black background
-        this.el_ctx.strokeRect(0, 0, this.el_canvas.width, this.el_canvas.height);
+        this.elCtx.strokeRect(0, 0, this.width, this.height);
 
-        let pow = parseFloat(this.el_canvas.width / 2);
+        let pow = parseFloat(this.width / 2);
         let width = this.width;
         let height = this.height;
 
@@ -304,83 +316,22 @@ export default class BookMark {
             if (currentImage) {
                 // Top left.
                 if (index === 0) {
-                    this.el_ctx.drawImage(currentImage, 0, 0, width, height);
+                    this.elCtx.drawImage(currentImage, 0, 0, width, height);
                 }
                 // Top right.
                 if (index === 1) {
-                    this.el_ctx.drawImage(currentImage, pow, 0, width, height);
+                    this.elCtx.drawImage(currentImage, pow, 0, width, height);
                 }
                 // Bottom left.
                 if (index === 2) {
-                    this.el_ctx.drawImage(currentImage, 0, 200, width, height);
+                    this.elCtx.drawImage(currentImage, 0, 200, width, height);
                 }
                 // Bottom right.
                 if (index === 3) {
-                    this.el_ctx.drawImage(currentImage, pow, 200, width, height);
+                    this.elCtx.drawImage(currentImage, pow, 200, width, height);
                 }
             }
         });
-    }
-
-    /**
-     * Build a rounded background pattern.
-     * @param {number} x
-     * @param {number} y
-     * @param {number} w
-     * @param {number} h
-     * @param {number} radius
-     * @param {boolean} rt
-     * @param {boolean} lt
-     * @param {boolean} rb
-     * @param {boolean} lb
-     * @private
-     */
-    _drawRoundedRect(x, y, w, h, radius, rt, lt, rb, lb) {
-        let r = x + w;
-        let b = y + h;
-        this.el_ctx.beginPath();
-        this.el_ctx.strokeStyle = "green";
-        this.el_ctx.lineWidth = "2";
-
-        if (rt) {
-            if (lt) {
-                this.el_ctx.moveTo(x, y);
-            } else {
-                this.el_ctx.moveTo(x + radius, y);
-            }
-            this.el_ctx.lineTo(r - radius, y);
-            this.el_ctx.quadraticCurveTo(r, y, r, y + radius);
-        } else {
-            if (lb) {
-                this.el_ctx.moveTo(x + radius, y);
-            } else {
-                this.el_ctx.moveTo(x, y);
-
-            }
-            this.el_ctx.lineTo(r, y);
-        }
-
-        if (rb) {
-            this.el_ctx.lineTo(r, y + h - radius);
-            this.el_ctx.quadraticCurveTo(r, b, r - radius, b);
-        } else {
-            this.el_ctx.lineTo(r, y + h);
-        }
-
-        if (lt) {
-            this.el_ctx.lineTo(x + radius, b);
-            this.el_ctx.quadraticCurveTo(x, b, x, b - radius);
-        } else {
-            this.el_ctx.lineTo(x, b);
-        }
-
-        if (lb) {
-            this.el_ctx.lineTo(x, y + radius);
-            this.el_ctx.quadraticCurveTo(x, y, x + radius, y);
-        } else {
-            this.el_ctx.lineTo(x, y);
-        }
-        this.el_ctx.stroke();
     }
 
     /**
@@ -399,34 +350,34 @@ export default class BookMark {
     _drawChamferedRect(x, y, w, h, radius, rt, lt, rb, lb) {
         let r = x + w;
         let b = y + h;
-        this.el_ctx.moveTo(x + radius, y);
+        this.elCtx.moveTo(x + radius, y);
         if (rt) {
-            this.el_ctx.lineTo(r - radius, y);
-            this.el_ctx.lineTo(r, y + radius);
+            this.elCtx.lineTo(r - radius, y);
+            this.elCtx.lineTo(r, y + radius);
         } else {
-            this.el_ctx.lineTo(r - radius, y);
-            this.el_ctx.lineTo(r, y);
+            this.elCtx.lineTo(r - radius, y);
+            this.elCtx.lineTo(r, y);
         }
 
         if (lb) {
-            this.el_ctx.lineTo(r, y + h - radius);
-            this.el_ctx.lineTo(r - radius, b);
+            this.elCtx.lineTo(r, y + h - radius);
+            this.elCtx.lineTo(r - radius, b);
         } else {
-            this.el_ctx.lineTo(r, y + h);
+            this.elCtx.lineTo(r, y + h);
         }
 
         if (lt) {
-            this.el_ctx.lineTo(x + radius, b);
-            this.el_ctx.lineTo(x, b - radius);
+            this.elCtx.lineTo(x + radius, b);
+            this.elCtx.lineTo(x, b - radius);
         } else {
-            this.el_ctx.lineTo(x, b);
+            this.elCtx.lineTo(x, b);
         }
 
         if (rb) {
-            this.el_ctx.lineTo(x, y + radius);
-            this.el_ctx.lineTo(x + radius, y);
+            this.elCtx.lineTo(x, y + radius);
+            this.elCtx.lineTo(x + radius, y);
         } else {
-            this.el_ctx.lineTo(x, y);
+            this.elCtx.lineTo(x, y);
         }
     }
 
@@ -440,11 +391,11 @@ export default class BookMark {
 
         let _zone = document.createElement('div');
         _zone.id = zoneId;
-        _zone.className = "zone";
+        _zone.className = 'zone';
 
         let _canvas = document.createElement('canvas');
         _canvas.id = elementId;
-        _canvas.className = "zone--canvas";
+        _canvas.className = 'zone--canvas';
         _canvas.width = this.width;
         _canvas.height = this.height;
         _canvas.showStrokes = this.showStrokes;
@@ -463,26 +414,24 @@ export default class BookMark {
 
         _canvas.backgroundPatternTriangleEven = this.triangleEvenPattern;
         _canvas.backgroundPatternTriangleOdd = this.triangleOddPattern;
-        _canvas.innerHTML = "Votre navigateur ne supporte pas canvas.<br>Essayez avec Firefox, Safari, Chrome ou Opera.";
+        _canvas.innerHTML = 'Votre navigateur ne supporte pas canvas.<br>Essayez avec Firefox, Safari, Chrome ou Opera.';
 
         setTimeout(() => {
             this.clearCanvasLayers();
             if (_zone) {
                 _zone.appendChild(_canvas);
             }
-        });
+        }, TIMEOUT);
 
         this.wrapper = _zone;
         this.el_canvas = _canvas;
-        this.el_ctx = this.el_canvas.getContext('2d');
+        this.elCtx = this.el_canvas.getContext('2d');
 
         setTimeout(() => {
             // Show download link if can download picture is set to true.
             if (this._canDownload()) {
                 this._createDownloadLink('link-' + this.uniqueId, 'zone-' + this.uniqueId);
             }
-
-            this._createDetailLink('modal-' + this.uniqueId, 'zone-' + this.uniqueId);
         });
 
     }
@@ -494,7 +443,7 @@ export default class BookMark {
         if (this.el_canvas) {
             let w = this.el_canvas.clientWidth;
             let h = this.el_canvas.clientHeight;
-            this.el_ctx.clearRect(0, 0, w, h);
+            this.elCtx.clearRect(0, 0, w, h);
         }
     }
 
@@ -523,7 +472,7 @@ export default class BookMark {
 
         this.patterns[zone].filter((pattern) => {
             if (pattern.data) {
-                filteredFull[pattern.title] = pattern.title;
+                filteredFull[pattern.title] = pattern.data;
             }
             return true;
         });
@@ -562,7 +511,7 @@ export default class BookMark {
                     let image = new Image();
                     let elpattern = this._getFullDecodedPath(pattern);
                     image.onload = () => {
-                        this.images[elpattern] = this.el_ctx.createPattern(image, 'repeat');
+                        this.images[elpattern] = this.elCtx.createPattern(image, 'repeat');
                         --_imagesLoading;
                         if (_imagesLoading === 0) {
                             this._triggeredOnPatternsLoaded(this._encode(elpattern));
@@ -576,58 +525,29 @@ export default class BookMark {
     }
 
     /**
-     * Create a link to show detail.
-     * @param {number} uniqueId
-     * @private
-     */
-    _createDetailLink(uniqueId, zoneId) {
-
-        let _zone = document.getElementById(zoneId);
-        let _link = document.createElement('button');
-        _link.type = "button";
-        _link.className = "btn btn-primary btn-sm";
-        _link.innerText = 'Modify';
-        _link.addEventListener('click', () => {
-            $('#' + uniqueId).modal('toggle');
-        }, false);
-        if (_zone) {
-            _zone.insertBefore(_link, _zone.firstChild);
-        }
-    }
-
-    /**
      * Create a link to download an image of the canvas.
-     * @param {number} uniqueId
-     * @private
+     * @param {string} uniqueId 
+     * @param {string} zoneId 
+     * @param {string} classes 
+     * @param {string} title 
      */
-    _createDownloadLink(uniqueId, zoneId) {
+    _createDownloadLink(uniqueId, zoneId, classes = 'btn btn-dark btn-sm', title = 'Download') {
         let _zone = document.getElementById(zoneId);
         let _link = document.createElement('a');
 
-        _link.innerHTML = 'Download';
-        _link.classList = "btn btn-dark btn-sm";
+        _link.innerHTML = title;
+        _link.classList = classes;
         _link.id = uniqueId;
-        _link.href = "#";
-        _link.role = "button";
+        _link.href = '#';
+        _link.role = 'button';
         _link.addEventListener('click', () => {
             _link.href = this.el_canvas.toDataURL('image/jpeg');
-            _link.download = "bookmark.jpg";
+            _link.download = 'bookmark.jpg';
         }, false);
 
         if (_zone) {
             _zone.insertBefore(_link, _zone.firstChild);
         }
-    }
-
-    /**
-     * Create a textarea that expose the json content related to this.
-     */
-    _createParamDebugZone() {
-        let params = document.createElement('textarea');
-        params.cols = 80;
-        params.rows = 10;
-        params.readOnly = true;
-        params.innerHTML = JSON.stringify(this);
     }
 
     /**
@@ -644,7 +564,7 @@ export default class BookMark {
      * @private
      */
     _applyStyle(style) {
-        this.el_ctx.fillStyle = style;
+        this.elCtx.fillStyle = style;
     }
 
     /**
@@ -655,21 +575,19 @@ export default class BookMark {
     _drawSingleTriangle(isEven) {
         let pattern;
         this.patterns.triangles.map((b) => {
-            if (b.title === ((isEven === true) ? this.el_canvas.backgroundPatternTriangleEven : this.el_canvas.backgroundPatternTriangleOdd)) {
+            if (b.data === ((isEven === true) ? this.el_canvas.backgroundPatternTriangleEven : this.el_canvas.backgroundPatternTriangleOdd)) {
                 pattern = b.data;
             }
         });
 
         this._applyStyle(this.images[this._getFullDecodedPath(pattern)]);
 
-        //log('Render a ' + (isEven ? 'even' : 'odd') + ' triangle with ' + pattern);
-
         if (isEven) {
-            this.el_ctx.lineTo(this._column_width + this._offset, this._first_coef);
-            this.el_ctx.lineTo(this._offset, this._first_coef);
+            this.elCtx.lineTo(this._column_width + this._offset, this._first_coef);
+            this.elCtx.lineTo(this._offset, this._first_coef);
         } else {
-            this.el_ctx.lineTo(this._column_width + this._offset, this._second_coef);
-            this.el_ctx.lineTo(this._offset, this._second_coef);
+            this.elCtx.lineTo(this._column_width + this._offset, this._second_coef);
+            this.elCtx.lineTo(this._offset, this._second_coef);
         }
     }
 
@@ -679,11 +597,11 @@ export default class BookMark {
      */
     _drawTriangles() {
         if (this._hasChamfer()) {
-            this.el_ctx.clip();
+            this.elCtx.clip();
         }
 
         let _triangle_height;
-        this._column_width = this.el_canvas.width / this.columnsPerWidth;
+        this._column_width = this.width / this.columnsPerWidth;
         let _half_width = this._column_width / 2;
 
         // Draw each triangle pair.
@@ -693,12 +611,12 @@ export default class BookMark {
             for (let l = 0; l < this.columnsPerWidth; l++) {
 
                 // Thickness of cut lines.
-                this.el_ctx.lineWidth = LINE_WIDTH;
+                this.elCtx.lineWidth = LINE_WIDTH;
 
                 // The offset between each column.
                 this._offset = l * this._column_width;
 
-                _triangle_height = this.el_canvas.height / (this.numberOfPairOfTriangles * 2);
+                _triangle_height = this.height / (this.numberOfPairOfTriangles * 2);
 
                 // Move these coef might glitch everything.
                 this._first_coef = 2 * (_triangle_height * j - _triangle_height);
@@ -707,8 +625,8 @@ export default class BookMark {
 
                 // Draw a pair of triangles.
                 for (let k = 1; k <= 2; k++) {
-                    this.el_ctx.beginPath();
-                    this.el_ctx.moveTo(_half_width + this._offset, this._third_coef);
+                    this.elCtx.beginPath();
+                    this.elCtx.moveTo(_half_width + this._offset, this._third_coef);
 
                     // Draw a triangle with the base at the top or at the bottom.
                     if (k % 2 === 1) {
@@ -717,15 +635,15 @@ export default class BookMark {
                         this._drawSingleTriangle(false);
                     }
 
-                    this.el_ctx.closePath();
+                    this.elCtx.closePath();
                     this._drawStrokes();
-                    this.el_ctx.fill();
+                    this.elCtx.fill();
                 }
             }
         }
 
         if (this._hasChamfer()) {
-            this.el_ctx.restore();
+            this.elCtx.restore();
         }
     }
 
@@ -757,8 +675,8 @@ export default class BookMark {
     _drawStrokes() {
         // If show strokes flag is on.
         if (this._canDisplayStrokes()) {
-            this.el_ctx.strokeStyle = STROKE_COLOR;
-            this.el_ctx.stroke();
+            this.elCtx.strokeStyle = STROKE_COLOR;
+            this.elCtx.stroke();
         }
     }
 
@@ -771,7 +689,7 @@ export default class BookMark {
             if (this._canDrawTriangle()) {
                 this._drawTriangles();
             }
-        }, 100);
+        }, TIMEOUT);
     }
 
     /**

@@ -1,9 +1,9 @@
-'use strict';
-
 import _ from 'lodash';
 import '../scss/_custom.scss';
 import dat from 'dat.gui';
 import BookMark from './Bookmark.class';
+
+const TIMEOUT = 100;
 
 export default class App {
 
@@ -35,6 +35,8 @@ export default class App {
 
     _resetBookmarks() {
         this._bookmarks = new Array();
+        let _modalsContainer = document.querySelector('.modalsContainer');
+        let _results_zone = document.querySelector('.results');
 
         try {
             (async() => {
@@ -46,8 +48,8 @@ export default class App {
                     },
                     body: JSON.stringify(this._bookmarks)
                 });
-                const content = await rawResponse.json();
-                // .'The "data to append" was appended to file!'
+                _modalsContainer.innerHTML = "";
+                _results_zone.innerHTML = "";
             })();
         } catch (e) {
             console.log(e);
@@ -73,10 +75,10 @@ export default class App {
             .columnsPerWidth(_.random(1, 5))
             .downloadable(true)
             .withStrokes(false)
-            .withBackground(patterns.background[_.random(0, patterns.background.length - 1)].title)
+            .withBackground(patterns.background[_.random(0, patterns.background.length - 1)].data)
             .withNumberOfPairs(_.random(1, 30))
             .withTriangles(true)
-            .withPatterns(patterns, patterns.triangles[_.random(0, patterns.triangles.length - 1)].title, patterns.triangles[_.random(0, patterns.triangles.length - 1)].title)
+            .withPatterns(patterns, patterns.triangles[_.random(0, patterns.triangles.length - 1)].data, patterns.triangles[_.random(0, patterns.triangles.length - 1)].data)
             .withChamfers(
                 _.random(1, 30),
                 Boolean(_.random(0, 1)),
@@ -94,11 +96,25 @@ export default class App {
         this._bookmarks.push(bookmark);
 
         if (this._bookmarks.length > 18) {
-            this._resetBookmarks();
-
+            //this._resetBookmarks();
         }
         _results_zone.prepend(bookmark.wrapper);
+
+        this._createParamModal(bookmark);
+
         return bookmark;
+    }
+
+    /**
+     * Create a textarea that expose the json content related to this.
+     */
+    _createParamDebugZone(bookMark) {
+        let params = document.createElement('textarea');
+        params.id = 'debug' + bookMark.uniqueId;
+        params.cols = 80;
+        params.rows = 10;
+        params.readOnly = true;
+        params.innerHTML = JSON.stringify(this);
     }
 
     /**
@@ -106,6 +122,8 @@ export default class App {
      * @param {BookMark} bookMark 
      */
     _createParamModal(bookMark) {
+
+        this._addGui(bookMark);
 
         let _modal = document.createElement('div');
         _modal.id = 'modal-' + bookMark.uniqueId;
@@ -152,10 +170,30 @@ export default class App {
 
         let _modalsContainer = document.getElementsByClassName('modalsContainer');
         _modalsContainer[0].append(_modal);
+
+        this._createDetailLink('modal-' + bookMark.uniqueId, 'zone-' + bookMark.uniqueId);
+    }
+
+    /**
+     * Create a link to show detail.
+     * @param {number} uniqueId
+     * @private
+     */
+    _createDetailLink(uniqueId, zoneId) {
+
+        let _zone = document.getElementById(zoneId);
+        let _link = document.createElement('button');
+        _link.type = "button";
+        _link.className = "btn btn-primary btn-sm";
+        _link.innerText = 'Modify';
+        _link.setAttribute('data-toggle', 'modal');
+        _link.setAttribute('data-target', '#' + uniqueId);
+        if (_zone) {
+            _zone.insertBefore(_link, _zone.firstChild);
+        }
     }
 
     _init() {
-
         this._retrievePatterns();
         this._retrieveBookmarks();
     }
@@ -208,188 +246,252 @@ export default class App {
                 return 0;
             });
             _bookmarks.forEach((element, index) => {
-                let _bookMark = this._getBookmark(element);
-                _results_zone.appendChild(_bookMark.wrapper);
-
-                const addGui = _ => {
-
-                    let _gui = new dat.GUI({
-                        load: JSON,
-                        autoPlace: false,
-                        closed: false
-                    });
-                    _gui.useLocalStorage = true;
-                    _gui.width = 498;
-
-                    /**
-                     * Draw the canvas with the desired number of triangle pairs.
-                     * @param el
-                     */
-                    const redrawNumberOfTriangles = (el) => {
-                        _bookMark.clearCanvasLayers();
-                        _bookMark.numberOfPairOfTriangles = el;
-                        _bookMark.render();
-                    };
-
-                    /**
-                     * Number of columns.
-                     * @param el
-                     */
-                    const redrawColumnsPerWidth = (el) => {
-                        _bookMark.columnsPerWidth = el;
-                        _bookMark.clearCanvasLayers();
-                        _bookMark.render();
-                    };
-
-                    /**
-                     * Change the height of the canvas.
-                     * @param el
-                     */
-                    const redrawHeight = (el) => {
-                        _bookMark.el_canvas.height = el;
-                        _bookMark.render();
-                    };
-
-                    /**
-                     * Draw bookmark with chamfer or not.
-                     * @param el
-                     */
-                    const redrawChamfer = (el) => {
-                        _bookMark.el_canvas.chamfer = el;
-                        redrawWidth(_bookMark.el_canvas.width);
-                        _bookMark.render();
-                    };
-
-                    /**
-                     * Draw the cut lines.
-                     * @param el
-                     */
-                    const redrawStrokes = (el) => {
-                        _bookMark.el_canvas.showStrokes = el;
-                        _bookMark.clearCanvasLayers();
-                        _bookMark.render();
-                    };
-
-                    /**
-                     * Change the width of the canvas.
-                     * @param el
-                     */
-                    const redrawWidth = (el) => {
-                        _bookMark.clearCanvasLayers();
-                        _bookMark.el_canvas.width = el;
-                        _bookMark.render();
-                    };
-
-                    /**
-                     * Draw the background pattern.
-                     * @param el
-                     */
-                    const redrawBackgroundPattern = (el) => {
-                        _bookMark.backgroundPattern = el;
-                        _bookMark.render();
-                        redrawWidth(_bookMark.el_canvas.width);
-                    };
-
-                    /**
-                     * Change the pattern of the even triangle.
-                     * @param el
-                     */
-                    const redrawTriangleEvenPattern = (el) => {
-                        _bookMark.el_canvas.backgroundPatternTriangleEven = el;
-                        _bookMark.render();
-                    };
-
-                    /**
-                     * Change the pattern of the odd triangle.
-                     * @param el
-                     */
-                    const redrawTriangleOddPattern = (el) => {
-                        _bookMark.el_canvas.backgroundPatternTriangleOdd = el;
-                        _bookMark.render();
-                    };
-
-                    /**
-                     * Enable the right top chamfer.
-                     * @param el
-                     */
-                    const redrawChamferRt = (el) => {
-                        _bookMark.el_canvas.chamferRt = el;
-                        redrawWidth(_bookMark.el_canvas.width);
-                        _bookMark.render();
-                    };
-
-                    /**
-                     * Enable the right bottom chamfer.
-                     * @param el
-                     */
-                    const redrawChamferRb = (el) => {
-                        _bookMark.el_canvas.chamferRb = el;
-                        redrawWidth(_bookMark.el_canvas.width);
-                        _bookMark.render();
-                    };
-
-                    /**
-                     * Enable the left top chamfer.
-                     * @param el
-                     */
-                    const redrawChamferLt = (el) => {
-                        _bookMark.el_canvas.chamferLt = el;
-                        redrawWidth(_bookMark.el_canvas.width);
-                        _bookMark.render();
-                    };
-
-                    /**
-                     * Enable the left bottom chamfer.
-                     * @param el
-                     */
-                    const redrawChamferLb = (el) => {
-                        _bookMark.el_canvas.chamferLb = el;
-                        redrawWidth(_bookMark.el_canvas.width);
-                        _bookMark.render();
-                    };
-
-                    // Specific patterns are excluded.
-                    let filteredBackgroundFull = _bookMark.getFilteredPatternsObjects('background');
-                    let filteredTrianglesFull = _bookMark.getFilteredPatternsObjects('triangles');
-
-                    // Attach param instance to the bookmark.
-                    _gui.add(_bookMark, 'numberOfPairOfTriangles', 1, 30, 1).onFinishChange(redrawNumberOfTriangles);
-                    _gui.add(_bookMark, 'columnsPerWidth', 1, 5, 1).onFinishChange(redrawColumnsPerWidth);
-
-                    _gui.add(_bookMark, 'height', 150, 1200, 0.5).onFinishChange(redrawHeight);
-                    _gui.add(_bookMark, 'width', 150, 1200, 0.5).onFinishChange(redrawWidth);
-
-                    _gui.add(_bookMark, 'backgroundPattern', filteredBackgroundFull).onFinishChange(redrawBackgroundPattern);
-
-                    _gui.add(_bookMark, 'enableTriangles', true, false).onFinishChange((el) => {
-                        _bookMark.enableTriangles = el;
-                        _bookMark.render();
-                    });
-
-                    _gui.add(_bookMark, 'triangleEvenPattern', filteredTrianglesFull).onFinishChange(redrawTriangleEvenPattern);
-                    _gui.add(_bookMark, 'triangleOddPattern', filteredTrianglesFull).onFinishChange(redrawTriangleOddPattern);
-
-                    _gui.add(_bookMark, 'showStrokes').onFinishChange(redrawStrokes);
-
-                    _gui.add(_bookMark, 'chamfer', 0, (_bookMark.el_canvas.width / 2), 1).onFinishChange(redrawChamfer);
-                    _gui.add(_bookMark, 'chamferRt').onFinishChange(redrawChamferRt);
-                    _gui.add(_bookMark, 'chamferRb').onFinishChange(redrawChamferRb);
-                    _gui.add(_bookMark, 'chamferLt').onFinishChange(redrawChamferLt);
-                    _gui.add(_bookMark, 'chamferLb').onFinishChange(redrawChamferLb);
-
-                    setTimeout(() => {
-                        this._createParamModal(_bookMark);
-                        let customContainer = document.getElementById('modal-content-' + _bookMark.uniqueId);
-                        customContainer.appendChild(_gui.domElement);
-                    }, 3000);
-
-                    // Enables you to save the settings in the localstorage.
-                    _gui.remember(_bookMark);
-                };
-
-                addGui();
+                let bookMark = this._getBookmark(element);
+                _results_zone.appendChild(bookMark.wrapper);
+                this._createParamModal(bookMark);
             });
         };
+    }
+
+    /**
+     * 
+     * @param {Bookmark} bookMark 
+     */
+    _addGui(_bookMark) {
+        let _gui = new dat.GUI({
+            load: JSON,
+            autoPlace: false,
+            closed: false
+        });
+        _gui.useLocalStorage = true;
+        _gui.width = 498;
+
+        /**
+         * Draw the canvas with the desired number of triangle pairs.
+         * @param el
+         */
+        const redrawNumberOfTriangles = (el) => {
+            _bookMark.clearCanvasLayers();
+            _bookMark.numberOfPairOfTriangles = el;
+            _bookMark.render();
+        };
+
+        /**
+         * Number of columns.
+         * @param el
+         */
+        const redrawColumnsPerWidth = (el) => {
+            _bookMark.columnsPerWidth = el;
+            _bookMark.clearCanvasLayers();
+            _bookMark.render();
+        };
+
+        /**
+         * Draw bookmark with chamfer or not.
+         * @param el
+         */
+        const redrawChamfer = (el) => {
+            _bookMark.el_canvas.chamfer = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+
+        /**
+         * Draw the cut lines.
+         * @param el
+         */
+        const redrawStrokes = (el) => {
+            _bookMark.el_canvas.showStrokes = el;
+            _bookMark.clearCanvasLayers();
+            _bookMark.render();
+        };
+
+        /**
+         * Change the width of the canvas.
+         * @param el
+         */
+        const redrawWidth = (el) => {
+            _bookMark.el_canvas.width = el;
+            _bookMark.clearCanvasLayers();
+            redrawBackgroundPattern(_bookMark.backgroundPattern, false);
+            _bookMark.render();
+        };
+
+        /**
+         * Change the height of the canvas.
+         * @param el
+         */
+        const redrawHeight = (el) => {
+            _bookMark.el_canvas.height = el;
+            _bookMark.clearCanvasLayers();
+            redrawBackgroundPattern(_bookMark.backgroundPattern, false);
+            _bookMark.render();
+        };
+
+        /**
+         * Draw the background pattern.
+         * @param el
+         */
+        const redrawBackgroundPattern = (el, changeWidth = true) => {
+            _bookMark.backgroundPattern = el;
+            _bookMark.render();
+            if (changeWidth === true) {
+                redrawWidth(_bookMark.width);
+            }
+        };
+
+        /**
+         * Change the pattern of the even triangle.
+         * @param el
+         */
+        const redrawTriangleEvenPattern = (el) => {
+            _bookMark.el_canvas.backgroundPatternTriangleEven = el;
+            _bookMark.render();
+        };
+
+        /**
+         * Change the pattern of the odd triangle.
+         * @param el
+         */
+        const redrawTriangleOddPattern = (el) => {
+            _bookMark.el_canvas.backgroundPatternTriangleOdd = el;
+            _bookMark.render();
+        };
+
+        /**
+         * Enable the right top chamfer.
+         * @param el
+         */
+        const redrawChamferRt = (el) => {
+            _bookMark.el_canvas.chamferRt = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+
+        /**
+         * Enable the right bottom chamfer.
+         * @param el
+         */
+        const redrawChamferRb = (el) => {
+            _bookMark.el_canvas.chamferRb = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+
+        /**
+         * Enable the left top chamfer.
+         * @param el
+         */
+        const redrawChamferLt = (el) => {
+            _bookMark.el_canvas.chamferLt = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+
+        /**
+         * Enable the left bottom chamfer.
+         * @param el
+         */
+        const redrawChamferLb = (el) => {
+            _bookMark.el_canvas.chamferLb = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+
+        /**
+         * Draw bookmark with round border or not.
+         * @param el
+         */
+        const redrawRoundBorder = (el) => {
+            _bookMark.el_canvas.roundBorder = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+
+        /**
+         * Enable the right top round border.
+         * @param el
+         */
+        const redrawRoundBorderRt = (el) => {
+            _bookMark.el_canvas.roundBorderRt = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+
+        /**
+         * Enable the right bottom round border.
+         * @param el
+         */
+        const redrawRoundBorderRb = (el) => {
+            _bookMark.el_canvas.roundBorderRb = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+
+        /**
+         * Enable the left top round border.
+         * @param el
+         */
+        const redrawRoundBorderLt = (el) => {
+            _bookMark.el_canvas.roundBorderLt = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+
+        /**
+         * Enable the left bottom round border.
+         * @param el
+         */
+        const redrawRoundBorderLb = (el) => {
+            _bookMark.el_canvas.roundBorderLb = el;
+            redrawWidth(_bookMark.el_canvas.width);
+            _bookMark.render();
+        };
+        // Specific patterns are excluded.
+        let filteredBackgroundFull = _bookMark.getFilteredPatternsObjects('background');
+        let filteredTrianglesFull = _bookMark.getFilteredPatternsObjects('triangles');
+
+        // Attach param instance to the bookmark.
+        _gui.add(_bookMark, 'numberOfPairOfTriangles', 1, 30, 1).onFinishChange(redrawNumberOfTriangles);
+        _gui.add(_bookMark, 'columnsPerWidth', 1, 5, 1).onFinishChange(redrawColumnsPerWidth);
+
+        _gui.add(_bookMark, 'height', 150, 1200, 0.5).onFinishChange(redrawHeight);
+        _gui.add(_bookMark, 'width', 150, 1200, 0.5).onFinishChange(redrawWidth);
+
+        _gui.add(_bookMark, 'backgroundPattern', filteredBackgroundFull).onFinishChange(redrawBackgroundPattern);
+
+        _gui.add(_bookMark, 'enableTriangles', true, false).onFinishChange((el) => {
+            _bookMark.enableTriangles = el;
+            _bookMark.render();
+        });
+
+        _gui.add(_bookMark, 'triangleEvenPattern', filteredTrianglesFull).onFinishChange(redrawTriangleEvenPattern);
+        _gui.add(_bookMark, 'triangleOddPattern', filteredTrianglesFull).onFinishChange(redrawTriangleOddPattern);
+
+        _gui.add(_bookMark, 'showStrokes').onFinishChange(redrawStrokes);
+
+        _gui.add(_bookMark, 'chamfer', 0, (_bookMark.el_canvas.width / 2), 1).onFinishChange(redrawChamfer);
+        _gui.add(_bookMark, 'chamferRt').onFinishChange(redrawChamferRt);
+        _gui.add(_bookMark, 'chamferRb').onFinishChange(redrawChamferRb);
+        _gui.add(_bookMark, 'chamferLt').onFinishChange(redrawChamferLt);
+        _gui.add(_bookMark, 'chamferLb').onFinishChange(redrawChamferLb);
+
+
+        _gui.add(_bookMark, 'roundBorder', 0, (_bookMark.el_canvas.width / 2), 1).onFinishChange(redrawRoundBorder);
+        _gui.add(_bookMark, 'roundBorderRt').onFinishChange(redrawRoundBorderRt);
+        _gui.add(_bookMark, 'roundBorderRb').onFinishChange(redrawRoundBorderRb);
+        _gui.add(_bookMark, 'roundBorderLt').onFinishChange(redrawRoundBorderLt);
+        _gui.add(_bookMark, 'roundBorderLb').onFinishChange(redrawRoundBorderLb);
+
+        setTimeout(() => {
+            let customContainer = document.getElementById('modal-content-' + _bookMark.uniqueId);
+            if (customContainer) {
+                customContainer.appendChild(_gui.domElement);
+            }
+        }, TIMEOUT);
+
+        // Enables you to save the settings in the localstorage.
+        _gui.remember(_bookMark);
     }
 
     render() {

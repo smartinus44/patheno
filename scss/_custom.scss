@@ -5,9 +5,17 @@ body {
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-.jumbotron,
+.header,
 footer {
     background: $primary-color;
+}
+
+.card {
+    background: $primary-color;
+}
+
+.carousel-caption {
+    background: #333;
 }
 
 h1 {
@@ -30,13 +38,14 @@ hr {
 .results {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
     .zone {
-        position: relative;
         &--canvas {
             padding: 6px;
             opacity: 1;
             display: block;
             width: 100%;
+            min-width: 200px;
             height: auto;
             transition: .5s ease;
             backface-visibility: hidden;
@@ -45,4 +54,12 @@ hr {
             }
         }
     }
+}
+
+.card-img-top {
+    height: 120px;
+}
+
+.card-body {
+    min-height: 200px;
 }
