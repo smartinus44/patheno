@@ -1,5 +1,19 @@
 # Geometric bookmark patterns
 
+## Setup
+
+npm install
+npm start
+
+## See demo home page
+http://localhost:8080/
+
+## See api
+http://localhost:8080/api-docs/
+
+
+## What is Partheno ?
+
 Setup your own bookmarks! Build inlay frieze with different wood species. 
 
 You are free to adjust:
