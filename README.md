@@ -2,8 +2,10 @@
 
 ## Setup
 
+```bash
 npm install
 npm start
+```
 
 ## See demo home page
 http://localhost:8080/
