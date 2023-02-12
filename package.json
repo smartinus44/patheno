@@ -12,7 +12,7 @@
         "eslint-plugin-import": "2.20.2",
         "express": "4.17.1",
         "hogan-express": "0.5.2",
-        "nodemon": "2.0.3",
+        "nodemon": "2.0.20",
         "path": "0.12.7",
         "swagger-jsdoc": "4.0.0",
         "swagger-ui-express": "^4.3.0"
