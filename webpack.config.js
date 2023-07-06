@@ -51,6 +51,19 @@ module.exports = {
   stats: {
     colors: true,
   },
+  plugins: [
+    // your plugins...
+    {
+       apply: (compiler) => {
+         compiler.hooks.done.tap('DonePlugin', (stats) => {
+           console.log('Compile is done !')
+           setTimeout(() => {
+             process.exit(0)
+           })
+         });
+       }
+    }
+  ],
   mode: 'production',
   devtool: 'source-map',
 };

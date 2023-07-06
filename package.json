@@ -63,9 +63,9 @@
     "scripts": {
         "start": "nodemon --exec babel-node server.js",
         "server": "pm2 start server.js --watch --name server",
-        "devclient": "cross-env NODE_ENV=development pm2 start webpack-dev-server -f --name devclient -- --open --hot",
+        "devclient": "npx pm2 start webpack-dev-server -f --name devclient -- --open --hot",
         "dev": "npm run server | npm run devclient",
-        "build": "cross-env NODE_ENV=production webpack --progress",
+        "build": "npx webpack --env prod --progress",
         "test": "mocha test/**/*.spec.js --require @babel/register --verbose -i",
         "lint": "eslint .",
         "stop": "pm2 stop all"
