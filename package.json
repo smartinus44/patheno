@@ -17,8 +17,7 @@
         "sass": "^1.63.6",
         "sass-loader": "^13.3.2",
         "swagger-jsdoc": "4.0.0",
-        "swagger-ui-express": "^4.3.0",
-        "@babel/node": "^7.8.7"
+        "swagger-ui-express": "^4.3.0"
     },
     "devDependencies": {
         "@babel/cli": "^7.17.6",
@@ -62,7 +61,7 @@
         "webpack-dev-server": "^4.8.1"
     },
     "scripts": {
-        "start": "nodemon --exec babel-node server.js",
+        "start": "nodemon --exec ./node_modules/.bin/babel-node server.js",
         "server": "pm2 start server.js --watch --name server",
         "devclient": "npx pm2 start webpack-dev-server -f --name devclient -- --open --hot",
         "dev": "npm run server | npm run devclient",
