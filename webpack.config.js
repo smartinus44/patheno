@@ -1,4 +1,6 @@
-const path = require('path');
+import path from 'path';
+import precss from 'precss';
+import autoprefixer from 'autoprefixer';
 
 module.exports = {
 
@@ -37,8 +39,8 @@ module.exports = {
           options: {
             plugins() { // post css plugins, can be exported to postcss.config.js
               return [
-                require('precss'),
-                require('autoprefixer'),
+                precss,
+                autoprefixer,
               ];
             },
           },
