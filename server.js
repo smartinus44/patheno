@@ -5,10 +5,14 @@ import express from 'express';
 import fs from 'fs';
 import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
+import hogan from 'hogan-express';
+import swaggerJSDocs from 'swagger-jsdoc';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 console.log('Initializing Express...');
 const app = express();
-app.engine('html', require('hogan-express'));
+app.engine('html', hogan);
 
 app.set('view engine', 'html');
 
@@ -27,8 +31,6 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-const swaggerJsdoc = require('swagger-jsdoc');
-
 const options = {
   swaggerDefinition: {
     openapi: '3.0.0',
@@ -44,7 +46,7 @@ const options = {
 };
 
 console.log('Build swagger api...');
-const specs = swaggerJsdoc(options);
+const specs = swaggerJSDocs(options);
 
 const bookmarkPath = './data/store/bookmarks.json';
 const patternPath = './data/store/patterns.json';
@@ -52,6 +54,8 @@ const patternPath = './data/store/patterns.json';
 /**
  * ROUTING
  */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 app.use(express.static(`${__dirname}/dist`));
 
 console.log('Expose routes...');
