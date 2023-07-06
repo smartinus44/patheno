@@ -2,7 +2,7 @@ import path from 'path';
 import precss from 'precss';
 import autoprefixer from 'autoprefixer';
 
-module.exports = {
+export default {
 
   entry: {
     main: './src/main.js',
