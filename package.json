@@ -10,6 +10,7 @@
     "dependencies": {
         "body-parser": "1.19.0",
         "eslint": "^7.32.0",
+        "eslint-config-airbnb": "^19.0.4",
         "express": "4.17.1",
         "hogan-express": "0.5.2",
         "nodemon": "2.0.3",
