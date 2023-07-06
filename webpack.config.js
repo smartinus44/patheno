@@ -1,6 +1,10 @@
 import path from 'path';
 import precss from 'precss';
 import autoprefixer from 'autoprefixer';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default {
 
@@ -20,6 +24,9 @@ export default {
     rules: [
       {
         test: /\.js$/,
+        resolve: {
+          fullySpecified: false
+        },
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
