@@ -232,10 +232,8 @@ app.post('/bookmarks', bodyParser.json(), (req, res) => {
 const port = process.env.PORT || 8080;
 const env = process.env.NODE_ENV || 'development';
 
-if (env === 'development') {
-  console.log('Expose swagger api...');
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-}
+console.log('Expose swagger api...');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // ---Start listening
 app.listen(port);
