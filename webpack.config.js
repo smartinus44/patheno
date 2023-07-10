@@ -22,7 +22,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'eslint-loader',
         options: {
-          eslintPath: 'eslint',
+          eslintPath: eslintrcFile,
           cache: true,
         },
       },
