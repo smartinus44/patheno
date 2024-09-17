@@ -1,4 +1,7 @@
+import { Buffer } from 'buffer';
+
 const STROKE_COLOR = '#FF0000';
+
 const LINE_WIDTH = 1;
 const TIMEOUT = 100;
 

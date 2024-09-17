@@ -1,6 +1,12 @@
-const path = require('path');
+import path from 'path';
+import precss from 'precss';
+import autoprefixer from 'autoprefixer';
+import { fileURLToPath } from 'url';
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default {
 
   entry: {
     main: './src/main.js',
@@ -17,16 +23,10 @@ module.exports = {
   module: {
     rules: [
       {
-        enforce: 'pre',
         test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-        options: {
-          cache: true,
+        resolve: {
+          fullySpecified: false
         },
-      },
-      {
-        test: /\.js$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -46,8 +46,8 @@ module.exports = {
           options: {
             plugins() { // post css plugins, can be exported to postcss.config.js
               return [
-                require('precss'),
-                require('autoprefixer'),
+                precss,
+                autoprefixer,
               ];
             },
           },
@@ -60,6 +60,19 @@ module.exports = {
   stats: {
     colors: true,
   },
+  plugins: [
+    // your plugins...
+    {
+       apply: (compiler) => {
+         compiler.hooks.done.tap('DonePlugin', (stats) => {
+           console.log('Compile is done !')
+           setTimeout(() => {
+             process.exit(0)
+           })
+         });
+       }
+    }
+  ],
   mode: 'production',
   devtool: 'source-map',
 };
